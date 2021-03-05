@@ -1,0 +1,324 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rating</title>
+    {% include "snippets/headImport.html" %}
+</head>
+<body>
+    {% include "snippets/navbar.html" %}
+    
+    <div class="container">
+        <section class="mb-5 mt-5">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="mdb-lightbox">
+                  <div class="row product-gallery mx-1">
+                    <div class="col-11 ml-5 pl-5">
+                      <figure class="view overlay rounded z-depth-1 main-img">
+                        <a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg">
+                          <img src="{% static 'img/taylor.jpg' %}"  class="img-fluid z-depth-1" >
+                        </a>
+                      </figure>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <h2 class="pb-3">Taylor Guitar</h2>
+                    <div class="row pb-4">
+                        <div class="col">
+                            <div class="d-flex flex-row">
+                                <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>100</b></div></div>
+                                <div class="p-2"><h5>Music Store Review</h5></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="d-flex flex-row">
+                                <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>60</b></div></div>
+                                <div class="p-2"><h5>User Review</h5></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="pt-1 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
+                    error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
+                    officia quis dolore quos sapiente tempore alias.</p>
+                <div class="table-responsive">
+
+                    <div class="d-flex flex-row">
+                        <div class="p-2 pr-5">
+                            <table class="table table-sm table-borderless mb-0 mr-5">
+                                <tbody>
+                                  <tr>
+                                    <th class="pl-0 w-25 pr-5" scope="row"><strong>Brand</strong></th>
+                                    <td>Taylor</td>
+                                  </tr>
+                                  <tr>
+                                    <th class="pl-0 w-25" scope="row"><strong>Type</strong></th>
+                                    <td>RTX 3080</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+
+                        <div class="p-2">
+                            <button type="button" class="btn btn-primary">Submit Your Review</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </section>
+        <div class="container pb-5">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/gQHOPaLzgqw" allowfullscreen></iframe>
+             </div>  
+        </div>   
+        
+        
+    <div class="row">
+      <div class="col">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Music Store Reviews</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="da-expertise">
+                  <div class="col px-0 mb-4">
+                    <p>Positive 85%</p>
+                    <div class="progress" style="height: 5px;">
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 85%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                  <div class="col px-0 mb-4">
+                    <p>Mixed 70%</p>
+                    <div class="progress" style="height: 5px;">
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 70%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                  <div class="col px-0 mb-4">
+                    <p>Negative 90%</p>
+                    <div class="progress" style="height: 5px;">
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 90%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+
+              </td>
+            </tr>
+            <tr>
+              <td>
+                  <div class="card w-100">
+                      <div class="card-header">
+                          <div class="d-flex flex-row">
+                              <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>80</b></div></div>
+                              <div class="p-2 pt-4"><h5>Mahaka Music Store</h5></div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">Good for beginners</h5>
+                        <p class="card-text">material mahogany disematkan pada neck atau leher gitar ini dan ditutup dengan rosewood pada bagian fingerboard yang pastinya
+                           akan menambah pengalaman pengguna dengan menawarkan kenyamanan berkelas pada saat jari-jari saat menekan senar walau dengan keras sekalipun.</p>
+                        <a href="#">see more..</a>
+                        <div class="row">
+                          <div class="col-md-3 mt-2">
+                            <p>Helpful?</p>
+                          </div>
+                          <div class="col">
+                            <div class="d-flex flex-row">
+                              <div class="p-2"><button type="button" class="btn btn-secondary">Yes</button></div>
+                              <div class="p-2"><button type="button" class="btn btn-secondary">No</button></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                  <div class="card w-100">
+                      <div class="card-header">
+                          <div class="d-flex flex-row">
+                              <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>80</b></div></div>
+                              <div class="p-2 pt-4"><h5>Mahaka Music Store</h5></div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">Good for beginners</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...</p>
+                        <a href="#">see more..</a>
+                        <div class="row">
+                          <div class="col-md-3 mt-2">
+                            <p>Helpful?</p>
+                          </div>
+                          <div class="col">
+                            <div class="d-flex flex-row">
+                              <div class="p-2"><button type="button" class="btn btn-secondary">Yes</button></div>
+                              <div class="p-2"><button type="button" class="btn btn-secondary">No</button></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                  <div class="card w-100">
+                      <div class="card-header">
+                          <div class="d-flex flex-row">
+                              <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>80</b></div></div>
+                              <div class="p-2 pt-4"><h5>Mahaka Music Store</h5></div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">Good for beginners</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...</p>
+                        <a href="#">see more..</a>
+                        <div class="row">
+                          <div class="col-md-3 mt-2">
+                            <p>Helpful?</p>
+                          </div>
+                          <div class="col">
+                            <div class="d-flex flex-row">
+                              <div class="p-2"><button type="button" class="btn btn-secondary">Yes</button></div>
+                              <div class="p-2"><button type="button" class="btn btn-secondary">No</button></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+        <a href="#"><h3 class="text-center pb-3">See all Music Store Reviews..</h3></a>
+      </div>
+      <div class="col">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">User Reviews</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="da-expertise">
+                  <div class="col px-0 mb-4">
+                    <p>Positive 85%</p>
+                    <div class="progress" style="height: 5px;">
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 85%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                  <div class="col px-0 mb-4">
+                    <p>Mixed 70%</p>
+                    <div class="progress" style="height: 5px;">
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 70%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                  <div class="col px-0 mb-4">
+                    <p>Negative 90%</p>
+                    <div class="progress" style="height: 5px;">
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 90%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="card w-100">
+                  <div class="card-header">
+                      <div class="d-flex flex-row">
+                          <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>70</b></div></div>
+                          <div class="p-2 pt-4"><h5>Andy Paradiar</h5></div>
+                        </div>
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">kurang enak untuk dipakai</h5>
+                    <p class="card-text">Kayunya terasa tidak nyaman, suara pickup dari gitarnya itu sendiri masih belum berkualitas,
+                      dan untuk penampilanya itu sendiri juga biasa-biasa aja. Jadi, menurut saya kurang worth-it untuk dibeli.</p>
+                    <a href="#">see more..</a>
+                    <div class="row">
+                      <div class="col-md-3 mt-2">
+                        <p>Helpful?</p>
+                      </div>
+                      <div class="col">
+                        <div class="d-flex flex-row">
+                          <div class="p-2"><button type="button" class="btn btn-secondary">Yes</button></div>
+                          <div class="p-2"><button type="button" class="btn btn-secondary">No</button></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </td>
+
+            </tr>
+            <tr>
+              <td>
+                  <div class="card w-100">
+                      <div class="card-header">
+                          <div class="d-flex flex-row">
+                              <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>80</b></div></div>
+                              <div class="p-2 pt-4"><h5>Mahaka Music Store</h5></div>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">Good for beginners</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...</p>
+                        <a href="#">see more..</a>
+                        <div class="row">
+                          <div class="col-md-3 mt-2">
+                            <p>Helpful?</p>
+                          </div>
+                          <div class="col">
+                            <div class="d-flex flex-row">
+                              <div class="p-2"><button type="button" class="btn btn-secondary">Yes</button></div>
+                              <div class="p-2"><button type="button" class="btn btn-secondary">No</button></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+              </td>
+
+            </tr>            
+          </tbody>
+        </table>
+        <a href="#"><h3 class="text-center pb-3">See all Music Store Reviews..</h3></a>
+      </div>
+    </div>
+          
+
+
+
+    </div>
+
+    {% include "snippets/footerAndScripts.html" %}
+</body>
+</html>

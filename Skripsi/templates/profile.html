@@ -1,0 +1,154 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile</title>
+    {% include "snippets/headImport.html" %}
+</head>
+<body>
+    {% include "snippets/navbar.html" %}
+
+    <div class="container">
+        <div class="main-body">        
+              <div class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex flex-column align-items-center text-center">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                        <div class="mt-3">
+                          <h4>John Doe</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-md-8">
+                  <div class="card mb-3">
+                    <h3 class="pl-3 pt-3">Review Summary</h3>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          <div class="container text-center">
+                            <h6>Positive</h6>
+                            <h4 class="text-success">20</h4>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="container text-center">
+                            <h6>Mixed</h6>
+                            <h4 class="text-warning">20</h4>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="container text-center">
+                            <h6>Negative</h6>
+                            <h4 class="text-danger">20</h4>
+                          </div>
+                        </div>
+                      </div>
+                      <hr>
+
+                      <div class="row">
+                        <div class="col">
+                          <div class="container text-center">
+                            <h6>Latest High Score</h6>
+                            <div class="container d-flex justify-content-center">
+                                <div class="p-3">
+                                    <div class="w-100 p-3 bg-success text-white text-center"><b>83</b></div>
+                                </div>
+                            </div>
+                            <div class="p-4 pt-4"><h5>Taylor Guitar CX90</h5></div>
+                          </div>
+                        </div>
+                        <div class="col">
+                            <div class="container text-center">
+                                <h6>Latest Low Score</h6>
+                                <div class="container d-flex justify-content-center">
+                                    <div class="p-3">
+                                        <div class="w-100 p-3 bg-success text-white text-center"><b>83</b></div>
+                                    </div>
+                                </div>
+                                <div class="p-4 pt-4"><h5>Taylor Guitar CX90</h5></div>
+                              </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="container text-center">
+                            <h6>Average review score</h6>
+                            <div class="container d-flex justify-content-center">
+                                <div class="p-3">
+                                    <h3>45</h3>
+                                </div>
+                            </div>
+                          </div>
+                        
+                      </div>
+
+
+                    </div>
+                  </div>
+
+
+
+                  <div class="card mb-3">
+                    <h3 class="pl-3 pt-3">Recent Review</h3>
+
+
+                    <!-- review barangnya -->
+                    <div class="d-flex flex-row">
+                        <div class="col pt-4">
+                            <img src="{% static 'img/taylor.jpg' %}"  class="img-fluid z-depth-1" >
+                        </div>
+                        <div class="col-md-9">
+                            <div class="container">
+                                <div class="d-flex flex-row">
+                                    <div class="p-2 pt-4"><h5>Taylor Guitar CX90</h5></div>
+                                    <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>80</b></div></div>
+                                </div>
+                                <p class="pt-1 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
+                                    error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
+                                    officia quis dolore quos sapiente tempore alias.....</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex flex-row">
+                        <div class="col pt-4">
+                            <img src="{% static 'img/taylor.jpg' %}"  class="img-fluid z-depth-1" >
+                        </div>
+                        <div class="col-md-9">
+                            <div class="container">
+                                <div class="d-flex flex-row">
+                                    <div class="p-2 pt-4"><h5>Taylor Guitar CX90</h5></div>
+                                    <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>80</b></div></div>
+                                </div>
+                                <p class="pt-1 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
+                                    error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
+                                    officia quis dolore quos sapiente tempore alias.....</p>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+
+
+
+                </div>
+                
+
+              </div>
+            </div>
+        </div>
+
+    {% include "snippets/footerAndScripts.html" %}
+</body>
+
+
+
+</html>
