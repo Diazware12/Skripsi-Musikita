@@ -131,7 +131,7 @@ footer ul {
 
 /* Credit Style */
 a.credit {
-  color: inherit;
+  color: black;
   border-bottom: 1px dashed;
   text-decoration: none;
   cursor: pointer; }
