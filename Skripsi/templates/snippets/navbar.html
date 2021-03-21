@@ -1,15 +1,43 @@
 {% load static %}
 
+<nav class="sticky-top" id="navbar_top">
+  <div class="wrapper">
+    <div class="top_nav">
+        <div class="left">
+        <div class="d-flex flex-row">
+            <div class="p-2"><div class="logo"><p><span>Musi</span>Kita.com</p></div></div>
+            <div class="p-2">
+              <div class="search-data">
+                <form action="#"> 
+                  <input type="text" required>
+                  <div class="line"></div>
+                  <label>type to search</label>
+                  <span class="fa fa-search"></span>
+                </form>
+              </div>
+            </div>
+        </div>
+          
+          <!-- <div class="search pb-2"> 
+            <form action="#"> 
+                <input type="text" placeholder=" Search Items" name="search"> 
+            </form> 
+          </div>  -->
 
-    <nav class="navbar navbar-expand-lg navbar-dark px-0" style="background-color: black"><a class="nav-link" href="#" style="color: white;" ><h4>Musikita.com</h4></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#da-navbarNav" aria-controls="da-navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-      <div class="collapse navbar-collapse text-uppercase" id="da-navbarNav">
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="width:100%">
-        </form>
-        <ul class="navbar-nav ml-auto">
+      </div> 
+      <div class="right">
+        <ul>
+          <li><a href="#">Whats Next</a></li>
+          <li><a href="#">Sign Up</a></li>
+          <li><a href="#">LogIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom_nav">
+      <nav class="navbar">
+        <ul>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" style="color: white;" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Brand
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -20,8 +48,8 @@
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" style="color: white;" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Instrument
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Acoustic
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#">Action</a>
@@ -31,8 +59,8 @@
             </div>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" style="color: white;" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Recording Gear
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Electric
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#">Action</a>
@@ -41,7 +69,89 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </li>
-          <li class="nav-item"><a class="nav-link  ml-5 pl-3 " href="#" style="color: white;" >Login</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Percussion
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Keys & Midi
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Recording Kit
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Sound System
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Accessories
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              DAW & Plugins
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          
         </ul>
-      </div>
-    </nav>
+      </nav>
+
+    </div>
+  </div>
+</nav>
+
+
+
+<!--------------------------------------------------------------------------->
+
+
+
+
+
+
+
+
+

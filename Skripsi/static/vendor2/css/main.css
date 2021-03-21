@@ -1,5 +1,6 @@
 body {
-  font-family: "Montserrat", sans-serif; }
+  font-family: "Montserrat", sans-serif; 
+}
 
 /*Header Style*/
 header {
@@ -79,8 +80,8 @@ a.navbar-brand {
   .da-team .carousel-indicators li {
     background-color: #3d3f4c; }
   .da-team .carousel-indicators .active {
-    background-color: #26b7a0; }
-
+    background-color: #f9f9f9; }
+    
 /*Image Gallery Style*/
 .da-gallery .card-columns .card {
   border: none;
@@ -154,6 +155,7 @@ a.credit {
 .da-section {
   padding: 100px 0; }
 
+  
 
 
 
