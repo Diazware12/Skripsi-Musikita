@@ -1,5 +1,53 @@
 {% load static %}
 
+<!-- Modal Sign Up-->
+<div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="margin: auto; padding-left: 20%;" id="exampleModalLongTitle">Choose your Role</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <a href="#" class="graybutton" style="color: white;"><i class="fa fa-music pr-2" aria-hidden="true"></i>Music Store</a>
+        <a href="#" class="graybutton" style="color: white;"><i class="fa fa-user pr-2" aria-hidden="true"></i>Regular User</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Login-->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="margin: auto; padding-left: 20%;" id="exampleModalLongTitle">Log In</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container" style="width: 80%; height: 80%;">
+          <form>
+            <div class="d-flex">
+              <div class="mr-auto"><h6>Email Address</h6></div>
+              <small><a id="register" href="#signUpModal" data-toggle="modal" data-target="#signUpModal" style="color: #38a100;">Register</a></small>
+            </div>
+            <input type="email" class="form-control" id="inputEmail3">
+            <small class="text-muted">example:email@musikita.com</small>
+            <div class="pt-3">
+                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                <small><a href="#" style="color: #38a100;">Forget Your Password?</a></small>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <footer class="bg-secondary da-section">
     <div class="container text-white">
       <div class="row">
@@ -26,10 +74,10 @@
     </div>
   </footer>
 
-<script src="{% static 'vendor2/scripts/jquery.min.js' %}"></script>
-<script src="{% static 'vendor2/scripts/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'vendor2/scripts/aos.js' %}"></script>
-<script src="{% static 'vendor2/scripts/ekko-lightbox.min.js' %}"></script>
-<script src="{% static 'vendor2/scripts/main.js' %}"></script>
-<script src="{% static 'vendor2/scripts/custom.js' %}"></script>
 
+<script src="{% static 'vendor2/scripts/jquery.min.js'%}"></script>
+<script src="{% static 'vendor2/scripts/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static 'vendor2/scripts/aos.js'%}"></script>
+<script src="{% static 'vendor2/scripts/ekko-lightbox.min.js'%}"></script>
+<script src="{% static 'vendor2/scripts/main.js'%}"></script>
+<script src="{% static 'vendor2/scripts/customs.js'%}"></script>

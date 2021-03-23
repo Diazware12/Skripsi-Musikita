@@ -65,3 +65,19 @@ nav > .nav.nav-tabs{
     .separator:not(:empty)::after {
     margin-left: 30px;
     }
+
+  .graybutton {
+    background-color: #a7a7a7;
+    border: none;
+    color: #ffffff;
+    padding: 15px 20px;
+    text-decoration: none;
+    width: 100%;
+    display: inline-block;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 4px 2px;
+    cursor: pointer;
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+  }
