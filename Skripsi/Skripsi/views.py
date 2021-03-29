@@ -21,4 +21,9 @@ def profileMusicStore (request):
 
 def scoreRating (request):
     return render(request,'scoreRating.html')
+
+def productList (request):
+    return render(request,'productList.html')
+    
+    
     

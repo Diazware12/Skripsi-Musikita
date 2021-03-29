@@ -30,9 +30,7 @@ function removeNum(){
     document.getElementById("score").innerHTML = valueTemp;
 }
 
-
 function score(){
-
 
     if (rate1.checked){
         document.getElementById("score").innerHTML = "1";
