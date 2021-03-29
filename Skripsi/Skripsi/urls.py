@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^registerMember/',views.registerMember),
     url(r'^registerMusicStore/',views.registerMusicStore),
     url(r'^profile/',views.profile),
-    url(r'^profileMusicStore/',views.profileMusicStore)
+    url(r'^profileMusicStore/',views.profileMusicStore),
+    url(r'^scoreRating/',views.scoreRating)
 ]

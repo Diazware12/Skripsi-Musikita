@@ -1,0 +1,78 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard</title>
+  
+  {% include "snippets/headImport.html" %}
+
+</head>
+<body id="top">
+      
+{% include "snippets/navbar.html" %}
+
+    <div class="container">
+        <div class="separator"><div class="h1 text-center" ><span> Taylor GTX5000</span></div></div>
+
+        <form>
+            
+            <div class="mt-3">
+                <h5>Rating Score</h5>
+                <div class="d-flex flex-row">
+                    <div class="p-1">
+                        <div class="star-widget">
+                            <input type="radio" name="rate" id="rate-10" onclick="score();" value="10">
+                            <label onmouseover="addNum(10)" onmouseout="removeNum()" for="rate-10" class="fas fa-square-full"></label>
+                            <input type="radio" name="rate" id="rate-9" onclick="score();" value="9">
+                            <label onmouseover="addNum(9)" onmouseout="removeNum()" for="rate-9" class="fas fa-square-full"></label>
+                            <input type="radio" name="rate" id="rate-8" onclick="score();" value="8">
+                            <label onmouseover="addNum(8)" onmouseout="removeNum()" for="rate-8" class="fas fa-square-full"></label>
+                            <input type="radio" name="rate" id="rate-7" onclick="score();" value="7">
+                            <label onmouseover="addNum(7)" onmouseout="removeNum()" for="rate-7" class="fas fa-square-full"></label>
+                            <input type="radio" name="rate" id="rate-6" onclick="score();" value="6">
+                            <label onmouseover="addNum(6)" onmouseout="removeNum()" for="rate-6" class="fas fa-square-full"></label>
+                            <input type="radio" name="rate" id="rate-5" onclick="score();" value="5">
+                            <label onmouseover="addNum(5)" onmouseout="removeNum()" for="rate-5" class="fas fa-square-full"></label>
+                            <input type="radio" name="rate" id="rate-4" onclick="score();" value="4">
+                            <label onmouseover="addNum(4)" onmouseout="removeNum()" for="rate-4" class="fas fa-square-full"></label>
+                            <input type="radio" name="rate" id="rate-3" onclick="score();" value="3">
+                            <label onmouseover="addNum(3)" onmouseout="removeNum()" for="rate-3" class="fas fa-square-full"></label>
+                            <input type="radio" name="rate" id="rate-2" onclick="score();" value="2">
+                            <label onmouseover="addNum(2)" onmouseout="removeNum()" for="rate-2" class="fas fa-square-full"></label>
+                            <input type="radio" name="rate" id="rate-1" onclick="score();" value="1">
+                            <label onmouseover="addNum(1)" onmouseout="removeNum()" for="rate-1" class="fas fa-square-full"></label>
+                        </div>
+                    </div>
+                    <div class="p1 pl-3">
+                        <h4 id="score">0</h4>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="pt-3">
+                <h5>Review Title</h5>
+                <input type="email" class="form-control" id="inputName" placeholder="Review Title">
+            </div>
+
+            <div class="pt-3">
+                <h5>Description</h5>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="minimum 75 characters"></textarea>
+            </div>
+
+            <div class="d-flex flex-row-reverse bd-highlight pb-5">
+                <div class="p-2 bd-highlight"><button type="button" class="greenbutton">Submit Review</button></div>
+            </div>
+        </form>
+    </div>
+
+
+
+{% include "snippets/footerAndScripts.html" %}
+
+</body>
+</html>

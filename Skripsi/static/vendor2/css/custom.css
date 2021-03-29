@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 nav > .nav.nav-tabs{
 
 	border: none;
@@ -81,3 +82,77 @@ nav > .nav.nav-tabs{
     text-align: center;
     font-family: "Montserrat", sans-serif;
   }
+
+  .greenbutton {
+    background-color: #38a100;
+    border: none;
+    color: #ffffff;
+    padding: 10px 15px;
+    text-decoration: none;
+    width: 100%;
+    display: inline-block;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 4px 2px;
+    cursor: pointer;
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    border-radius: 8px; 
+  }
+
+
+.star-widget label{
+  font-size: 20px;
+  color: #444;
+  transition: all 0.2s ease;
+  float: right;
+}
+
+
+#rate-1:hover ~ label,
+#rate-2:hover ~ label,
+#rate-3:hover ~ label,
+#rate-4:hover ~ label
+{
+    color: red;
+}
+
+#rate-5:hover ~ label,
+#rate-6:hover ~ label,
+#rate-7:hover ~ label
+{
+    color: #fd4;
+}
+
+#rate-8:hover ~ label,
+#rate-9:hover ~ label,
+#rate-10:hover ~ label
+{
+    color: rgb(3, 194, 3)
+}
+
+#rate-1:checked ~ label,
+#rate-2:checked ~ label,
+#rate-3:checked ~ label,
+#rate-4:checked ~ label
+{
+    color: red;
+}
+#rate-5:checked ~ label,
+#rate-6:checked ~ label,
+#rate-7:checked ~ label
+{
+    color: #fd4;
+}
+
+#rate-8:checked ~ label,
+#rate-9:checked ~ label,
+#rate-10:checked ~ label
+{
+    color: rgb(3, 194, 3)
+}
+
+
+.container .star-widget input{
+    display: none;
+}
