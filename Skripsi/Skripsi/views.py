@@ -24,6 +24,8 @@ def scoreRating (request):
 
 def productList (request):
     return render(request,'productList.html')
-    
+
+def userApproveList (request):
+    return render(request,'userApproveList.html')    
     
     

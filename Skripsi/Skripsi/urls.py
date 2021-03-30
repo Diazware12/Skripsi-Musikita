@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^profile/',views.profile),
     url(r'^profileMusicStore/',views.profileMusicStore),
     url(r'^scoreRating/',views.scoreRating),
-    url(r'^productList/',views.productList)
+    url(r'^productList/',views.productList),
+    url(r'^userApproveList/',views.userApproveList)
 ]
