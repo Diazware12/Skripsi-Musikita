@@ -130,4 +130,4 @@ def sendMailAfterRegis (domain, user):
     )
 
     email.send(fail_silently=False)
-    number = 1
+    # number = 1
