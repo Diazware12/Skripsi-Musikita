@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
-from register import views as regisView
 from . import views
 from django.urls import path
 
@@ -28,7 +27,8 @@ urlpatterns = [
     url(r'^scoreRating/',views.scoreRating),
     url(r'^productList/',views.productList),
     url(r'^userApproveList/',views.userApproveList),
-    url(r'^register/',include('register.urls')),
+    # url(r'^register/',include('register.urls')),
+    path('register/',include('register.urls'),name="register"),
     url(r'^success/',views.token),
     path('verify/<auth_token>',views.verifyEmail,name="verify"),
 ]

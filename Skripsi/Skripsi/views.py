@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render 
-from register.models import user
+from register.models import User
 from django.contrib import messages
 import datetime
 
@@ -37,7 +37,7 @@ def token (request):
 def verifyEmail (request, auth_token):
     webRender = ''
     try:
-        profile_obj = user.objects.filter(auth_token = auth_token).first()
+        profile_obj = User.objects.filter(auth_token = auth_token).first()
         if profile_obj:
             if (profile_obj.roleId == 'Reg_User'):
                 profile_obj.status = 'Verified'
@@ -48,9 +48,8 @@ def verifyEmail (request, auth_token):
                 
             profile_obj.verified_at = datetime.date.today()
             profile_obj.save()
-            # messages.success(request, 'Your Account Has Been Verified')
         else:
-            return render(request,'verifiedError.html')
+            return render(request,'error.html')
     except Exception as e:
         print (e)   
 

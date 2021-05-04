@@ -1,7 +1,6 @@
-from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from register.models import user, MusicStoreData
+from register.models import User, MusicStoreData
 import datetime
 from django.contrib.auth.hashers import make_password
 import uuid
@@ -11,26 +10,45 @@ from django.http import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .utils import token_generator
-
+import re
+from .forms import UserForm, MusicStoreForm
 
 def registerMember (request):
-    if request.method == 'POST':
+    if request.method != 'POST':
+        regis_form = UserForm()
+        context = {
+            'form': regis_form
+        }
+        return render(request,'registerMember.html', context)
+    else :
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        conf_pass = request.POST.get('confirm_pass')
+
+        web_direct = ''
 
         try: 
-            if user.objects.filter(userName = username).first():
+            if User.objects.filter(userName = username).first():
                 messages.success(request, 'Username is Taken')
-                return redirect ('regularUser/')
+                return redirect ('regularUser')
 
-            if user.objects.filter(email = email).first():
+            if User.objects.filter(email = email).first():
                 messages.success(request, 'email is Taken')
-                return redirect ('regularUser/')
+                return redirect ('regularUser')
+            
+            check_pass = weakPassword (password)
+            if check_pass != 'True':
+                messages.success(request, check_pass)
+                return redirect ('regularUser')
+
+            if (conf_pass != password):
+                messages.success(request, 'confirm password should be same as password')
+                return redirect ('regularUser')
 
             token = str (uuid.uuid4())
 
-            profile_obj = user.objects.create(
+            profile_obj = User.objects.create(
                 userName = username,
                 email = email, 
                 password = make_password(password),
@@ -47,34 +65,54 @@ def registerMember (request):
             domain = get_current_site(request).domain
 
             sendMailAfterRegis (domain, profile_obj)
+            web_direct = 'token-send.html'
             return render(request,'token-send.html') 
 
         except Exception as e:
             print(e)
+            web_direct = 'error.html'
 
-    return render(request,'registerMember.html')
+    return render(request,web_direct)
 
 def registerMusicStore (request):
-    if request.method == 'POST':
+    if request.method != 'POST':
+        regis_form = MusicStoreForm()
+        context = {
+            'form': regis_form
+        }
+        return render(request,'registerMusicStore.html', context)
+    else:
         musicStoreName = request.POST.get('username')
         address = request.POST.get('address')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        conf_pass = request.POST.get('confirm_pass')
         msPicture = request.POST.get('musicStorePicture')
         description = request.POST.get('description')
 
+        web_direct = ''
+
         try: 
-            if user.objects.filter(userName = musicStoreName).first():
+            if User.objects.filter(userName = musicStoreName).first():
                 messages.success(request, 'Music Store Name is Taken')
                 return redirect ('musicStore/')
 
-            if user.objects.filter(email = email).first():
+            if User.objects.filter(email = email).first():
                 messages.success(request, 'email is Taken')
                 return redirect ('musicStore/')
 
+            check_pass = weakPassword (password)
+            if check_pass != 'True':
+                messages.success(request, check_pass)
+                return redirect ('regularUser')
+
+            if (conf_pass != password):
+                messages.success(request, 'confirm password should be same as password')
+                return redirect ('regularUser')
+
             token = str (uuid.uuid4())
 
-            profile_obj = user.objects.create(
+            profile_obj = User.objects.create(
                 userName = musicStoreName,
                 email = email, 
                 password = make_password(password),
@@ -101,17 +139,30 @@ def registerMusicStore (request):
             domain = get_current_site(request).domain
 
             sendMailAfterRegis (domain, profile_obj)
-            return render(request,'token-send.html') 
+            web_direct = 'token-send.html'
 
         except Exception as e:
             print(e)
+            web_direct = 'error.html'
+
+    return render(request,web_direct)
 
 
-    return render(request,'registerMusicStore.html')
-
-
-
-
+def weakPassword (password):
+    if (password == "\n" or password == " "):
+        return "Password cannot be a newline or space!"
+    
+    if (9 <= len(password) <= 20):
+        if re.search(r'(.)\1\1',password): 
+            return "Weak Password: Same character repeats three or more times in a row"
+        
+        if re.search(r'(..)(.*?)\1', password):
+            return "Weak password: Same string pattern repetition"
+   
+        else:
+            return "True"
+    else:
+        return "Password length must be 9-20 characters!"
 
 def sendMailAfterRegis (domain, user):
     subject = 'Your Account Need To Be Verified'
