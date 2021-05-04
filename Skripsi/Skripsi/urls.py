@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^userApproveList/',views.userApproveList),
     # url(r'^register/',include('register.urls')),
     path('register/',include('register.urls'),name="register"),
+    path('product/',include('product.urls'),name="product"),
     url(r'^success/',views.token),
     path('verify/<auth_token>',views.verifyEmail,name="verify"),
 ]
