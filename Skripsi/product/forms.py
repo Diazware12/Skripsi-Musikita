@@ -5,7 +5,7 @@ from embed_video.fields import EmbedVideoField
 class ProductForm (forms.Form):
     productName = forms.CharField(
         required=True,
-        label='ProductName',
+        label='productName',
         widget=forms.TextInput(
             attrs={
                 'class':'form-control',
@@ -16,7 +16,7 @@ class ProductForm (forms.Form):
 
     description = forms.CharField(
         required=True,
-        label='Description',
+        label='description',
         widget=forms.Textarea(
             attrs={
                 'class':'form-control',
@@ -27,11 +27,16 @@ class ProductForm (forms.Form):
 
     videoUrl = forms.CharField(
         required=True,
-        label='VideoUrl',
+        label='videoUrl',
         widget=forms.TextInput(
             attrs={
                 'class':'form-control',
                 'placeholder':'Video Link'
             }
         )
+    )
+
+    productPicture = forms.ImageField(
+        required=True,
+        label='productPicture',
     )
