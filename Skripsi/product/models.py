@@ -11,3 +11,4 @@ class Product (models.Model):
     minPrice = models.BigIntegerField() #lowest
     maxPrice = models.BigIntegerField() #highest
     dtm_crt = models.DateTimeField(null=False)
+    productIMG = models.ImageField(null=False, blank=False,  default='none') #image belum ditambahin :(
