@@ -54,4 +54,5 @@ def verifyEmail (request, auth_token):
         print (e)   
 
     return render(request,webRender)
+    
 

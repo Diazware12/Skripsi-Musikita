@@ -1,6 +1,13 @@
 from django import forms
 from .models import Product
 from embed_video.fields import EmbedVideoField
+from product.models import Category, SubCategory
+
+# FAVORITE_COLORS_CHOICES = [
+#     ('blue', 'Blue'),
+#     ('green', 'Green'),
+#     ('black', 'Black'),
+# ]
 
 class ProductForm (forms.Form):
     productName = forms.CharField(
@@ -13,6 +20,24 @@ class ProductForm (forms.Form):
             }
         )
     )
+
+    # category = forms.ModelChoiceField(
+    #     queryset=Category.objects.values(),
+    #     label="categoryName"
+    # )
+    
+    # subCategory = forms.ModelChoiceField(
+    #     queryset=SubCategory.objects.values_list('subCategoryName', flat=True),
+    #     label="categoryName"
+    # )
+    
+    # category = forms.ChoiceField(
+    #     choices=FAVORITE_COLORS_CHOICES
+    # )
+
+    # subCategory = forms.ChoiceField(
+    #     choices=FAVORITE_COLORS_CHOICES
+    # )
 
     description = forms.CharField(
         required=True,
