@@ -57,7 +57,7 @@ ROOT_URLCONF = 'Skripsi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': ['Skripsi/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
