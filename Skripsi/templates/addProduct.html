@@ -7,7 +7,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Register</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     {% include "snippets/headImport.html" %}
+
+    {% comment %} 
+    <script>
+        console.log("hello");
+
+        $(document).ready(function(){
+            var $productvar = $("#productddl");
+                $itemvar = $("#itemddl");
+
+                $options=$itemvar.find('option');
+                $productvar.on('change',function(){
+                    $itemvar.html($options.filter('[value="'+this.value+'"]'));
+                }).trigger('change');
+        });
+    </script> 
+    {% endcomment %}
+
 </head>
 <body>
 
@@ -31,11 +49,54 @@
 
             <div class="pt-3">
                 {{ form.productName }}
-            </div><div class="pt-3">
-                {{ form.description }}
-            </div><div class="pt-3">
-                {{ form.videoUrl }}
             </div>
+
+            <div class="pt-3" id="category">
+                <select class="form-control" id="categoryddl" name="category" required>
+                    <option disabled value="" selected="">---------</option>
+                </select>
+            </div>
+
+            <div class="pt-3" id="subcategory">
+                <select class="form-control" id="subcategoryddl" name="subCategory" required>
+                    <option disabled value="" selected="" id="subCategoryText">---------</option>
+                </select>
+            </div>
+            {% comment %}
+
+            
+           
+            <div class="pt-3">
+                 
+                <select class="form-control" id="itemddl" name="subCateg" required>
+                    <option disabled value="" selected="">---------</option>
+                    {% for subCat in subCategory %}
+                        <option value="{{subCat.categoryId}}">{{subCat.subCategoryName}}</option>
+                    {% endfor %}
+                </select> 
+                
+            </div>
+            {% endcomment %}
+            
+            {% comment %} 
+                
+                <div class="pt-3">
+                    {{ form.category }}
+                </div>
+           
+                <div class="pt-3">
+                    {{ form.subCategory }}
+                </div>
+             {% endcomment %}
+            <div class="pt-3">
+                {{ form.description }}
+            </div>
+            <div class="pt-3">
+                {{ form.videoUrl }}
+            </div><div class="pt-3">
+                {{ form.productPicture }}
+            </div>
+            
             
             <div class="d-flex flex-row-reverse bd-highlight pb-5">
                 <div class="p-2 bd-highlight">
@@ -45,6 +106,7 @@
         </form>
     </div>
 
+    <script src="{% static 'vendor2/scripts/dropdown.js'%}"></script>
     {% include "snippets/scripts.html" %}
     
 </body>
