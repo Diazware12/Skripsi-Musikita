@@ -33,18 +33,24 @@ def dashboard (request):
         if user is not None:
             
             if user_data.values_list('status', flat=True).first() == 'Pending':
-               messages.success(request, 'please verify your account first')
+               messages.error(request, 'please verify your account first')
+               return redirect ('dashboard')
+            
+            elif user_data.values_list('status', flat=True).first() == 'AdminPending':
+               messages.error(request, 'Please wait for admin to approve your account')
+               return redirect ('dashboard')
+
             else:
                login (request,user)
                return redirect ('dashboard') 
 
         else:
-            messages.success(request, 'email is Taken')
+            messages.error(request, 'We cannot find an account with that email address')
             
 
 
     return render(request,web,context)
-    
+
 def user_logout (request):
     logout (request)
     return redirect ('dashboard')

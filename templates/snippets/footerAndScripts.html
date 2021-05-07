@@ -35,10 +35,9 @@
             {% csrf_token %}
 
             {% if messages %}
-            
                 {% for message in messages %}
                     <div class="alert alert-info"> 
-                        {{ message }}
+                      <span id="msg" value="{{ message }}">{{ message }}</span>  
                     </div>
                 {% endfor %}
             
@@ -95,10 +94,17 @@
     </div>
   </footer>
 
-{% comment %} <script src="{% static 'vendor2/scripts/star.js'%}"></script> {% endcomment %}
 <script src="{% static 'vendor2/scripts/jquery.min.js'%}"></script>
 <script src="{% static 'vendor2/scripts/bootstrap.bundle.min.js'%}"></script>
 <script src="{% static 'vendor2/scripts/aos.js'%}"></script>
 <script src="{% static 'vendor2/scripts/ekko-lightbox.min.js'%}"></script>
 <script src="{% static 'vendor2/scripts/main.js'%}"></script>
 <script src="{% static 'vendor2/scripts/custom.js'%}"></script>
+
+<script type="text/javascript">
+  message = document.getElementById('msg').innerHTML;
+  
+  if (message != '') {
+    $('#loginModal').modal('show'); 
+  }
+</script>
