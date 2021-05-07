@@ -1,11 +1,53 @@
 from django.http import HttpResponse
-from django.shortcuts import render 
+from django.shortcuts import render, redirect 
 from register.models import User
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 import datetime
+from .forms import LoginForm
 
 def dashboard (request):
-    return render(request,'dashboard.html')
+    web = 'dashboard.html'
+    
+    login_form = LoginForm()
+    context = {
+        'form': login_form
+    }
+    
+    if request.method != 'POST':
+        return render(request,'dashboard.html', context)
+    else: 
+        email = request.POST.get('userEmail')
+        password = request.POST.get('userPassword')
+
+        username = User.objects.filter(email = email).values_list(
+            'userName', flat=True
+            ).first()
+
+        user_data = User.objects.filter(userName = username).values() # buat nembak 1 data
+
+            # test = user_data.values_list('userName', flat=True).first() -------->buat ngambil salah satu data di user_data 
+
+        user = authenticate(request, username = username, password=password)
+        
+        if user is not None:
+            
+            if user_data.values_list('status', flat=True).first() == 'Pending':
+               messages.success(request, 'please verify your account first')
+            else:
+               login (request,user)
+               return redirect ('dashboard') 
+
+        else:
+            messages.success(request, 'email is Taken')
+            
+
+
+    return render(request,web,context)
+    
+def user_logout (request):
+    logout (request)
+    return redirect ('dashboard')
 
 def rating (request):
     return render(request,'rating.html')

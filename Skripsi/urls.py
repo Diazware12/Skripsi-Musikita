@@ -20,7 +20,8 @@ from django.urls import path
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.dashboard),
+    path('',views.dashboard,name="dashboard"),
+    path('logout/',views.user_logout,name="logoutUser"),
     url(r'^rating/',views.rating),
     url(r'^profile/',views.profile),
     url(r'^profileMusicStore/',views.profileMusicStore),

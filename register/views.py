@@ -12,6 +12,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .utils import token_generator
 import re
 from .forms import UserForm, MusicStoreForm
+from django.contrib.auth.models import User as auth_user
 
 def registerMember (request):
     if request.method != 'POST':
@@ -47,7 +48,7 @@ def registerMember (request):
                 return redirect ('regularUser')
 
             token = str (uuid.uuid4())
-
+            
             profile_obj = User.objects.create(
                 userName = username,
                 email = email, 
@@ -61,6 +62,14 @@ def registerMember (request):
             )
 
             profile_obj.save()
+
+            userAuth = auth_user.objects.create(
+                username = username,
+                email = email,
+                password = make_password(password)    
+            )
+
+            userAuth.save()
 
             domain = get_current_site(request).domain
 

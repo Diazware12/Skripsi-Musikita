@@ -30,9 +30,13 @@
       </div> 
       <div class="right">
         <ul>
-          <li><a href="#">Whats Next</a></li>
-          <li><a href="#signUpModal" data-toggle="modal" data-target="#signUpModal">Sign Up</a></li>
-          <li><a href="#loginModal" data-toggle="modal" data-target="#loginModal">LogIn</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'logoutUser' %}">Logout</a></li>
+          {% else %}
+            <li><a href="#">Whats Next</a></li>
+            <li><a href="#signUpModal" data-toggle="modal" data-target="#signUpModal">Sign Up</a></li>
+            <li><a href="#loginModal" data-toggle="modal" data-target="#loginModal">LogIn</a></li>
+          {% endif %}
         </ul>
       </div>
     </div>
