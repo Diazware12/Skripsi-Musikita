@@ -47,53 +47,49 @@
             
             {% endif %}
 
+            <h5 class="pt-3">Product Name</h5>
+
             <div class="pt-3">
                 {{ form.productName }}
             </div>
 
+            <h5 class="pt-3">Product Brand</h5>
+
+            <div class="pt-3">
+                {{ form.productBrand }}
+            </div>
+
+            <h5 class="pt-3">Product Category</h5>
+            
             <div class="pt-3" id="category">
                 <select class="form-control" id="categoryddl" name="category" required>
                     <option disabled value="" selected="">---------</option>
                 </select>
             </div>
 
+            <h5 class="pt-3">Product Sub-Category</h5>
+
             <div class="pt-3" id="subcategory">
                 <select class="form-control" id="subcategoryddl" name="subCategory" required>
                     <option disabled value="" selected="" id="subCategoryText">---------</option>
                 </select>
             </div>
-            {% comment %}
 
-            
-           
-            <div class="pt-3">
-                 
-                <select class="form-control" id="itemddl" name="subCateg" required>
-                    <option disabled value="" selected="">---------</option>
-                    {% for subCat in subCategory %}
-                        <option value="{{subCat.categoryId}}">{{subCat.subCategoryName}}</option>
-                    {% endfor %}
-                </select> 
-                
-            </div>
-            {% endcomment %}
-            
-            {% comment %} 
-                
-                <div class="pt-3">
-                    {{ form.category }}
-                </div>
-           
-                <div class="pt-3">
-                    {{ form.subCategory }}
-                </div>
-             {% endcomment %}
+            <h5 class="pt-3">Description</h5>
+
             <div class="pt-3">
                 {{ form.description }}
             </div>
+
+            <h5 class="pt-3">VideoURL</h5>
+
             <div class="pt-3">
                 {{ form.videoUrl }}
-            </div><div class="pt-3">
+            </div>
+            
+            <h5 class="pt-3">Product Picture</h5>
+
+            <div class="pt-3">
                 {{ form.productPicture }}
             </div>
             

@@ -1,7 +1,7 @@
 from django import forms
 from .models import Product
 from embed_video.fields import EmbedVideoField
-from product.models import Category, SubCategory
+from product.models import Category, SubCategory, Brand
 
 # FAVORITE_COLORS_CHOICES = [
 #     ('blue', 'Blue'),
@@ -17,6 +17,17 @@ class ProductForm (forms.Form):
             attrs={
                 'class':'form-control',
                 'placeholder':'Product Name'
+            }
+        )
+    )
+
+
+    productBrand = forms.ModelChoiceField(
+        queryset=Brand.objects.values_list('brandName', flat=True),
+        label="brandName",
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control'
             }
         )
     )

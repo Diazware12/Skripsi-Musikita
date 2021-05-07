@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from .forms import ProductForm
 from django.conf import settings
-from product.models import Product, Category, SubCategory
+from product.models import Product, Category, SubCategory, Brand
 import datetime
 
 def addProduct (request):
@@ -19,6 +19,7 @@ def addProduct (request):
         return render(request,'addProduct.html', context)
     else :
         productName = request.POST.get('productName') 
+        brand = request.POST.get('productBrand') 
         category = request.POST.get('category')
         subCategory = request.POST.get('subCategory')
         description = request.POST.get('description')
@@ -26,6 +27,10 @@ def addProduct (request):
         productPicture = request.POST.get('productPicture')
 
         web_direct = ''
+
+        brand_Id = Brand.objects.filter(brandName = brand).values_list(
+                        'brandId', flat=True
+                      ).first()
 
         category_Id = Category.objects.filter(categoryName = category).values_list(
                         'categoryId', flat=True
@@ -47,7 +52,7 @@ def addProduct (request):
             product_obj = Product.objects.create(
                 categoryId = category_Id,
                 subCategoryId = subCategory_Id,
-                brandId = 1,
+                brandId = brand_Id,
                 productName = productName,
                 description = description,
                 videoUrl = videoUrl,

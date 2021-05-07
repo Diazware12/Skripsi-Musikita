@@ -12,10 +12,10 @@ class SubCategory (models.Model):
 
 class Brand (models.Model):
     brandId = models.AutoField(primary_key=True,null=False)
-    productName = models.CharField(max_length = 50)
+    brandName = models.CharField(max_length = 50)
     brandURL = models.URLField(max_length=200)
     description = models.CharField(max_length = 255)
-    brandEmail = models.CharField(max_length=60)
+    brandEmail = models.CharField(max_length=60,default='')
     password = models.CharField(max_length=255)
     status = models.CharField(max_length=15)
 
