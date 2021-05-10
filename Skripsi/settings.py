@@ -124,7 +124,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/img/'
+MEDIA_URL = '/transaction/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'), 
@@ -138,4 +138,4 @@ EMAIL_HOST_USER = 'musikita726@gmail.com'
 EMAIL_HOST_PASSWORD = 'ifmtgvqzmtlsqrlw' 
 DEFAULT_FROM_EMAIL = 'musikita726@gmail.com'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/transaction')
