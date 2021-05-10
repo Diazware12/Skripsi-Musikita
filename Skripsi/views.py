@@ -7,62 +7,22 @@ import datetime
 from .forms import LoginForm
 
 def dashboard (request):
-    web = 'dashboard.html'
-    
-    login_form = LoginForm()
-    context = {
-        'form': login_form
-    }
-    
-    if request.method != 'POST':
-        return render(request,'dashboard.html', context)
-    else: 
-        email = request.POST.get('userEmail')
-        password = request.POST.get('userPassword')
-
-        username = User.objects.filter(email = email).values_list(
-            'userName', flat=True
-            ).first()
-
-        user_data = User.objects.filter(userName = username).values() # buat nembak 1 data
-
-            # test = user_data.values_list('userName', flat=True).first() -------->buat ngambil salah satu data di user_data 
-
-        user = authenticate(request, username = username, password=password)
+    isLogin = request.POST.get('isLogin')
+    if request.method == 'POST' and isLogin == "1":
+        loginAccount (request)
         
-        if user is not None:
-            
-            if user_data.values_list('status', flat=True).first() == 'Pending':
-               messages.error(request, 'please verify your account first')
-               return redirect ('dashboard')
-            
-            elif user_data.values_list('status', flat=True).first() == 'AdminPending':
-               messages.error(request, 'Please wait for admin to approve your account')
-               return redirect ('dashboard')
-
-            else:
-               login (request,user)
-               return redirect ('dashboard') 
-
-        else:
-            messages.error(request, 'We cannot find an account with that email address')
-            
-
-
-    return render(request,web,context)
+    return render(request,'dashboard.html')
 
 def user_logout (request):
     logout (request)
     return redirect ('dashboard')
 
 def rating (request):
+    isLogin = request.POST.get('isLogin')
+    if request.method == 'POST' and isLogin == "1":
+        loginAccount (request)
+
     return render(request,'rating.html')
-
-def registerMember (request):
-    return render(request,'registerMember.html')
-
-def registerMusicStore (request):
-    return render(request,'registerMusicStore.html')
 
 def profile (request):
     return render(request,'profile.html')
@@ -74,6 +34,10 @@ def scoreRating (request):
     return render(request,'scoreRating.html')
 
 def productList (request):
+    isLogin = request.POST.get('isLogin')
+    if request.method == 'POST' and isLogin == "1":
+        loginAccount (request)
+
     return render(request,'productList.html')
 
 def userApproveList (request):
@@ -103,4 +67,33 @@ def verifyEmail (request, auth_token):
 
     return render(request,webRender)
     
+def loginAccount (request):
+        email = request.POST.get('userEmail')
+        password = request.POST.get('userPassword')
 
+        username = User.objects.filter(email = email).values_list(
+            'userName', flat=True
+            ).first()
+
+        user_data = User.objects.filter(userName = username).values() # buat nembak 1 data
+
+            # test = user_data.values_list('userName', flat=True).first() -------->buat ngambil salah satu data di user_data 
+
+        user = authenticate(request, username = username, password=password)
+        
+        if user is not None:
+            
+            if user_data.values_list('status', flat=True).first() == 'Pending':
+               messages.error(request, 'please verify your account first')
+               return redirect ('dashboard')
+            
+            elif user_data.values_list('status', flat=True).first() == 'AdminPending':
+               messages.error(request, 'Please wait for admin to approve your account')
+               return redirect ('dashboard')
+
+            else:
+               login (request,user)
+               return redirect ('dashboard') 
+
+        else:
+            messages.error(request, 'We cannot find an account with that email address')

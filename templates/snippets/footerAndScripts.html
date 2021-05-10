@@ -40,7 +40,6 @@
                       <span id="msg" value="{{ message }}">{{ message }}</span>  
                     </div>
                 {% endfor %}
-            
             {% endif %}
             
             <div class="d-flex">
@@ -48,19 +47,21 @@
               <small><a id="register" href="#signUpModal" data-toggle="modal" data-target="#signUpModal" style="color: #38a100;">Register</a></small>
             </div>
 
-              {{form.userEmail}}
+              {% comment %} {{form.userEmail}} {% endcomment %}
+              <input type="email" name="userEmail" class="form-control" required="" id="id_userEmail" required>
               <small class="text-muted">example:email@musikita.com</small>
 
             <div class="pt-3">
                 <div class="mr-auto"><h6>Password</h6></div>
 
-                {{form.userPassword}}
-                
+                {% comment %} {{form.userPassword}} {% endcomment %}
+                <input type="password" name="userPassword" class="form-control" required="" id="id_userPassword" required>
                 <small><a href="#" style="color: #38a100;">Forgot Your Password?</a></small>
             </div>
             <div class="d-flex flex-row-reverse bd-highlight pt-3">
               <div class="p-2 bd-highlight"><button type="submit" class="greenbutton">Login</button></div>
             </div>
+            <input name="isLogin" value="1" style="display: none;">
           </form>
         </div>
       </div>
