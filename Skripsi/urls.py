@@ -18,6 +18,9 @@ from django.contrib import admin
 from . import views
 from django.urls import path
 
+from django.conf.urls.static import static
+from django.conf import settings
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('',views.dashboard,name="dashboard"),
@@ -34,3 +37,5 @@ urlpatterns = [
     url(r'^success/',views.token),
     path('verify/<auth_token>',views.verifyEmail,name="verify"),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

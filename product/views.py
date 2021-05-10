@@ -24,8 +24,8 @@ def addProduct (request):
         subCategory = request.POST.get('subCategory')
         description = request.POST.get('description')
         videoUrl = request.POST.get('videoUrl')
-        productPicture = request.POST.get('productPicture')
-
+        productPicture = request.FILES['productPicture']
+        productPicture.name = productName+'.jpg'
         web_direct = ''
 
         brand_Id = Brand.objects.filter(brandName = brand).values_list(

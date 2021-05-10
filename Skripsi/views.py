@@ -5,13 +5,20 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 import datetime
 from .forms import LoginForm
+from product.models import *
 
 def dashboard (request):
     isLogin = request.POST.get('isLogin')
     if request.method == 'POST' and isLogin == "1":
         loginAccount (request)
-        
-    return render(request,'dashboard.html')
+    
+
+    #hot item
+    hotItems = Product.objects.all() #harusnya view terbanyak
+    context = {
+        'hotItems': hotItems,
+    }
+    return render(request,'dashboard.html', context)
 
 def user_logout (request):
     logout (request)
