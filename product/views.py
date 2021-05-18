@@ -5,6 +5,7 @@ from .forms import ProductForm
 from django.conf import settings
 from product.models import Product, Category, SubCategory, Brand
 import datetime
+from PIL import Image
 
 def addProduct (request):
     if request.method != 'POST':
@@ -63,6 +64,9 @@ def addProduct (request):
             )
 
             product_obj.save()
+            img = Image.open(product_obj.productIMG.path)
+            img = make_square(img)
+            img.save(product_obj.productIMG.path)
             web_direct = 'success.html'
 
         except Exception as e:
@@ -95,3 +99,12 @@ def getJsonSubCategoryData (request, *args, **kwargs):
         'data':subCat_models 
     })
     
+def make_square(img):
+    x, y = img.size
+    size = max(x,y)
+    fill_color=(255, 255, 255)
+    new_img = Image.new('RGB', (size, size), fill_color)
+    new_img.show()
+    new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
+    new_img.show()
+    return new_img

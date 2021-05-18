@@ -14,7 +14,7 @@ def dashboard (request):
     
 
     #hot item
-    hotItems = Product.objects.all() #harusnya view terbanyak
+    hotItems = Product.objects.order_by('-visitCount')[:8]
     context = {
         'hotItems': hotItems,
     }
