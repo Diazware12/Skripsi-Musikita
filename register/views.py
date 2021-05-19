@@ -13,6 +13,8 @@ from .utils import token_generator
 import re
 from .forms import UserForm, MusicStoreForm
 from django.contrib.auth.models import User as auth_user
+from django.contrib.auth.models import Group
+
 
 def registerMember (request):
     if request.method != 'POST':
@@ -34,9 +36,9 @@ def registerMember (request):
                 messages.success(request, 'Username is Taken')
                 return redirect ('regularUser')
 
-            if User.objects.filter(email = email).first():
-                messages.success(request, 'email is Taken')
-                return redirect ('regularUser')
+            # if User.objects.filter(email = email).first():
+            #     messages.success(request, 'email is Taken')
+            #     return redirect ('regularUser')
             
             check_pass = weakPassword (password)
             if check_pass != 'True':
@@ -63,13 +65,15 @@ def registerMember (request):
 
             profile_obj.save()
 
-            userAuth = auth_user.objects.create(
-                username = username,
-                email = email,
-                password = make_password(password)    
-            )
+            regisUserAuth(profile_obj)
 
-            userAuth.save()
+            # userAuth = auth_user.objects.create(
+            #     username = username,
+            #     email = email,
+            #     password = make_password(password)    
+            # )
+
+            # userAuth.save()
 
             domain = get_current_site(request).domain
 
@@ -135,8 +139,9 @@ def registerMusicStore (request):
 
             profile_obj.save()
 
-            msId = profile_obj.userID
+            regisUserAuth(profile_obj)
 
+            msId = profile_obj.userID
             
             mStore_obj = MusicStoreData.objects.create(
                 userID = msId,
@@ -155,7 +160,6 @@ def registerMusicStore (request):
             web_direct = 'error.html'
 
     return render(request,web_direct)
-
 
 def weakPassword (password):
     if (password == "\n" or password == " "):
@@ -191,3 +195,18 @@ def sendMailAfterRegis (domain, user):
 
     email.send(fail_silently=False)
     # number = 1
+
+def regisUserAuth(userRegis):
+
+    userAuth = auth_user.objects.create(
+        username = userRegis.userName,
+        email = userRegis.email,
+        password = userRegis.password  
+    )
+
+    userAuth.save()
+
+    getgroupId = Group.objects.get(name = userRegis.roleId)
+
+    userAuth.groups.add(getgroupId)
+    
