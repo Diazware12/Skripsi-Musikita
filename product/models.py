@@ -31,7 +31,7 @@ class Product (models.Model):
     minPrice = models.BigIntegerField() #lowest
     maxPrice = models.BigIntegerField() #highest
     dtm_crt = models.DateTimeField(null=False)
-    productIMG = models.ImageField(upload_to=settings.MEDIA_ROOT+'/product',null=False, blank=False, default='none')
+    productIMG = models.ImageField(upload_to=settings.MEDIA_ROOT+'/product',null=False, blank=False, default='none', max_length=255)
     visitCount = models.BigIntegerField(null=False,default=0)
     
 

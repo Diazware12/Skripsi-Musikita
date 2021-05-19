@@ -104,7 +104,5 @@ def make_square(img):
     size = max(x,y)
     fill_color=(255, 255, 255)
     new_img = Image.new('RGB', (size, size), fill_color)
-    new_img.show()
     new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
-    new_img.show()
     return new_img
