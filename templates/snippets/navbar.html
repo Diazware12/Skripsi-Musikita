@@ -29,17 +29,22 @@
       <div class="right">
         <ul>
           {% if user.is_authenticated %}
-            <li><a href="{% url 'logoutUser' %}">Logout</a></li>
 
-            {% if request.user.groups.all.0.name == 'Reg_User' %}
+            {% if request.user.groups.all.0.name == 'Admin' %}
 
-              <li><a href="#">haha</a></li> 
-            
-            {% else %}
-            
-              <li><a href="#">hehe</a></li>
+              <li><a href="{% url 'addProduct' %}">Add Product</a></li> 
             
             {% endif %}
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{request.user.username}}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">profile</a>
+                <a class="dropdown-item" href="{% url 'logoutUser' %}">Logout</a>
+              </div>
+            </li>
 
           {% else %}
             <li><a href="#">Whats Next</a></li>

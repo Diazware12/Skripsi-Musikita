@@ -6,7 +6,12 @@ from django.conf import settings
 from product.models import Product, Category, SubCategory, Brand
 import datetime
 from PIL import Image
+from django.contrib.auth.decorators import login_required, user_passes_test
+from Skripsi.decorator import is_Admin
 
+
+@login_required
+@user_passes_test(is_Admin)
 def addProduct (request):
     if request.method != 'POST':
         ddCategory = Category.objects.all()
