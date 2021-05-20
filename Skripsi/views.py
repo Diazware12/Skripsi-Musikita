@@ -45,10 +45,7 @@ def productList (request):
     if request.method == 'POST' and isLogin == "1":
         loginAccount (request)
 
-    return render(request,'productList.html')
-
-def userApproveList (request):
-    return render(request,'userApproveList.html')    
+    return render(request,'productList.html')   
 
 def token (request):
     return render(request,'token-send.html')  

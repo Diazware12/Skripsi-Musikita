@@ -14,6 +14,9 @@ import re
 from .forms import UserForm, MusicStoreForm
 from django.contrib.auth.models import User as auth_user
 from django.contrib.auth.models import Group
+from django.db import connection
+from django.contrib.auth.decorators import login_required, user_passes_test
+from Skripsi.decorator import is_Admin
 
 
 def registerMember (request):
@@ -209,4 +212,24 @@ def regisUserAuth(userRegis):
     getgroupId = Group.objects.get(name = userRegis.roleId)
 
     userAuth.groups.add(getgroupId)
-    
+
+@login_required
+@user_passes_test(is_Admin)
+def musicStorePendingList (request):
+
+    post = []
+
+    with connection.cursor() as cursor:
+        raw_sql = """select ms.musicStoreDataID, u.username, ms.address, ms.musicStorePicture 
+                        from register_musicstoredata as ms 
+                        join register_user as u on ms.userId = ms.userId 
+                        where status like "%%AdminPending%%" """
+        cursor.execute(raw_sql)
+
+        for obj in cursor.fetchall():
+            post.append({"username": obj[1], "address": obj[2], "picture": obj[3]})
+
+    context = {
+        'obj': post,
+    }
+    return render(request,'userApproveList.html', context)    

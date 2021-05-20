@@ -6,7 +6,8 @@ from . import views
 
 urlpatterns = [
    path('regularUser/',views.registerMember,name="regularUser"),
-   path('musicStore/',views.registerMusicStore,name="musicStore")
+   path('musicStore/',views.registerMusicStore,name="musicStore"),
+   path('userApproveList/',views.musicStorePendingList,name="userApproveList")
    # url(r'^regularUser/',views.registerMember),
    # url(r'^musicStore/',views.registerMusicStore)
 ]

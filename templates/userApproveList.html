@@ -16,7 +16,26 @@
         <h1 class="pb-5 pt-5">User Approval List</h1>
         
         <div class="row">
-            <div class="col-sm-6 pb-3">
+            {% for obj in obj %}
+                <div class="col-sm-6 pb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <img src="https://www.flokq.com/blog/wp-content/uploads/2020/06/mgss-1024x746.jpg" alt="Admin" class="rounded-circle" width="150">
+                                </div>
+                                <div class="col">
+                                    <a href="#" style="color: black;"><h5 class="card-title">{{obj.username}}</h5></a>
+                                    <p class="card-text">
+                                        {{obj.address}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% comment %} <div class="col-sm-6 pb-3">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -100,24 +119,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-6 pb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <img src="https://www.flokq.com/blog/wp-content/uploads/2020/06/mgss-1024x746.jpg" alt="Admin" class="rounded-circle" width="150">
-                            </div>
-                            <div class="col">
-                                <a href="#" style="color: black;"><h5 class="card-title">DuaTiga Music Store</h5></a>
-                                <p class="card-text">
-                                    jl puncak indah lontar no 2 surabaya
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div> {% endcomment %}
         </div>
         <div class="d-flex flex-row-reverse">
             <div class="p-2">
