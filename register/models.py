@@ -17,4 +17,5 @@ class MusicStoreData (models.Model): #ganti nama
     musicStoreDataID = models.AutoField(primary_key=True,null=False)
     userID = models.BigIntegerField()
     address = models.CharField(blank=False,max_length=255)
+    contact = models.CharField(null=False,max_length=16,default='') #
     musicStorePicture = models.ImageField(null=False, blank=False) #harus install pillow "python -m pip install Pillow"
