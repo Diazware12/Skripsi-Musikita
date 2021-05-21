@@ -34,21 +34,14 @@ def addProduct (request):
         productPicture.name = productName+'.jpg'
         web_direct = ''
 
-        brand_Id = Brand.objects.filter(brandName = brand).values_list(
-                        'brandId', flat=True
-                      ).first()
+        brand_Id = Brand.objects.get(brandName = brand)
 
-        category_Id = Category.objects.filter(categoryName = category).values_list(
-                        'categoryId', flat=True
-                      ).first()
+        category_Id = Category.objects.get(categoryName = category)
 
-        subCategory_Id = SubCategory.objects.filter(
+        subCategory_Id = SubCategory.objects.get(
                             subCategoryName = subCategory, 
                             categoryId = category_Id
-                        ).values_list(
-                            'subCategoryId', 
-                            flat=True
-                        ).first()
+                        )
         
         try: 
             # if Product.objects.filter(productName=productName).first():

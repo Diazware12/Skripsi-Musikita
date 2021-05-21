@@ -22,9 +22,9 @@ class Brand (models.Model):
 
 class Product (models.Model):
     productId = models.AutoField(primary_key=True,null=False)
-    categoryId = models.BigIntegerField(null=False,default=1)
-    subCategoryId = models.BigIntegerField(null=False,default=1)
-    brandId = models.BigIntegerField(null=False)
+    categoryId = models.ForeignKey(Category,on_delete=models.CASCADE)
+    subCategoryId = models.ForeignKey(SubCategory,on_delete=models.CASCADE)
+    brandId = models.ForeignKey(Brand,on_delete=models.CASCADE)
     productName = models.CharField(max_length = 50)
     description = models.CharField(max_length = 255)
     videoUrl = EmbedVideoField()

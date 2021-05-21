@@ -103,7 +103,8 @@ def registerMusicStore (request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         conf_pass = request.POST.get('confirm_pass')
-        msPicture = request.POST.get('musicStorePicture')
+        msPicture = request.FILES['musicStorePicture']
+        msPicture.name = musicStoreName+'.jpg'
         description = request.POST.get('description')
 
         web_direct = ''
@@ -111,20 +112,20 @@ def registerMusicStore (request):
         try: 
             if User.objects.filter(userName = musicStoreName).first():
                 messages.success(request, 'Music Store Name is Taken')
-                return redirect ('musicStore/')
+                return redirect ('musicStore')
 
             if User.objects.filter(email = email).first():
                 messages.success(request, 'email is Taken')
-                return redirect ('musicStore/')
+                return redirect ('musicStore')
 
             check_pass = weakPassword (password)
             if check_pass != 'True':
                 messages.success(request, check_pass)
-                return redirect ('regularUser')
+                return redirect ('musicStore')
 
             if (conf_pass != password):
                 messages.success(request, 'confirm password should be same as password')
-                return redirect ('regularUser')
+                return redirect ('musicStore')
 
             token = str (uuid.uuid4())
 
@@ -141,17 +142,17 @@ def registerMusicStore (request):
             )
 
             profile_obj.save()
-
-            regisUserAuth(profile_obj)
-
-            msId = profile_obj.userID
             
             mStore_obj = MusicStoreData.objects.create(
-                userID = msId,
+                userID = profile_obj,
                 address = address,
                 musicStorePicture = msPicture
             ) 
             mStore_obj.save()
+
+            regisUserAuth(profile_obj)
+
+
 
             domain = get_current_site(request).domain
 
@@ -217,19 +218,9 @@ def regisUserAuth(userRegis):
 @user_passes_test(is_Admin)
 def musicStorePendingList (request):
 
-    post = []
-
-    with connection.cursor() as cursor:
-        raw_sql = """select ms.musicStoreDataID, u.username, ms.address, ms.musicStorePicture 
-                        from register_musicstoredata as ms 
-                        join register_user as u on ms.userId = ms.userId 
-                        where status like "%%AdminPending%%" """
-        cursor.execute(raw_sql)
-
-        for obj in cursor.fetchall():
-            post.append({"username": obj[1], "address": obj[2], "picture": obj[3]})
+    qux = MusicStoreData.objects.select_related('userID').filter(userID__status="AdminPending", userID__verified_at__isnull= False)[:8]
 
     context = {
-        'obj': post,
+        'obj': qux,
     }
     return render(request,'userApproveList.html', context)    

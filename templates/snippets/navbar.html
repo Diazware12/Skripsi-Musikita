@@ -15,9 +15,9 @@
                 <div class="search-data">
                   <form action="#"> 
                     <input type="text" required>
-                    <div class="line"></div>
-                    <label>type to search</label>
-                    <span class="fa fa-search"></span>
+                      <div class="line" style="width: 77%;"></div>
+                      <label>type to search</label>
+                    <span class="fa fa-search" style="width: 50%;"></span>
                   </form>
                 </div>
               </div>
@@ -31,9 +31,8 @@
           {% if user.is_authenticated %}
 
             {% if request.user.groups.all.0.name == 'Admin' %}
-
-              <li><a href="{% url 'addProduct' %}">Add Product</a></li> 
-            
+              <li><a href="{% url 'addProduct' %}">Add Product</a></li>
+              <li><a href="{% url 'userApproveList' %}">User Pending</a></li>  
             {% endif %}
 
             <li class="nav-item dropdown">
