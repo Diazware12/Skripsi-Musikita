@@ -193,7 +193,7 @@ def sendMailAfterRegis (domain, user, context, additional_msg):
         messages = 'hi ' + user.userName + ',\n\n' + 'Your Music Store\'s account has been verified by admin.\n' + 'Now you can login using your account\n' + 'http://' + domain 
     else:   
         subject = 'Your Account Has Been Rejected by Admin'               
-        messages = 'hi ' + user.userName + ',\n\n' + 'Unfortunately Your Music Store\'s account has been Rejected by admin due to\n\n' + additional_msg + '\nPlease make a new music store\'s account based on the admin\'s note\n' +'http://' + domain
+        messages = 'hi ' + user.userName + ',\n\n' + 'Unfortunately Your Music Store\'s account has been Rejected by admin due to\n\n' + additional_msg + '\n\nPlease make a new music store\'s account based on the admin\'s note\n' +'http://' + domain
 
     email_from = settings.EMAIL_HOST_USER
     receipent_list = [user.email]
