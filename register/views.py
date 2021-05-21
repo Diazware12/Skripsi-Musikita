@@ -193,7 +193,7 @@ def sendMailAfterRegis (domain, user, context, additional_msg):
         messages = 'hi ' + user.userName + ',\n\n' + 'Your Music Store\'s account has been verified by admin.\n' + 'Now you can login using your account\n' + 'http://' + domain 
     else:   
         subject = 'Your Account Has Been Rejected by Admin'               
-        messages = 'hi ' + user.userName + ',\n\n' + 'Unfortunately Your Music Store\'s account has been Rejected by admin due to\n\n' + additional_msg + '\n\nPlease make a new music store\'s account based on the admin\'s note\n' +'http://' + domain
+        messages = 'hi ' + user.userName + ',\n\n' + 'Unfortunately Your Music Store\'s account has been Rejected by admin because:\n\n' + additional_msg + '\n\nPlease make a new music store\'s account based on the admin\'s note\n' +'http://' + domain
 
     email_from = settings.EMAIL_HOST_USER
     receipent_list = [user.email]
@@ -283,6 +283,11 @@ def reject (request,auth_token):
                 
                 domain = get_current_site(request).domain
                 sendMailAfterRegis (domain, profile_obj, 'admin_reject',rejectionReason)
+
+                userAuth = auth_user.objects.get(username = profile_obj.userName)
+                userAuth.groups.clear()
+                userAuth.delete()
+
                 profile_obj.delete()
 
                 webRender = 'success.html'
