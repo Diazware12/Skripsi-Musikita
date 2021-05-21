@@ -224,3 +224,14 @@ def musicStorePendingList (request):
         'obj': qux,
     }
     return render(request,'userApproveList.html', context)    
+
+@login_required
+@user_passes_test(is_Admin)
+def musicStoreApprove (request,auth_token):
+
+    qux = MusicStoreData.objects.select_related('userID').get(userID__auth_token=auth_token)
+
+    context = {
+        'obj': qux,
+    }
+    return render(request,'musicStoreApproval.html', context)    

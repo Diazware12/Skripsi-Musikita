@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    {% include "snippets/headImport.html" %}
+</head>
+<body>
+    {% include "snippets/navbar.html" %}
+
+    <div class="container">
+
+        <h1 class="pb-5 pt-5">Register > As Music Store</h1>
+
+            <h5 class="pt-3">Music Store Name</h5>
+            <div class="pt-3">
+                <input type="text" class="form-control" name="username" value="{{ obj.userID.userName }}" readonly><br>
+            </div>
+            <h5 class="pt-3">Music Store Address</h5>
+            <div class="pt-3">
+                <input type="text" class="form-control" name="address" value="{{ obj.address }}" readonly><br>
+            </div>
+            <h5 class="pt-3">Music Store Email</h5>
+            <div class="pt-3">
+                <input type="text" class="form-control" name="email"  value="{{ obj.userID.email }}" readonly><br>
+            </div>
+
+            <h5 class="pt-3">Music Store Picture</h5>
+
+            <div class="pt-3">
+              <img class="card-img-top" src="{{ obj.musicStorePicture.url }}" alt="image"/>
+            </div>
+
+            <div class="pt-3">
+              <h5>Other Info</h5>
+              <input type="textarea" class="form-control" value="{{ obj.userID.description }}" name="email" readonly><br>
+            </div>
+
+            <div class="d-flex flex-row-reverse bd-highlight pt-3">
+              <div class="p-2 bd-highlight"><button type="submit" class="greenbutton">Approve</button></div>
+              <div class="p-2 bd-highlight"><button type="submit" class="redbutton">Delete</button></div>
+            </div>
+
+        
+
+
+    </div>
+
+    {% include "snippets/scripts.html" %}
+</body>
+
+
+
+</html>
