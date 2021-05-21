@@ -119,4 +119,16 @@ class MusicStoreForm (forms.Form):
             }
         )
     )
-        
+
+class RejectionReason (forms.Form):       
+    
+    reason = forms.CharField(
+        required=True,
+        label='Rejection Reason',
+        widget=forms.Textarea(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Reason for Rejection'
+            }
+        )
+    ) 
