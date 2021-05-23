@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from .forms import ProductForm
@@ -46,9 +46,9 @@ def addProduct (request):
                         )
         
         try: 
-            if Product.objects.filter(productName=productName).first():
+            if Product.objects.select_related('brandId').filter(productName=productName,brandId__brandName=brand_Id.brandName).first():
                 messages.success(request, 'Product is already exist')
-                web_direct = 'addProduct.html'
+                return redirect ('addProduct')
 
             product_obj = Product.objects.create(
                 categoryId = category_Id,
@@ -154,7 +154,7 @@ def showProduct (request, productName, brand):
                             FORMAT((
                                 (select count(*) from review_review as r
                                 join register_user as u on r.userID_id = u.userID
-                                where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating < 10 and r.rating >=8)
+                                where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating <= 10 and r.rating >=8)
                                 /(count(u.userID))
                                 *100
                             ),0) as positive_user,

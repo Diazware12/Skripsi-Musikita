@@ -11,13 +11,13 @@ with
 		where u.roleId like "%Reg_User%" and p.productId=23),
 
 	avgMusStore as(
-	select 
-		FORMAT (avg(r.rating), 1) as Mus_store_avg,
-		p.productId as productId
-	from review_review as r
-	join register_user as u on r.userID_id = u.userID
-	join product_product as p on r.productId_id = p.productId
-	where u.roleId like "%Mus_Store%" and p.productId=23),
+		select 
+			FORMAT (avg(r.rating), 1) as Mus_store_avg,
+			p.productId as productId
+		from review_review as r
+		join register_user as u on r.userID_id = u.userID
+		join product_product as p on r.productId_id = p.productId
+		where u.roleId like "%Mus_Store%" and p.productId=23),
     
     statsUser as (
         select 
