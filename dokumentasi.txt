@@ -1,12 +1,16 @@
-contoh raw_sql    
-    post = []
+contoh raw_sql     
+    1) import dulu
+        from django.db import connection
     
-    with connection.cursor() as cursor:
-        raw_sql = """select ms.musicStoreDataID, u.username, ms.address, ms.musicStorePicture
-                        from register_musicstoredata as ms 
-                        join register_user as u on ms.userId = ms.userId 
-                        where status like "%%AdminPending%%" """
-        cursor.execute(raw_sql)
+    2) ngodingnya gini
+        post = []
+        
+        with connection.cursor() as cursor:
+            raw_sql = """select ms.musicStoreDataID, u.username, ms.address, ms.musicStorePicture
+                            from register_musicstoredata as ms 
+                            join register_user as u on ms.userId = ms.userId 
+                            where status like "%%AdminPending%%" """
+            cursor.execute(raw_sql)
 
-        for obj in cursor.fetchall():
-            post.append({"username": obj[1], "address": obj[2]})
+            for obj in cursor.fetchall():
+                post.append({"username": obj[1], "address": obj[2]})

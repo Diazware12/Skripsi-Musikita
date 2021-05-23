@@ -11,10 +11,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .utils import token_generator
 import re
-from .forms import UserForm, MusicStoreForm
+from .forms import UserForm, MusicStoreForm, RejectionReason
 from django.contrib.auth.models import User as auth_user
 from django.contrib.auth.models import Group
-from django.db import connection
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import is_Admin
 
@@ -39,9 +38,9 @@ def registerMember (request):
                 messages.success(request, 'Username is Taken')
                 return redirect ('regularUser')
 
-            # if User.objects.filter(email = email).first():
-            #     messages.success(request, 'email is Taken')
-            #     return redirect ('regularUser')
+            if User.objects.filter(email = email).first():
+                messages.success(request, 'email is Taken')
+                return redirect ('regularUser')
             
             check_pass = weakPassword (password)
             if check_pass != 'True':
@@ -70,17 +69,9 @@ def registerMember (request):
 
             regisUserAuth(profile_obj)
 
-            # userAuth = auth_user.objects.create(
-            #     username = username,
-            #     email = email,
-            #     password = make_password(password)    
-            # )
-
-            # userAuth.save()
-
             domain = get_current_site(request).domain
 
-            sendMailAfterRegis (domain, profile_obj)
+            sendMailAfterRegis (domain, profile_obj ,'verification', '')
             web_direct = 'token-send.html'
             return render(request,'token-send.html') 
 
@@ -156,7 +147,7 @@ def registerMusicStore (request):
 
             domain = get_current_site(request).domain
 
-            sendMailAfterRegis (domain, profile_obj)
+            sendMailAfterRegis (domain, profile_obj, 'verification', '')
             web_direct = 'token-send.html'
 
         except Exception as e:
@@ -181,12 +172,19 @@ def weakPassword (password):
     else:
         return "Password length must be 9-20 characters!"
 
-def sendMailAfterRegis (domain, user):
-    subject = 'Your Account Need To Be Verified'
-    # message = 'test body'
-
-    activate_url = 'http://' + domain + '/verify/' + user.auth_token
-    messages = 'hi ' + user.userName + ' please verify this account\n' + activate_url
+def sendMailAfterRegis (domain, user, context, additional_msg):
+    subject = ''
+    messages = ''
+    if (context == 'verification'):
+        subject = 'Your Account Need To Be Verified'
+        activate_url = 'http://' + domain + '/verify/' + user.auth_token
+        messages = 'hi ' + user.userName + ' please verify this account\n' + activate_url
+    elif (context == 'admin_approve'):
+        subject = 'Your Account Has Been Verified by Admin'
+        messages = 'hi ' + user.userName + ',\n\n' + 'Your Music Store\'s account has been verified by admin.\n' + 'Now you can login using your account\n' + 'http://' + domain 
+    else:   
+        subject = 'Your Account Has Been Rejected by Admin'               
+        messages = 'hi ' + user.userName + ',\n\n' + 'Unfortunately Your Music Store\'s account has been Rejected by admin because:\n\n' + additional_msg + '\n\nPlease make a new music store\'s account based on the admin\'s note\n' +'http://' + domain
 
     email_from = settings.EMAIL_HOST_USER
     receipent_list = [user.email]
@@ -224,3 +222,69 @@ def musicStorePendingList (request):
         'obj': qux,
     }
     return render(request,'userApproveList.html', context)    
+
+@login_required
+@user_passes_test(is_Admin)
+def musicStoreApproval (request,auth_token):
+
+    qux = MusicStoreData.objects.select_related('userID').get(userID__auth_token=auth_token)
+
+    context = {
+        'obj': qux,
+    }
+    return render(request,'musicStoreApproval.html', context)    
+
+
+@login_required
+@user_passes_test(is_Admin)
+def approve (request,auth_token):
+    webRender = ''
+    try:
+        profile_obj = User.objects.filter(auth_token = auth_token).first()
+        if profile_obj:
+            profile_obj.status = 'Verified'
+            profile_obj.save()
+
+            domain = get_current_site(request).domain
+            sendMailAfterRegis (domain, profile_obj, 'admin_approve','')
+
+            webRender = 'success.html'
+        else:
+            return render(request,'error.html')
+    except Exception as e:
+        print (e)   
+
+    return render(request,webRender)
+
+@login_required
+@user_passes_test(is_Admin)
+def reject (request,auth_token):
+    webRender=''
+    if request.method != 'POST':
+        rejectionForm = RejectionReason()
+        context = {
+            'form': rejectionForm
+        }
+        return render(request,'rejectionReason.html', context)
+    else :
+        rejectionReason = request.POST.get('reason')
+        try:
+            profile_obj = User.objects.filter(auth_token = auth_token).first()
+            if profile_obj:
+                
+                domain = get_current_site(request).domain
+                sendMailAfterRegis (domain, profile_obj, 'admin_reject',rejectionReason)
+
+                userAuth = auth_user.objects.get(username = profile_obj.userName)
+                userAuth.groups.clear()
+                userAuth.delete()
+
+                profile_obj.delete()
+
+                webRender = 'success.html'
+            else:
+                return render(request,'error.html')
+        except Exception as e:
+            print (e) 
+        
+    return render(request,webRender)

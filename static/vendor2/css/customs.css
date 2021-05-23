@@ -100,6 +100,23 @@ nav > .nav.nav-tabs{
     border-radius: 8px; 
   }
 
+  .redbutton {
+    background-color: #f14242;
+    border: none;
+    color: #ffffff;
+    padding: 10px 15px;
+    text-decoration: none;
+    width: 100%;
+    display: inline-block;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 4px 2px;
+    cursor: pointer;
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    border-radius: 8px; 
+  }
+
 
 .star-widget label{
   font-size: 20px;

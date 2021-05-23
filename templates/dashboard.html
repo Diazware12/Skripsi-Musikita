@@ -148,7 +148,7 @@
             {% for hotItem in hotItems %}
               <div class="col-lg-3 col-md-6">
                 <div class="card mb-3">
-                  <a href="#" style="color: black;">
+                  <a href="{% url 'showProduct' brand=hotItem.brandId.brandName productName=hotItem.productName %}" style="color: black;">
                     <div class="container">
                       <div class="card-body py-5" >
                         <div class="text-primary">

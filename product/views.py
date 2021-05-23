@@ -8,7 +8,9 @@ import datetime
 from PIL import Image
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import is_Admin
-
+from Skripsi.views import loginAccount
+from review.models import Review
+from django.db import connection
 
 @login_required
 @user_passes_test(is_Admin)
@@ -44,9 +46,9 @@ def addProduct (request):
                         )
         
         try: 
-            # if Product.objects.filter(productName=productName).first():
-            #     messages.success(request, 'Product is already exist')
-            #     web_direct = 'success.html'
+            if Product.objects.filter(productName=productName).first():
+                messages.success(request, 'Product is already exist')
+                web_direct = 'addProduct.html'
 
             product_obj = Product.objects.create(
                 categoryId = category_Id,
@@ -113,3 +115,124 @@ def make_square(img):
     else :
         new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
     return new_img
+
+def showProduct (request, productName, brand):
+    isLogin = request.POST.get('isLogin')
+    if request.method == 'POST' and isLogin == "1":
+        loginAccount (request)
+    
+    user_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Reg_User",productId__productName=productName)
+    ms_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Mus_Store",productId__productName=productName)
+
+    obj = Product.objects.select_related('brandId').get(productName = productName, brandId__brandName=brand)
+
+    ratingResults = []
+
+    with connection.cursor() as cursor:
+        raw_sql =""" 
+                    with 
+                        avgUser as(
+                            select 
+                                FORMAT (avg(r.rating), 1) as user_avg,
+                                p.productId as productId
+                            from review_review as r
+                            join register_user as u on r.userID_id = u.userID
+                            join product_product as p on r.productId_id = p.productId
+                            where u.roleId like "%Reg_User%" and p.productId= """+str(obj.productId)+"""),
+
+                        avgMusStore as(
+                        select 
+                            FORMAT (avg(r.rating), 1) as Mus_store_avg,
+                            p.productId as productId
+                        from review_review as r
+                        join register_user as u on r.userID_id = u.userID
+                        join product_product as p on r.productId_id = p.productId
+                        where u.roleId like "%Mus_Store%" and p.productId= """+str(obj.productId)+"""),
+                        
+                        statsUser as (
+                            select 
+                            FORMAT((
+                                (select count(*) from review_review as r
+                                join register_user as u on r.userID_id = u.userID
+                                where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating < 10 and r.rating >=8)
+                                /(count(u.userID))
+                                *100
+                            ),0) as positive_user,
+                            FORMAT((
+                                (select count(*) from review_review as r
+                                join register_user as u on r.userID_id = u.userID
+                                where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating < 8 and r.rating >=5)
+                                /(count(u.userID))
+                                *100
+                            ),0) as mixed_user,
+                            FORMAT((
+                                (select count(*) from review_review as r
+                                join register_user as u on r.userID_id = u.userID
+                                where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating < 5 and r.rating >=0)
+                                /(count(u.userID))
+                                *100
+                            ),0) as negative_user,
+                            p.productId as productId
+                            from review_review as r
+                            join register_user as u on r.userID_id = u.userID
+                            join product_product as p on r.productId_id = p.productId
+                            where u.roleId like "%Reg_User%" and p.productId = """+str(obj.productId)+"""
+                        ),
+
+                        statsMusStore as (
+                            select 
+                                FORMAT((
+                                    (select count(*) from review_review as r
+                                    join register_user as u on r.userID_id = u.userID
+                                    where u.roleId like "%Mus_Store%" and productId_id = """+str(obj.productId)+""" and r.rating <= 10 and r.rating >=8)
+                                    /(count(u.userID))
+                                    *100
+                                ),0) as positive_ms,
+                                FORMAT((
+                                    (select count(*) from review_review as r
+                                    join register_user as u on r.userID_id = u.userID
+                                    where u.roleId like "%Mus_Store%" and productId_id = """+str(obj.productId)+""" and r.rating < 8 and r.rating >=5)
+                                    /(count(u.userID))
+                                    *100
+                                ),0) as mixed_ms,
+                                FORMAT((
+                                    (select count(*) from review_review as r
+                                    join register_user as u on r.userID_id = u.userID
+                                    where u.roleId like "%Mus_Store%" and productId_id = """+str(obj.productId)+""" and r.rating < 5 and r.rating >=0)
+                                    /(count(u.userID))
+                                    *100
+                                ),0) as negative_ms,
+                                p.productId as productId
+                                from review_review as r
+                                join register_user as u on r.userID_id = u.userID
+                                join product_product as p on r.productId_id = p.productId
+                                where u.roleId like "%Mus_Store%" and p.productId = """+str(obj.productId)+"""
+                        )    
+                        
+                    select user_avg, Mus_store_avg, positive_user, mixed_user, negative_user, positive_ms, mixed_ms, negative_ms
+                    from avgUser join avgMusStore using (productId)
+                    join statsUser using (productId)
+                    join statsMusStore using (productId)      
+                """            
+        cursor.execute(raw_sql)
+
+        for qux in cursor.fetchall():
+            ratingResults.append({
+                "userAvg": qux[0],
+                "musStoreAvg": qux[1],
+                "positive_user": qux[2],
+                "mixed_user": qux[3],
+                "negative_user": qux[4],
+                "positive_music": qux[5],
+                "mixed_music": qux[6],
+                "negative_music": qux[7]
+            })
+
+    context = {
+        'obj': obj,
+        'user_review': user_review,
+        'ms_review': ms_review,
+        'rateSum': ratingResults
+    }
+
+    return render(request,'rating.html', context)

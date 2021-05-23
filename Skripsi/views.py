@@ -14,7 +14,7 @@ def dashboard (request):
     
 
     #hot item
-    hotItems = Product.objects.order_by('-visitCount')[:8]
+    hotItems = Product.objects.select_related('brandId').order_by('-visitCount')[:8]
     newReleaseAcoustic = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="Acoustic")[:6]
     newReleaseElectric = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="Electric")[:6]
     newReleasePercussion = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="Percussion")[:6]
@@ -23,7 +23,7 @@ def dashboard (request):
     newReleaseSoundSystem = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="Sound System")[:6]
     newReleaseAccessories = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="Accessories")[:6]
     newReleaseDAW = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="DAW & Plugins")[:6]
-    
+
     context = {
         'hotItems': hotItems,
         'newReleaseAcoustic': newReleaseAcoustic,
@@ -41,21 +41,12 @@ def user_logout (request):
     logout (request)
     return redirect ('dashboard')
 
-def rating (request):
-    isLogin = request.POST.get('isLogin')
-    if request.method == 'POST' and isLogin == "1":
-        loginAccount (request)
-
-    return render(request,'rating.html')
-
 def profile (request):
     return render(request,'profile.html')
 
 def profileMusicStore (request):
     return render(request,'profileMusicStore.html')
 
-def scoreRating (request):
-    return render(request,'scoreRating.html')
 
 def productList (request):
     isLogin = request.POST.get('isLogin')
