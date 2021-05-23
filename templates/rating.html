@@ -1,4 +1,5 @@
 {% load static %}
+{% load embed_video_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,16 +22,14 @@
                   <div class="row product-gallery mx-1">
                     <div class="col-11 ml-5 pl-5">
                       <figure class="view overlay rounded z-depth-1 main-img">
-                        <a href="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15a.jpg">
-                          <img src="{% static 'img/taylor.jpg' %}"  class="img-fluid z-depth-1" >
-                        </a>
+                        <img src="{{obj.productIMG.url}}"  class="img-fluid z-depth-1" >
                       </figure>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-md-6">
-                <h2 class="pb-3">Taylor Guitar 514ce</h2>
+                <h2 class="pb-3">{{obj.productName}}</h2>
                     <div class="row pb-4">
                         <div class="col">
                             <div class="d-flex flex-row">
@@ -45,9 +44,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="pt-1 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
-                    error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
-                    officia quis dolore quos sapiente tempore alias.</p>
+                    <p class="pt-1 text-justify">{{obj.description}}</p>
                 <div class="table-responsive">
 
                     <div class="d-flex flex-row">
@@ -56,18 +53,27 @@
                                 <tbody>
                                   <tr>
                                     <th class="pl-0 w-25 pr-5" scope="row"><strong>Brand</strong></th>
-                                    <td>Taylor</td>
+                                    <td>{{obj.brandId.brandName}}</td>
                                   </tr>
-                                  <tr>
+                                  {% comment %} <tr>
                                     <th class="pl-0 w-25" scope="row"><strong>Type</strong></th>
                                     <td>514ce</td>
-                                  </tr>
+                                  </tr> {% endcomment %}
                                 </tbody>
                               </table>
                         </div>
 
                         <div class="p-2">
-                            <button type="button" class="btn btn-primary">Submit Your Review</button>
+                            {% if not user.is_authenticated %}
+                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewLoginFirstModal">
+                                Submit Your Review
+                              </button>
+                            {% elif request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
+                              <a class="btn btn-primary" href="{% url 'reviewProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
+                                Submit Your Review
+                              </a>
+                             
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -75,9 +81,10 @@
             </div>
         </section>
         <div class="container-md-5 pb-5">
+            <h3 class="pb-3">Video Review</h3>
             <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/gQHOPaLzgqw" allowfullscreen></iframe>
-             </div>  
+                {% video obj.videoUrl %}
+            </div>  
         </div>   
         
     <div class="row">
@@ -113,119 +120,45 @@
                 </div>
               </td>
             </tr>
-            <tr>
-              <td>
-                  <div class="card w-100">
-                      <div class="card-header">
-                          <div class="d-flex flex-row">
-                              <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>80</b></div></div>
-                              <div class="p-2 pt-4"><h5>Mahaka Music Store</h5></div>
-                          </div>
-                          <div class="pl-2">23/10/21</div>
-                      </div>
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col"><h5 class="card-title">Good for beginners</h5></div>
-                          <div class="col-md-5"><a href="#">Report As Abuse</a></div>
-                        </div>
-                        <p class="card-text">material mahogany disematkan pada neck atau leher gitar ini dan ditutup dengan rosewood pada bagian fingerboard yang pastinya
-                           akan menambah pengalaman pengguna dengan menawarkan kenyamanan berkelas pada saat jari-jari saat menekan senar walau dengan keras sekalipun.</p>
-                        <a href="#">see more..</a>
-                        <div class="row">
-                          <div class="col-md-3 mt-2">
-                            <p>Helpful?</p>
-                          </div>
-                          <div class="col">
+            {% for mrev in ms_review %}
+              <tr>
+                <td>
+                    <div class="card w-100">
+                        <div class="card-header">
                             <div class="d-flex flex-row">
-                              <div class="p-2"><button type="button" class="btn btn-secondary">Yes</button></div>
-                              <div class="p-2"><button type="button" class="btn btn-secondary">No</button></div>
+                                <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>{{mrev.rating}}</b></div></div>
+                                <div class="p-2 pt-4"><h5>{{mrev.userID.userName}}</h5></div>
+                            </div>
+                            <div class="pl-2">{{mrev.dtm_crt}}</div>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col"><h5 class="card-title">{{mrev.title}}</h5></div>
+                            <div class="col-md-5"><a href="#">Report As Abuse</a></div>
+                          </div>
+                          <p class="card-text">{{mrev.description}}</p>
+                          <a href="#">see more..</a>
+                          <div class="row">
+                            <div class="col-md-3 mt-2">
+                              <p>Helpful?</p>
+                            </div>
+                            <div class="col">
+                              <div class="d-flex flex-row">
+                                <div class="p-2"><button type="button" class="btn btn-secondary">Yes</button></div>
+                                <div class="p-2"><button type="button" class="btn btn-secondary">No</button></div>
+                              </div>
+                            </div>
+                            <div class="col mt-2">
+                              1 of 5 users found this helpful
                             </div>
                           </div>
-                          <div class="col mt-2">
-                            1 of 5 users found this helpful
-                          </div>
                         </div>
                       </div>
-                    </div>
 
-              </td>
+                </td>
 
-            </tr>
-            <tr>
-              <td>
-                <div class="card w-100">
-                    <div class="card-header">
-                        <div class="d-flex flex-row">
-                            <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>80</b></div></div>
-                            <div class="p-2 pt-4"><h5>Mahaka Music Store</h5></div>
-                        </div>
-                        <div class="pl-2">23/10/21</div>
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col"><h5 class="card-title">Good for beginners</h5></div>
-                        <div class="col-md-5"><a href="#">Report As Abuse</a></div>
-                      </div>
-                      <p class="card-text">material mahogany disematkan pada neck atau leher gitar ini dan ditutup dengan rosewood pada bagian fingerboard yang pastinya
-                         akan menambah pengalaman pengguna dengan menawarkan kenyamanan berkelas pada saat jari-jari saat menekan senar walau dengan keras sekalipun.</p>
-                      <a href="#">see more..</a>
-                      <div class="row">
-                        <div class="col-md-3 mt-2">
-                          <p>Helpful?</p>
-                        </div>
-                        <div class="col">
-                          <div class="d-flex flex-row">
-                            <div class="p-2"><button type="button" class="btn btn-secondary">Yes</button></div>
-                            <div class="p-2"><button type="button" class="btn btn-secondary">No</button></div>
-                          </div>
-                        </div>
-                        <div class="col mt-2">
-                          1 of 5 users found this helpful
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-              </td>
-
-            </tr>
-            <tr>
-              <td>
-                <div class="card w-100">
-                    <div class="card-header">
-                        <div class="d-flex flex-row">
-                            <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>80</b></div></div>
-                            <div class="p-2 pt-4"><h5>Mahaka Music Store</h5></div>
-                        </div>
-                        <div class="pl-2">23/10/21</div>
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col"><h5 class="card-title">Good for beginners</h5></div>
-                        <div class="col-md-5"><a href="#">Report As Abuse</a></div>
-                      </div>
-                      <p class="card-text">material mahogany disematkan pada neck atau leher gitar ini dan ditutup dengan rosewood pada bagian fingerboard yang pastinya
-                         akan menambah pengalaman pengguna dengan menawarkan kenyamanan berkelas pada saat jari-jari saat menekan senar walau dengan keras sekalipun.</p>
-                      <a href="#">see more..</a>
-                      <div class="row">
-                        <div class="col-md-3 mt-2">
-                          <p>Helpful?</p>
-                        </div>
-                        <div class="col">
-                          <div class="d-flex flex-row">
-                            <div class="p-2"><button type="button" class="btn btn-secondary">Yes</button></div>
-                            <div class="p-2"><button type="button" class="btn btn-secondary">No</button></div>
-                          </div>
-                        </div>
-                        <div class="col mt-2">
-                          1 of 5 users found this helpful
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-              </td>
-            </tr>
+              </tr>
+            {% endfor %}
           </tbody>
         </table>
         <a href="#"><h3 class="text-center pb-3">See all Music Store Reviews..</h3></a>
@@ -262,61 +195,23 @@
                 </div>
               </td>
             </tr>
-            <tr>
-              <td>
-                <div class="card w-100">
-                  <div class="card-header">
-                      <div class="d-flex flex-row">
-                          <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>70</b></div></div>
-                          <div class="p-2 pt-4"><h5>Andy Paradiar</h5></div>
-                      </div>
-                        <div class="pl-2">23/10/21</div>
-                  </div>
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col"><h5 class="card-title">Good for beginners</h5></div>
-                      <div class="col-md-5"><a href="#">Report As Abuse</a></div>
-                    </div>
-                    <p class="card-text">Kayunya terasa tidak nyaman, suara pickup dari gitarnya itu sendiri masih belum berkualitas,
-                      dan untuk penampilanya itu sendiri juga biasa-biasa aja. Jadi, menurut saya kurang worth-it untuk dibeli.</p>
-                    <a href="#">see more..</a>
-                    <div class="row">
-                      <div class="col-md-3 mt-2">
-                        <p>Helpful?</p>
-                      </div>
-                      <div class="col">
-                        <div class="d-flex flex-row">
-                          <div class="p-2"><button type="button" class="btn btn-secondary">Yes</button></div>
-                          <div class="p-2"><button type="button" class="btn btn-secondary">No</button></div>
-                        </div>
-                      </div>
-                      <div class="col mt-2">
-                        1 of 5 users found this helpful
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </td>
-
-            </tr>
-            <tr>
-              <td>
-                <div class="card w-100">
+            {% for urev in user_review %}
+              <tr>
+                <td>
+                  <div class="card w-100">
                     <div class="card-header">
                         <div class="d-flex flex-row">
-                            <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>80</b></div></div>
-                            <div class="p-2 pt-4"><h5>Mahaka Music Store</h5></div>
+                            <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>{{urev.rating}}</b></div></div>
+                            <div class="p-2 pt-4"><h5>{{urev.userID.userName}}</h5></div>
                         </div>
-                        <div class="pl-2">23/10/21</div>
+                          <div class="pl-2">{{urev.dtm_crt}}</div>
                     </div>
                     <div class="card-body">
                       <div class="row">
-                        <div class="col"><h5 class="card-title">Good for beginners</h5></div>
+                        <div class="col"><h5 class="card-title">{{urev.title}}</h5></div>
                         <div class="col-md-5"><a href="#">Report As Abuse</a></div>
                       </div>
-                      <p class="card-text">material mahogany disematkan pada neck atau leher gitar ini dan ditutup dengan rosewood pada bagian fingerboard yang pastinya
-                         akan menambah pengalaman pengguna dengan menawarkan kenyamanan berkelas pada saat jari-jari saat menekan senar walau dengan keras sekalipun.</p>
+                      <p class="card-text">{{urev.description}}</p>
                       <a href="#">see more..</a>
                       <div class="row">
                         <div class="col-md-3 mt-2">
@@ -335,9 +230,11 @@
                     </div>
                   </div>
 
-              </td>
+                </td>
 
-            </tr>            
+              </tr> 
+            {% endfor %}
+         
           </tbody>
         </table>
         <a href="#"><h3 class="text-center pb-3">See all Music Store Reviews..</h3></a>

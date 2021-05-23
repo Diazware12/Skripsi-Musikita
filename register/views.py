@@ -14,7 +14,6 @@ import re
 from .forms import UserForm, MusicStoreForm, RejectionReason
 from django.contrib.auth.models import User as auth_user
 from django.contrib.auth.models import Group
-from django.db import connection
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import is_Admin
 
@@ -39,9 +38,9 @@ def registerMember (request):
                 messages.success(request, 'Username is Taken')
                 return redirect ('regularUser')
 
-            # if User.objects.filter(email = email).first():
-            #     messages.success(request, 'email is Taken')
-            #     return redirect ('regularUser')
+            if User.objects.filter(email = email).first():
+                messages.success(request, 'email is Taken')
+                return redirect ('regularUser')
             
             check_pass = weakPassword (password)
             if check_pass != 'True':
@@ -69,14 +68,6 @@ def registerMember (request):
             profile_obj.save()
 
             regisUserAuth(profile_obj)
-
-            # userAuth = auth_user.objects.create(
-            #     username = username,
-            #     email = email,
-            #     password = make_password(password)    
-            # )
-
-            # userAuth.save()
 
             domain = get_current_site(request).domain
 

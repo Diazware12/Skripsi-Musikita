@@ -8,7 +8,8 @@ import datetime
 from PIL import Image
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import is_Admin
-
+from Skripsi.views import loginAccount
+from review.models import Review
 
 @login_required
 @user_passes_test(is_Admin)
@@ -44,9 +45,9 @@ def addProduct (request):
                         )
         
         try: 
-            # if Product.objects.filter(productName=productName).first():
-            #     messages.success(request, 'Product is already exist')
-            #     web_direct = 'success.html'
+            if Product.objects.filter(productName=productName).first():
+                messages.success(request, 'Product is already exist')
+                web_direct = 'addProduct.html'
 
             product_obj = Product.objects.create(
                 categoryId = category_Id,
@@ -104,3 +105,20 @@ def make_square(img):
     new_img = Image.new('RGB', (size, size), fill_color)
     new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
     return new_img
+
+def showProduct (request, productName, brand):
+    isLogin = request.POST.get('isLogin')
+    if request.method == 'POST' and isLogin == "1":
+        loginAccount (request)
+    
+    user_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Reg_User",productId__productName=productName)
+    ms_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Mus_Store",productId__productName=productName)
+
+    obj = Product.objects.select_related('brandId').get(productName = productName, brandId__brandName=brand)
+    context = {
+        'obj': obj,
+        'user_review': user_review,
+        'ms_review': ms_review
+    }
+
+    return render(request,'rating.html', context)

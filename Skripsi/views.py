@@ -14,7 +14,7 @@ def dashboard (request):
     
 
     #hot item
-    hotItems = Product.objects.order_by('-visitCount')[:8]
+    hotItems = Product.objects.select_related('brandId').order_by('-visitCount')[:8]
     context = {
         'hotItems': hotItems,
     }
@@ -24,21 +24,12 @@ def user_logout (request):
     logout (request)
     return redirect ('dashboard')
 
-def rating (request):
-    isLogin = request.POST.get('isLogin')
-    if request.method == 'POST' and isLogin == "1":
-        loginAccount (request)
-
-    return render(request,'rating.html')
-
 def profile (request):
     return render(request,'profile.html')
 
 def profileMusicStore (request):
     return render(request,'profileMusicStore.html')
 
-def scoreRating (request):
-    return render(request,'scoreRating.html')
 
 def productList (request):
     isLogin = request.POST.get('isLogin')
