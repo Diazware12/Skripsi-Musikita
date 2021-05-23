@@ -33,13 +33,33 @@
                     <div class="row pb-4">
                         <div class="col">
                             <div class="d-flex flex-row">
-                                <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>100</b></div></div>
+                                <div class="p-2">
+
+                                  {% if rateSum.0 == NULL %}  
+                                    <div class="w-100 p-3 bg-success text-white text-center" ><b>N/A</b></div>
+                                  {% else %} 
+
+                                    <div class="w-100 p-3 bg-success text-white text-center" ><b>{{rateSum.0.musStoreAvg}}</b></div>
+                                  
+                                  {% endif %} 
+                                
+                                </div>
                                 <div class="p-2"><h5>Music Store Review</h5></div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="d-flex flex-row">
-                                <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>60</b></div></div>
+                                <div class="p-2">
+
+                                  {% if rateSum.0 == NULL %}  
+                                    <div class="w-100 p-3 bg-success text-white text-center" ><b>N/A</b></div>
+                                  {% else %}
+                                   
+                                    <div class="w-100 p-3 bg-success text-white text-center" ><b>{{rateSum.0.userAvg}}</b></div>
+
+                                  {% endif %} 
+                                
+                                </div>
                                 <div class="p-2"><h5>User Review</h5></div>
                             </div>
                         </div>
@@ -100,21 +120,21 @@
               <td>
                 <div class="da-expertise">
                   <div class="col px-0 mb-4">
-                    <p>Positive 85%</p>
+                    <p>Positive {{rateSum.0.positive_music}}%</p>
                     <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 85%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{rateSum.0.positive_music}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                   </div>
                   <div class="col px-0 mb-4">
-                    <p>Mixed 50%</p>
+                    <p>Mixed {{rateSum.0.mixed_music}}%</p>
                     <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 50%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{rateSum.0.mixed_music}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                   </div>
                   <div class="col px-0 mb-4">
-                    <p>Negative 90%</p>
+                    <p>Negative {{rateSum.0.negative_music}}%</p>
                     <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 90%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{rateSum.0.negative_music}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                   </div>
                 </div>
@@ -175,21 +195,21 @@
               <td>
                 <div class="da-expertise">
                   <div class="col px-0 mb-4">
-                    <p>Positive 85%</p>
+                    <p>Positive {{rateSum.0.positive_user}}%</p>
                     <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 85%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{rateSum.0.positive_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                   </div>
                   <div class="col px-0 mb-4">
-                    <p>Mixed 70%</p>
+                    <p>Mixed {{rateSum.0.mixed_user}}%</p>
                     <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 70%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{rateSum.0.mixed_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                   </div>
                   <div class="col px-0 mb-4">
-                    <p>Negative 90%</p>
+                    <p>Negative {{rateSum.0.negative_user}}%</p>
                     <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 90%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{rateSum.0.negative_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                   </div>
                 </div>
