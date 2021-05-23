@@ -192,802 +192,178 @@
             <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
               <div class="tab-pane fade show active" id="nav-acoustic" role="tabpanel" aria-labelledby="nav-acoustic-tab">
                 <div class="row">
+                  {% for obj in newReleaseAcoustic %}  
                     <div class="col-lg-4">
                       <a href="#" style="color: black;">
                         <div class="card border-0">
                           <div class="container">
                             <div class="card-body" >
                               <div class="text-primary">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
+                                <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
                               </div>
                               <div class="w-auto p-1 bg-success text-white">80</div>
-                              <div class="h5 pt-2">Pamela Lopez</div>
-                              <p>Lorem ipsum dolor sit amet consectetur</p>   
+                              <div class="h5 pt-2">{{ obj.productName }}</div>
+                              <p>{{ obj.description }}</p>
                             </div>
                           </div>
                         </div>
                       </a>
                     </div>
-                    <div class="col-lg-4">
-                      <a href="#" style="color: black;">
-                        <div class="card border-0">
-                          <div class="container">
-                            <div class="card-body" >
-                              <div class="text-primary">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                              </div>
-                              <div class="w-auto p-1 bg-success text-white">80</div>
-                              <div class="h5 pt-2">Pamela Lopez</div>
-                              <p>Lorem ipsum dolor sit amet consectetur</p>   
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-lg-4">
-                      <a href="#" style="color: black;">
-                        <div class="card border-0">
-                          <div class="container">
-                            <div class="card-body" >
-                              <div class="text-primary">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                              </div>
-                              <div class="w-auto p-1 bg-success text-white">80</div>
-                              <div class="h5 pt-2">Pamela Lopez</div>
-                              <p>Lorem ipsum dolor sit amet consectetur</p>   
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-lg-4">
-                      <a href="#" style="color: black;">
-                        <div class="card border-0">
-                          <div class="container">
-                            <div class="card-body" >
-                              <div class="text-primary">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                              </div>
-                              <div class="w-auto p-1 bg-success text-white">80</div>
-                              <div class="h5 pt-2">Pamela Lopez</div>
-                              <p>Lorem ipsum dolor sit amet consectetur</p>   
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-lg-4">
-                      <a href="#" style="color: black;">
-                        <div class="card border-0">
-                          <div class="container">
-                            <div class="card-body" >
-                              <div class="text-primary">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                              </div>
-                              <div class="w-auto p-1 bg-success text-white">80</div>
-                              <div class="h5 pt-2">Pamela Lopez</div>
-                              <p>Lorem ipsum dolor sit amet consectetur</p>   
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-lg-4">
-                      <a href="#" style="color: black;">
-                        <div class="card border-0">
-                          <div class="container">
-                            <div class="card-body" >
-                              <div class="text-primary">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                              </div>
-                              <div class="w-auto p-1 bg-success text-white">80</div>
-                              <div class="h5 pt-2">Pamela Lopez</div>
-                              <p>Lorem ipsum dolor sit amet consectetur</p>   
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
+                  {% endfor %}
                 </div>
               </div>
               <div class="tab-pane fade" id="nav-electric" role="tabpanel" aria-labelledby="nav-electric-tab">
                 <div class="row">
+                  {% for obj in newReleaseElectric %}  
                     <div class="col-lg-4">
                       <a href="#" style="color: black;">
                         <div class="card border-0">
                           <div class="container">
                             <div class="card-body" >
                               <div class="text-primary">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
+                                <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
                               </div>
                               <div class="w-auto p-1 bg-success text-white">80</div>
-                              <div class="h5 pt-2">Pamela Lopez</div>
-                              <p>Lorem ipsum dolor sit amet consectetur</p>   
+                              <div class="h5 pt-2">{{ obj.productName }}</div>
+                              <p>{{ obj.description }}</p>
                             </div>
                           </div>
                         </div>
                       </a>
                     </div>
-                    <div class="col-lg-4">
-                      <a href="#" style="color: black;">
-                        <div class="card border-0">
-                          <div class="container">
-                            <div class="card-body" >
-                              <div class="text-primary">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                              </div>
-                              <div class="w-auto p-1 bg-success text-white">80</div>
-                              <div class="h5 pt-2">Pamela Lopez</div>
-                              <p>Lorem ipsum dolor sit amet consectetur</p>   
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-lg-4">
-                      <a href="#" style="color: black;">
-                        <div class="card border-0">
-                          <div class="container">
-                            <div class="card-body" >
-                              <div class="text-primary">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                              </div>
-                              <div class="w-auto p-1 bg-success text-white">80</div>
-                              <div class="h5 pt-2">Pamela Lopez</div>
-                              <p>Lorem ipsum dolor sit amet consectetur</p>   
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-lg-4">
-                      <a href="#" style="color: black;">
-                        <div class="card border-0">
-                          <div class="container">
-                            <div class="card-body" >
-                              <div class="text-primary">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                              </div>
-                              <div class="w-auto p-1 bg-success text-white">80</div>
-                              <div class="h5 pt-2">Pamela Lopez</div>
-                              <p>Lorem ipsum dolor sit amet consectetur</p>   
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-lg-4">
-                      <a href="#" style="color: black;">
-                        <div class="card border-0">
-                          <div class="container">
-                            <div class="card-body" >
-                              <div class="text-primary">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                              </div>
-                              <div class="w-auto p-1 bg-success text-white">80</div>
-                              <div class="h5 pt-2">Pamela Lopez</div>
-                              <p>Lorem ipsum dolor sit amet consectetur</p>   
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-lg-4">
-                      <a href="#" style="color: black;">
-                        <div class="card border-0">
-                          <div class="container">
-                            <div class="card-body" >
-                              <div class="text-primary">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                              </div>
-                              <div class="w-auto p-1 bg-success text-white">80</div>
-                              <div class="h5 pt-2">Pamela Lopez</div>
-                              <p>Lorem ipsum dolor sit amet consectetur</p>   
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
+                  {% endfor %}
                 </div>                
               </div>
               <div class="tab-pane fade" id="nav-percussion" role="tabpanel" aria-labelledby="nav-percussion-tab">
                 <div class="row">
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
+                  {% for obj in newReleasePercussion %}  
+                    <div class="col-lg-4">
+                      <a href="#" style="color: black;">
+                        <div class="card border-0">
+                          <div class="container">
+                            <div class="card-body" >
+                              <div class="text-primary">
+                                <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
+                              </div>
+                              <div class="w-auto p-1 bg-success text-white">80</div>
+                              <div class="h5 pt-2">{{ obj.productName }}</div>
+                              <p>{{ obj.description }}</p>
                             </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
                           </div>
                         </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-              </div>
+                      </a>
+                    </div>
+                  {% endfor %}
+                </div>
               </div>
               <div class="tab-pane fade" id="nav-keys" role="tabpanel" aria-labelledby="nav-keys-tab">
                 <div class="row">
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
+                  {% for obj in newReleaseKeys %}  
+                    <div class="col-lg-4">
+                      <a href="#" style="color: black;">
+                        <div class="card border-0">
+                          <div class="container">
+                            <div class="card-body" >
+                              <div class="text-primary">
+                                <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
+                              </div>
+                              <div class="w-auto p-1 bg-success text-white">80</div>
+                              <div class="h5 pt-2">{{ obj.productName }}</div>
+                              <p>{{ obj.description }}</p>
                             </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
                           </div>
                         </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-              </div>
+                      </a>
+                    </div>
+                  {% endfor %}
+                </div>
               </div>
               <div class="tab-pane fade" id="nav-recording" role="tabpanel" aria-labelledby="nav-recording-tab">
                 <div class="row">
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
+                  {% for obj in newReleaseRecordingKit %}  
+                    <div class="col-lg-4">
+                      <a href="#" style="color: black;">
+                        <div class="card border-0">
+                          <div class="container">
+                            <div class="card-body" >
+                              <div class="text-primary">
+                                <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
+                              </div>
+                              <div class="w-auto p-1 bg-success text-white">80</div>
+                              <div class="h5 pt-2">{{ obj.productName }}</div>
+                              <p>{{ obj.description }}</p>
                             </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
                           </div>
                         </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
+                      </a>
+                    </div>
+                  {% endfor %}
                 </div>
               </div>
               <div class="tab-pane fade" id="nav-sound" role="tabpanel" aria-labelledby="nav-sound-tab">
                 <div class="row">
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
+                  {% for obj in newReleaseSoundSystem %}  
+                    <div class="col-lg-4">
+                      <a href="#" style="color: black;">
+                        <div class="card border-0">
+                          <div class="container">
+                            <div class="card-body" >
+                              <div class="text-primary">
+                                <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
+                              </div>
+                              <div class="w-auto p-1 bg-success text-white">80</div>
+                              <div class="h5 pt-2">{{ obj.productName }}</div>
+                              <p>{{ obj.description }}</p>
                             </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
                           </div>
                         </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-              </div> 
+                      </a>
+                    </div>
+                  {% endfor %}
+                </div> 
               </div>
               <div class="tab-pane fade" id="nav-accesories" role="tabpanel" aria-labelledby="nav-accesories-tab">
                 <div class="row">
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
+                  {% for obj in newReleaseAccessories %}  
+                    <div class="col-lg-4">
+                      <a href="#" style="color: black;">
+                        <div class="card border-0">
+                          <div class="container">
+                            <div class="card-body" >
+                              <div class="text-primary">
+                                <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
+                              </div>
+                              <div class="w-auto p-1 bg-success text-white">80</div>
+                              <div class="h5 pt-2">{{ obj.productName }}</div>
+                              <p>{{ obj.description }}</p>
                             </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
                           </div>
                         </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
+                      </a>
+                    </div>
+                  {% endfor %}
                 </div>
               </div>
               <div class="tab-pane fade" id="nav-daw" role="tabpanel" aria-labelledby="nav-daw-tab">
                 <div class="row">
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
+                  {% for obj in newReleaseDAW %}  
+                    <div class="col-lg-4">
+                      <a href="#" style="color: black;">
+                        <div class="card border-0">
+                          <div class="container">
+                            <div class="card-body" >
+                              <div class="text-primary">
+                                <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
+                              </div>
+                              <div class="w-auto p-1 bg-success text-white">80</div>
+                              <div class="h5 pt-2">{{ obj.productName }}</div>
+                              <p>{{ obj.description }}</p>
                             </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
                           </div>
                         </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="col-lg-4">
-                    <a href="#" style="color: black;">
-                      <div class="card border-0">
-                        <div class="container">
-                          <div class="card-body" >
-                            <div class="text-primary">
-                              <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                            </div>
-                            <div class="w-auto p-1 bg-success text-white">80</div>
-                            <div class="h5 pt-2">Pamela Lopez</div>
-                            <p>Lorem ipsum dolor sit amet consectetur</p>   
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
+                      </a>
+                    </div>
+                  {% endfor %}
                 </div>
               </div>                      
             </div>

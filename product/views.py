@@ -98,9 +98,18 @@ def getJsonSubCategoryData (request, *args, **kwargs):
     })
     
 def make_square(img):
+    fill_color=(255, 255, 255)
+
+    img.load() # required for png.split()
+
+    #rbgimage = Image.new("RGB", img.size, fill_color)
+    #rbgimage.paste(img, mask=img.split()[3]) # 3 is the alpha channel
+
     x, y = img.size
     size = max(x,y)
-    fill_color=(255, 255, 255)
     new_img = Image.new('RGB', (size, size), fill_color)
-    new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
+    if img.mode == 'RGBA':
+        new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)), mask=img.split()[3])
+    else :
+        new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
     return new_img
