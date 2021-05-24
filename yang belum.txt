@@ -1,0 +1,24 @@
+DIAZ
+- hot product, visitnya blm ada score nya (masih dummy)
+- footer: masih blm tau harus diisi apa 
+- searching blm bisa
+- profile blm
+- edit profile
+- music store, jadi 3 foto
+- review helpful
+- report review
+- forgot password
+
+CALVIN
+- dropdown list blum diganti isinya
+- carousel blm ada gambar musiknya
+    -> buat page add carousel
+- editor's choice masih dummy
+- new released item, visitnya blm ada score nya (masih dummy)
+
+- filtering apagi, blm samsek
+
+
+
+OPSIONAL
+- template email bagusin
