@@ -11,6 +11,7 @@ from Skripsi.decorator import is_Admin
 from Skripsi.views import loginAccount
 from review.models import Review
 from django.db import connection
+import re
 
 @login_required
 @user_passes_test(is_Admin)
@@ -116,6 +117,15 @@ def make_square(img):
         new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
     return new_img
 
+def numIndicator (number):
+    num_array = number.split ('.')
+    finalNum = 0
+    if (num_array[1] == "0"):
+        finalNum = int(num_array[0])
+    else: 
+        finalNum = float(number)
+    return finalNum
+
 def showProduct (request, productName, brand):
     isLogin = request.POST.get('isLogin')
     if request.method == 'POST' and isLogin == "1":
@@ -217,8 +227,8 @@ def showProduct (request, productName, brand):
 
         for qux in cursor.fetchall():
             ratingResults.append({
-                "userAvg": float(qux[0]),
-                "musStoreAvg": float(qux[1]),
+                "userAvg": numIndicator (qux[0]),
+                "musStoreAvg": numIndicator (qux[1]),
                 "positive_user": qux[2],
                 "mixed_user": qux[3],
                 "negative_user": qux[4],
@@ -226,6 +236,7 @@ def showProduct (request, productName, brand):
                 "mixed_music": qux[6],
                 "negative_music": qux[7]
             })
+        
 
     context = {
         'obj': obj,
@@ -235,3 +246,4 @@ def showProduct (request, productName, brand):
     }
 
     return render(request,'rating.html', context)
+

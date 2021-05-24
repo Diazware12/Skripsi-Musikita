@@ -38,11 +38,11 @@
                                   {% if rateSum.0 == NULL %}  
                                     <div class="w-100 p-3 bg-success text-white text-center" ><b>N/A</b></div>
                                   {% elif rateSum.0.musStoreAvg <= 10 and rateSum.0.musStoreAvg >= 8 %}   
-                                    <div class="w-100 p-3 bg-success text-white text-center" ><b>{{rateSum.0.musStoreAvg}}</b></div>
+                                    <div class="w-100 p-4 bg-success text-white text-center" ><b>{{rateSum.0.musStoreAvg}}</b></div>
                                   {% elif rateSum.0.musStoreAvg < 8 and rateSum.0.musStoreAvg >= 5 %}
-                                    <div class="w-100 p-3 bg-warning text-white text-center" ><b>{{rateSum.0.musStoreAvg}}</b></div>
+                                    <div class="w-100 p-4 bg-warning text-white text-center" ><b>{{rateSum.0.musStoreAvg}}</b></div>
                                   {% else %}
-                                    <div class="w-100 p-3 bg-danger text-white text-center" ><b>{{rateSum.0.musStoreAvg}}</b></div>
+                                    <div class="w-100 p-4 bg-danger text-white text-center" ><b>{{rateSum.0.musStoreAvg}}</b></div>
                                   {% endif %} 
                                 </div>
                                 <div class="p-2"><h5>Music Store Review</h5></div>
@@ -55,11 +55,11 @@
                                   {% if rateSum.0 == NULL %}  
                                     <div class="w-100 p-3 bg-success text-white text-center" ><b>N/A</b></div>
                                   {% elif rateSum.0.userAvg <= 10 and rateSum.0.userAvg >= 8 %}   
-                                    <div class="w-100 p-3 bg-success text-white text-center" ><b>{{rateSum.0.userAvg}}</b></div>
+                                    <div class="w-100 p-4 bg-success text-white text-center" ><b>{{rateSum.0.userAvg}}</b></div>
                                   {% elif rateSum.0.userAvg < 8 and rateSum.0.userAvg >= 5 %}
-                                    <div class="w-100 p-3 bg-warning text-white text-center" ><b>{{rateSum.0.userAvg}}</b></div>
+                                    <div class="w-100 p-4 bg-warning text-white text-center" ><b>{{rateSum.0.userAvg}}</b></div>
                                   {% else %}
-                                    <div class="w-100 p-3 bg-danger text-white text-center" ><b>{{rateSum.0.userAvg}}</b></div>
+                                    <div class="w-100 p-4 bg-danger text-white text-center" ><b>{{rateSum.0.userAvg}}</b></div>
                                   {% endif %} 
                                 
                                 </div>
