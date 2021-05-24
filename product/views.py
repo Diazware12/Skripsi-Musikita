@@ -127,7 +127,6 @@ def showProduct (request, productName, brand):
     obj = Product.objects.select_related('brandId').get(productName = productName, brandId__brandName=brand)
 
     ratingResults = []
-
     with connection.cursor() as cursor:
         raw_sql =""" 
                     with 
