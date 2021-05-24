@@ -218,8 +218,8 @@ def showProduct (request, productName, brand):
 
         for qux in cursor.fetchall():
             ratingResults.append({
-                "userAvg": qux[0],
-                "musStoreAvg": qux[1],
+                "userAvg": float(qux[0]),
+                "musStoreAvg": float(qux[1]),
                 "positive_user": qux[2],
                 "mixed_user": qux[3],
                 "negative_user": qux[4],

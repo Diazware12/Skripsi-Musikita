@@ -1,6 +1,7 @@
 {% load static %}
 {% load embed_video_tags %}
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,15 +35,15 @@
                         <div class="col">
                             <div class="d-flex flex-row">
                                 <div class="p-2">
-
                                   {% if rateSum.0 == NULL %}  
                                     <div class="w-100 p-3 bg-success text-white text-center" ><b>N/A</b></div>
-                                  {% else %} 
-
+                                  {% elif rateSum.0.musStoreAvg <= 10 and rateSum.0.musStoreAvg >= 8 %}   
                                     <div class="w-100 p-3 bg-success text-white text-center" ><b>{{rateSum.0.musStoreAvg}}</b></div>
-                                  
+                                  {% elif rateSum.0.musStoreAvg < 8 and rateSum.0.musStoreAvg >= 5 %}
+                                    <div class="w-100 p-3 bg-warning text-white text-center" ><b>{{rateSum.0.musStoreAvg}}</b></div>
+                                  {% else %}
+                                    <div class="w-100 p-3 bg-danger text-white text-center" ><b>{{rateSum.0.musStoreAvg}}</b></div>
                                   {% endif %} 
-                                
                                 </div>
                                 <div class="p-2"><h5>Music Store Review</h5></div>
                             </div>
@@ -53,10 +54,12 @@
 
                                   {% if rateSum.0 == NULL %}  
                                     <div class="w-100 p-3 bg-success text-white text-center" ><b>N/A</b></div>
-                                  {% else %}
-                                   
+                                  {% elif rateSum.0.userAvg <= 10 and rateSum.0.userAvg >= 8 %}   
                                     <div class="w-100 p-3 bg-success text-white text-center" ><b>{{rateSum.0.userAvg}}</b></div>
-
+                                  {% elif rateSum.0.userAvg < 8 and rateSum.0.userAvg >= 5 %}
+                                    <div class="w-100 p-3 bg-warning text-white text-center" ><b>{{rateSum.0.userAvg}}</b></div>
+                                  {% else %}
+                                    <div class="w-100 p-3 bg-danger text-white text-center" ><b>{{rateSum.0.userAvg}}</b></div>
                                   {% endif %} 
                                 
                                 </div>
@@ -146,7 +149,16 @@
                     <div class="card w-100">
                         <div class="card-header">
                             <div class="d-flex flex-row">
-                                <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>{{mrev.rating}}</b></div></div>
+                                  
+                                
+                                {% if mrev.rating <= 10 and mrev.rating >= 8 %}  
+                                  <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>{{mrev.rating}}</b></div></div>
+                                {% elif mrev.rating < 8 and mrev.rating >= 5 %}
+                                  <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>{{mrev.rating}}</b></div></div>
+                                {% else %}
+                                  <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>{{mrev.rating}}</b></div></div>
+                                {% endif %}
+                                
                                 <div class="p-2 pt-4"><h5>{{mrev.userID.userName}}</h5></div>
                             </div>
                             <div class="pl-2">{{mrev.dtm_crt}}</div>
@@ -221,7 +233,15 @@
                   <div class="card w-100">
                     <div class="card-header">
                         <div class="d-flex flex-row">
-                            <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>{{urev.rating}}</b></div></div>
+                        
+                            {% if urev.rating <= 10 and urev.rating >= 8 %}  
+                              <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>{{urev.rating}}</b></div></div>
+                            {% elif urev.rating < 8 and urev.rating >= 5 %}
+                              <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>{{urev.rating}}</b></div></div>
+                            {% else %}
+                              <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>{{urev.rating}}</b></div></div>
+                            {% endif %}
+
                             <div class="p-2 pt-4"><h5>{{urev.userID.userName}}</h5></div>
                         </div>
                           <div class="pl-2">{{urev.dtm_crt}}</div>
