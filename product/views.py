@@ -254,3 +254,12 @@ def viewProductByCategory(request, categoryName):
         'categoryName': categoryName,
     }
     return render(request,'productListByCategory.html', context)
+
+def viewProductBySubCategory(request, categoryName, subCategoryName):
+    productList = Product.objects.order_by('-dtm_crt').select_related('subCategoryId','brandId').filter(subCategoryId__subCategoryName=subCategoryName,categoryId__categoryName=categoryName)[:12]
+    context={
+        'productList': productList,
+        'categoryName': categoryName,
+        'subCategoryName': subCategoryName,
+    }
+    return render(request,'productListByCategory.html', context)

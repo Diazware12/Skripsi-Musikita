@@ -14,3 +14,7 @@ contoh raw_sql
 
             for obj in cursor.fetchall():
                 post.append({"username": obj[1], "address": obj[2]})
+
+
+dokumentasi template language
+https://docs.djangoproject.com/en/3.2/ref/templates/language/

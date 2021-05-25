@@ -6,17 +6,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{categoryName}}</title>
+    {% if subCategoryName == NULL %}
+      <title>{{categoryName}}</title>
+    {% else %}
+      <title>{{categoryName}} : {{subCategoryName}}</title>
+    {% endif %}
     {% include "snippets/headImport.html" %}
 </head>
 <body>
     {% include "snippets/navbar.html" %}
       <div class="da-section pt-3" id="services">
         <div class="da-services pl-5 pr-5">
-          <div class="separator pb-2"><div class="h3 text-center" data-aos="fade-up" data-aos-duration="500" >{{categoryName}}</div></div>
+          {% if subCategoryName == NULL %}
+            <div class="separator pb-2"><div class="h3 text-center" data-aos="fade-up" data-aos-duration="500" >{{categoryName}}</div></div>
+          {% else %}
+            <div class="separator pb-2"><div class="h3 text-center" data-aos="fade-up" data-aos-duration="500" >{{categoryName}} : {{subCategoryName}}</div></div>
+          {% endif %}
+          
           {% if productList|length == 0 %}
             <div class="col-lg-3 col-md-6">
-              <p>Belum ada item dengan kategori {{categoryName}}</p>
+              {% if subCategoryName == NULL %}
+                <p>Belum ada item dengan kategori {{categoryName}}</p>
+              {% else %}
+                <p>Belum ada item dengan sub kategori {{subCategoryName}}</p>
+              {% endif %}
             </div>
           {% else %}
             <div class="d-flex flex-row-reverse">

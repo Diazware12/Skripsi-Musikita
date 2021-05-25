@@ -61,10 +61,11 @@
               Acoustic
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Acoustic' subCategoryName='Guitar' %}">Guitar</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Acoustic' subCategoryName='Bass' %}">Bass</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Acoustic' subCategoryName='Orchestra instruments' %}">Orchestra instruments</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="{% url 'category' categoryName='Acoustic' %}">Show all</a> 
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -72,10 +73,11 @@
               Electric
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Electric' subCategoryName='Guitar' %}">Guitar</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Electric' subCategoryName='Bass' %}">Bass</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Electric' subCategoryName='Orchestra instruments' %}">Orchestra instruments</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="{% url 'category' categoryName='Electric' %}">Show all</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -83,10 +85,14 @@
               Percussion
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Percussion' subCategoryName='Electric drums' %}">Electric drums</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Percussion' subCategoryName='Tom' %}">Tom</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Percussion' subCategoryName='Cymbal' %}">Cymbal</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Percussion' subCategoryName='Hat' %}">Hat</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Percussion' subCategoryName='Snare' %}">Snare</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Percussion' subCategoryName='Bass Drum' %}">Bass Drum</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="{% url 'category' categoryName='Percussion' %}">Show all</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -94,10 +100,12 @@
               Keys & Midi
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Keys & Midi' subCategoryName='Piano' %}">Piano</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Keys & Midi' subCategoryName='Keyboard' %}">Keyboard</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Keys & Midi' subCategoryName='MIDI keyboard' %}">MIDI keyboard</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Keys & Midi' subCategoryName='Synthesizer' %}">Synthesizer</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="{% url 'category' categoryName='Keys & Midi' %}">Show all</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -105,10 +113,12 @@
               Recording Kit
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Recording Kit' subCategoryName='Microphone' %}">Microphone</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Recording Kit' subCategoryName='Audio Interface' %}">Audio Interface</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Recording Kit' subCategoryName='Monitor Speaker' %}">Monitor Speaker</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Recording Kit' subCategoryName='Headphone' %}">Headphone</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="{% url 'category' categoryName='Recording Kit' %}">Show all</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -116,10 +126,12 @@
               Sound System
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Sound System' subCategoryName='Speaker' %}">Speaker</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Sound System' subCategoryName='Mixer' %}">Mixer</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Sound System' subCategoryName='Amplifier' %}">Amplifier</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Sound System' subCategoryName='Processor' %}">Processor</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="{% url 'category' categoryName='Sound System' %}">Show all</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -127,10 +139,13 @@
               Accessories
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Accessories' subCategoryName='String' %}">String</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Accessories' subCategoryName='Tuner' %}">Tuner</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Accessories' subCategoryName='Pick' %}">Pick</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Accessories' subCategoryName='Capo' %}">Capo</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='Accessories' subCategoryName='Other' %}">Other</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="{% url 'category' categoryName='Accessories' %}">Show all</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -138,10 +153,10 @@
               DAW & Plugins
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='DAW & Plugins' subCategoryName='Daw Software' %}">Daw Software</a>
+              <a class="dropdown-item" href="{% url 'subcategory' categoryName='DAW & Plugins' subCategoryName='Plugins' %}">Plugins</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="{% url 'category' categoryName='DAW & Plugins' %}">Show all</a>
             </div>
           </li>
           

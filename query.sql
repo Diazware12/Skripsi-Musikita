@@ -31,7 +31,7 @@ VALUES
 (4, "Keyboard"),
 (4, "MIDI Keyboard"),
 (4, "Synthesizer"),
-(5, "microphone"),
+(5, "Microphone"),
 (5, "Audio Interface"),
 (5, "Monitor Speaker"),
 (5, "Headphone"),
