@@ -236,3 +236,11 @@ def showProduct (request, productName, brand):
     }
 
     return render(request,'rating.html', context)
+
+def viewProductByCategory(request, categoryName):
+    productList = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName=categoryName)[:12]
+    context={
+        'productList': productList,
+        'categoryName': categoryName,
+    }
+    return render(request,'productListByCategory.html', context)

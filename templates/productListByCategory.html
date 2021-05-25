@@ -1,0 +1,86 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{categoryName}}</title>
+    {% include "snippets/headImport.html" %}
+</head>
+<body>
+    {% include "snippets/navbar.html" %}
+      <div class="da-section pt-3" id="services">
+        <div class="da-services pl-5 pr-5">
+          <div class="separator pb-2"><div class="h3 text-center" data-aos="fade-up" data-aos-duration="500" >{{categoryName}}</div></div>
+          {% if productList|length == 0 %}
+            <div class="col-lg-3 col-md-6">
+              <p>Belum ada item dengan kategori {{categoryName}}</p>
+            </div>
+          {% else %}
+            <div class="d-flex flex-row-reverse">
+              <div class="p-2">
+                <div class="dropdown pl-5 ml-5">
+                  <button class="btn dropdown-toggle" style="background: #f9f9f9;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort By
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Rating</a>
+                    <a class="dropdown-item" href="#">Latest Release</a>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            <div class="row">
+              <div class="col">
+                <div class="row">  
+                    {% for obj in productList %}
+                      <div class="col-lg-3 col-md-6">
+                        <div class="card mb-3">
+                          <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;">
+                            <div class="container">
+                              <div class="card-body py-5" >
+                                <div class="text-primary">
+                                  <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
+                                </div>
+                                <div class="w-auto p-3 bg-success text-white">80</div>
+                                <div class="h5 pt-2">{{ obj.productName }}</div>
+                                <p>{{ obj.description }}</p>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    {% endfor %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+          <div class="d-flex flex-row-reverse">
+            <div class="p-2">
+                  <nav aria-label="...">
+                    <ul class="pagination">
+                      <li class="page-item disabled">
+                        <span class="page-link">Previous</span>
+                      </li>
+                      <li class="page-item"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item active">
+                        <span class="page-link">
+                          2
+                          <span class="sr-only">(current)</span>
+                        </span>
+                      </li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                      </li>
+                    </ul>
+                  </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% include "snippets/footerAndScripts.html" %}
+</body>
+</html>

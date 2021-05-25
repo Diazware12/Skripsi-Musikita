@@ -15,14 +15,14 @@ def dashboard (request):
 
     #hot item
     hotItems = Product.objects.select_related('brandId').order_by('-visitCount')[:8]
-    newReleaseAcoustic = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="Acoustic")[:6]
-    newReleaseElectric = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="Electric")[:6]
-    newReleasePercussion = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="Percussion")[:6]
-    newReleaseKeys = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="Keys & Midi")[:6]
-    newReleaseRecordingKit = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="Recording Kit")[:6]
-    newReleaseSoundSystem = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="Sound System")[:6]
-    newReleaseAccessories = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="Accessories")[:6]
-    newReleaseDAW = Product.objects.order_by('-dtm_crt').select_related('categoryId').filter(categoryId__categoryName="DAW & Plugins")[:6]
+    newReleaseAcoustic = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName="Acoustic")[:6]
+    newReleaseElectric = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName="Electric")[:6]
+    newReleasePercussion = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName="Percussion")[:6]
+    newReleaseKeys = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName="Keys & Midi")[:6]
+    newReleaseRecordingKit = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName="Recording Kit")[:6]
+    newReleaseSoundSystem = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName="Sound System")[:6]
+    newReleaseAccessories = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName="Accessories")[:6]
+    newReleaseDAW = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName="DAW & Plugins")[:6]
 
     context = {
         'hotItems': hotItems,

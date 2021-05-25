@@ -194,7 +194,7 @@
                 <div class="row">
                   {% for obj in newReleaseAcoustic %}  
                     <div class="col-lg-4">
-                      <a href="#" style="color: black;">
+                      <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;">
                         <div class="card border-0">
                           <div class="container">
                             <div class="card-body" >
@@ -216,7 +216,7 @@
                 <div class="row">
                   {% for obj in newReleaseElectric %}  
                     <div class="col-lg-4">
-                      <a href="#" style="color: black;">
+                      <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;">
                         <div class="card border-0">
                           <div class="container">
                             <div class="card-body" >
@@ -238,7 +238,7 @@
                 <div class="row">
                   {% for obj in newReleasePercussion %}  
                     <div class="col-lg-4">
-                      <a href="#" style="color: black;">
+                      <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;">
                         <div class="card border-0">
                           <div class="container">
                             <div class="card-body" >
@@ -260,7 +260,7 @@
                 <div class="row">
                   {% for obj in newReleaseKeys %}  
                     <div class="col-lg-4">
-                      <a href="#" style="color: black;">
+                      <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;">
                         <div class="card border-0">
                           <div class="container">
                             <div class="card-body" >
@@ -282,7 +282,7 @@
                 <div class="row">
                   {% for obj in newReleaseRecordingKit %}  
                     <div class="col-lg-4">
-                      <a href="#" style="color: black;">
+                      <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;">
                         <div class="card border-0">
                           <div class="container">
                             <div class="card-body" >
@@ -304,7 +304,7 @@
                 <div class="row">
                   {% for obj in newReleaseSoundSystem %}  
                     <div class="col-lg-4">
-                      <a href="#" style="color: black;">
+                      <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;">
                         <div class="card border-0">
                           <div class="container">
                             <div class="card-body" >
@@ -326,7 +326,7 @@
                 <div class="row">
                   {% for obj in newReleaseAccessories %}  
                     <div class="col-lg-4">
-                      <a href="#" style="color: black;">
+                      <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;">
                         <div class="card border-0">
                           <div class="container">
                             <div class="card-body" >
@@ -348,7 +348,7 @@
                 <div class="row">
                   {% for obj in newReleaseDAW %}  
                     <div class="col-lg-4">
-                      <a href="#" style="color: black;">
+                      <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;">
                         <div class="card border-0">
                           <div class="container">
                             <div class="card-body" >
@@ -379,7 +379,7 @@
           <div class="col-md-4">
             <div class="card mb-3" data-aos="fade-up" style="background-color: rgb(31, 137, 179);">
               <div class="card-body mt-4 mb-1 text-center">
-                <a href="#" style="color: white;">
+                <a href="{% url 'category' categoryName='Acoustic' %}" style="color: white;">
                   <img src="{% static 'img/acoustic2.png' %}" style="width: 30%; height: 30%;" alt="">
                   <div class="h4 pb-3 pt-3 text-white">Acoustic</div>
                 </a>
@@ -388,7 +388,7 @@
           </div>
           <div class="col-md-4">
             <div class="card mb-3" data-aos="fade-up" style="background-color: rgb(45, 199, 91);">
-              <a href="#" style="color: white;">
+              <a href="{% url 'category' categoryName='Electric' %}" style="color: white;">
                 <div class="card-body mt-4 mb-1 text-center">
                   <img src="{% static 'img/electric3.png' %}" style="width: 30%; height: 30%;" alt="">
                   <div class="h4 pb-3 pt-3 text-white">Electric</div>
@@ -399,7 +399,7 @@
           <div class="col-md-4">
             <div class="card mb-3" data-aos="fade-up" style="background-color: rgb(255, 196, 0);">
               <div class="card-body mt-4 mb-1 text-center">
-                <a href="#" style="color: white;">
+                <a href="{% url 'category' categoryName='Percussion' %}" style="color: white;">
                   <img src="{% static 'img/drum.png' %}" style="width: 30%; height: 30%;" alt="">
                   <div class="h4 pb-3 pt-3 text-white">Percussion</div>
                 </a>
@@ -411,7 +411,7 @@
           <div class="col-md-4">
             <div class="card mb-3" data-aos="fade-up" style="background-color: rgb(228, 59, 59);">
               <div class="card-body mt-4 mb-1 text-center">
-                <a href="#" style="color: white;">
+                <a href="{% url 'category' categoryName='Keys & Midi' %}" style="color: white;">
                   <img src="{% static 'img/synth.png' %}" style="width: 30%; height: 30%;" alt="">
                   <div class="h4 pb-3 pt-3 text-white">Keys & Midi</div>
                 </a>
@@ -421,7 +421,7 @@
           <div class="col-md-4">
             <div class="card mb-3" data-aos="fade-up" style="background-color: rgb(166, 59, 228);">
               <div class="card-body mt-4 mb-1 text-center">
-                <a href="#" style="color: white;">
+                <a href="{% url 'category' categoryName='Recording Kit' %}" style="color: white;">
                   <img src="{% static 'img/recording.png' %}" style="width: 30%; height: 30%;" alt="">
                   <div class="h4 pb-3 pt-3 text-white">Recording Kit</div>
                 </a>
@@ -431,7 +431,7 @@
           <div class="col-md-4">
             <div class="card mb-3" data-aos="fade-up" style="background-color: rgb(255, 138, 43);">
               <div class="card-body mt-4 mb-1 text-center">
-                <a href="#" style="color: white;">
+                <a href="{% url 'category' categoryName='Sound System' %}" style="color: white;">
                   <img src="{% static 'img/sound.png' %}" style="width: 30%; height: 30%;" alt="">
                   <div class="h4 pb-3 pt-3 text-white">Sound System</div>
                 </a>
@@ -443,7 +443,7 @@
           <div class="col-md-4">
             <div class="card mb-3" data-aos="fade-up" style="background-color: rgb(54, 233, 218);">
               <div class="card-body mt-4 mb-1 text-center">
-                <a href="#" style="color: white;">
+                <a href="{% url 'category' categoryName='Accesories' %}" style="color: white;">
                   <img src="{% static 'img/pick.png' %}" style="width: 30%; height: 30%;" alt="">
                   <div class="h4 pb-3 pt-3 text-white">Accesories</div>
                 </a>
@@ -453,7 +453,7 @@
           <div class="col-md-4">
             <div class="card mb-3" data-aos="fade-up" style="background-color: rgb(228, 59, 152);">
               <div class="card-body mt-4 mb-1 text-center">
-                <a href="#" style="color: white;">
+                <a href="{% url 'category' categoryName='DAW & Plugins' %}" style="color: white;">
                   <img src="{% static 'img/DAW.png' %}" style="width: 30%; height: 30%;" alt="">
                   <div class="h4 pb-3 pt-3 text-white">DAW & Plugins</div>
                 </a>
