@@ -5,7 +5,8 @@ DIAZ
 - profile blm
 - edit profile
 - music store, jadi 3 foto
-- review helpful
+- review helpful (done)
+    -validasi kalau user sebelumnya udh mencet helpful/notHelpful
 - report review
 - forgot password
 

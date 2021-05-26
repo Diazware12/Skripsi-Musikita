@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from .forms import ReviewForm
-from .models import Review
+from .models import Review, HelpfulData
 from product.models import Product
 from register.models import User
 import datetime
@@ -97,3 +97,48 @@ def putReviewAvg(rating):
             avgUpdate.save()
 
     return 'success'
+
+@login_required
+@user_passes_test(is_User)
+def feedback (request, productName, brand, feedback, user):
+    getProduct = Product.objects.select_related(
+                        'brandId').get(
+                        productName = productName,
+                        brandId__brandName = brand)
+
+    getReview = Review.objects.select_related('userID').get(
+                    productId = getProduct.productId,
+                    userID__userName = user
+                )
+
+    username = None
+    userSubmitHelpful = None
+    getUser = request.user.username
+    if getUser != '':
+        username = request.user.username
+        userSubmitHelpful = User.objects.get(userName = username)
+    else:
+        username = ''
+        
+    if feedback == "helpful" :
+        getReview.helpful += 1
+        getReview.save()
+
+        helpObject = HelpfulData.objects.create(
+            reviewId = getReview,
+            userID = userSubmitHelpful
+        )
+        helpObject.save()
+
+    else : 
+        getReview.notHelpful += 1
+        getReview.save()
+
+        helpObject = HelpfulData.objects.create(
+            reviewId = getReview,
+            userID = userSubmitHelpful
+        )
+        helpObject.save()
+
+    return redirect ('showProduct', brand=brand, productName=productName)
+    

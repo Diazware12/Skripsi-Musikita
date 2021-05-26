@@ -182,12 +182,14 @@
                             </div>
                             <div class="col">
                               <div class="d-flex flex-row">
-                                <div class="p-2"><button type="button" class="btn btn-secondary">Yes</button></div>
-                                <div class="p-2"><button type="button" class="btn btn-secondary">No</button></div>
+                                <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='helpful' user=mrev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">Yes</a></div>
+                                <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='notHelpful' user=mrev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">No</a></div>
                               </div>
                             </div>
                             <div class="col mt-2">
-                              1 of 5 users found this helpful
+                              {% if not mrev.helpful == 0 and not mrev.notHelpful == 0%}
+                                {{mrev.helpful}} of {{mrev.helpful|add:mrev.notHelpful}} users found this helpful
+                              {% endif %}                              
                             </div>
                           </div>
                         </div>
@@ -264,12 +266,14 @@
                         </div>
                         <div class="col">
                           <div class="d-flex flex-row">
-                            <div class="p-2"><button type="button" class="btn btn-secondary">Yes</button></div>
-                            <div class="p-2"><button type="button" class="btn btn-secondary">No</button></div>
+                            <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='helpful' user=urev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">Yes</a></div>
+                            <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='notHelpful' user=urev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">No</a></div>
                           </div>
                         </div>
                         <div class="col mt-2">
-                          1 of 5 users found this helpful
+                          {% if not urev.helpful == 0 and not urev.notHelpful == 0%}
+                            {{urev.helpful}} of {{urev.helpful|add:urev.notHelpful}} users found this helpful
+                          {% endif %}
                         </div>
                       </div>
                     </div>

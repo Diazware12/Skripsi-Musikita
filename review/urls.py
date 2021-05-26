@@ -5,4 +5,5 @@ from . import views
 
 urlpatterns = [
    path('',views.reviewProduct,name="reviewProduct"),
+   path('<feedback>/<user>/',views.feedback,name="feedback")
 ]

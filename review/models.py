@@ -10,8 +10,15 @@ class Review (models.Model):
     title = models.CharField(blank=False,max_length=40)
     description = models.CharField(blank=False,max_length=255)
     rating = models.IntegerField()
+    helpful = models.BigIntegerField(default=0)
+    notHelpful = models.BigIntegerField(default=0)
 
 class Report (models.Model):
     reportId = models.AutoField(primary_key=True,null=False)
     reviewId = models.ForeignKey(Review,on_delete=models.CASCADE) 
-    reason = models.CharField(blank=False,max_length=255)
+    reason = models.CharField(blank=False,max_length=255) 
+
+class HelpfulData (models.Model):
+    helpfulDataId = models.AutoField(primary_key=True,null=False)
+    reviewId = models.ForeignKey(Review,on_delete=models.CASCADE, default=1)
+    userID = models.ForeignKey(User,on_delete=models.CASCADE)

@@ -26,7 +26,7 @@ class Product (models.Model):
     subCategoryId = models.ForeignKey(SubCategory,on_delete=models.CASCADE)
     brandId = models.ForeignKey(Brand,on_delete=models.CASCADE)
     productName = models.CharField(max_length = 50)
-    description = models.CharField(max_length = 255)
+    description = models.TextField()
     videoUrl = EmbedVideoField()
     minPrice = models.BigIntegerField() #lowest
     maxPrice = models.BigIntegerField() #highest
