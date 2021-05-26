@@ -51,13 +51,22 @@
                     {% for obj in productList %}
                       <div class="col-lg-3 col-md-6">
                         <div class="card mb-3">
-                          <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;">
+                          <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;text-decoration: none;">
                             <div class="container">
                               <div class="card-body py-5" >
                                 <div class="text-primary">
                                   <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
                                 </div>
-                                <div class="w-auto p-3 bg-success text-white">80</div>
+                                {% if obj.avgScore == 0.00 %}
+                                  <div class="w-auto p-3 bg-success text-white">N/A</div>
+                                {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
+                                  <div class="w-auto p-3 bg-success text-white">{{ obj.avgScore }}</div>
+                                {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
+                                  <div class="w-auto p-3 bg-warning text-white">{{ obj.avgScore }}</div>
+                                {% else %}
+                                  <div class="w-auto p-3 bg-danger text-white">{{ obj.avgScore }}</div>
+                                {% endif %} 
+
                                 <div class="h5 pt-2">{{ obj.productName }}</div>
                                 <p>{{ obj.description }}</p>
                               </div>

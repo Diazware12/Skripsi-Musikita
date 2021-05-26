@@ -1,5 +1,5 @@
 DIAZ
-- hot product, visitnya blm ada score nya (masih dummy)
+- hot product, visitnya blm ada score nya (done)
 - footer: masih blm tau harus diisi apa 
 - searching blm bisa
 - profile blm

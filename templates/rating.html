@@ -92,10 +92,16 @@
                                 Submit Your Review
                               </button>
                             {% elif request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
-                              <a class="btn btn-primary" href="{% url 'reviewProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
-                                Submit Your Review
-                              </a>
-                             
+                              {% if reviewStatus == "disabled" %}
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewLoginFirstModal">
+                                  Submit Your Review
+                                </button>
+                              {% else %}
+                                <a class="btn btn-primary" href="{% url 'reviewProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
+                                  Submit Your Review
+                                </a>
+                              {% endif %}
+
                             {% endif %}
                         </div>
                     </div>

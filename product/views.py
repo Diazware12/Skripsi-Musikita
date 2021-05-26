@@ -12,6 +12,7 @@ from Skripsi.views import loginAccount
 from review.models import Review
 from django.db import connection
 import re
+from Skripsi.views import loginAccount
 
 @login_required
 @user_passes_test(is_Admin)
@@ -237,17 +238,42 @@ def showProduct (request, productName, brand):
                 "negative_music": qux[7]
             })
         
+    username = None
+    review_available = None
+    messages = None
+    getUser = request.user.username
+    if getUser != '':
+        username = request.user.username
+        checkReview = Review.objects.select_related(
+                        'userID','productId'
+                      ).filter(userID__userName=username,productId__productName=productName)
+        if not checkReview:
+            review_available = "enabled"
+        else:
+            review_available = "disabled"
+            messages = "You cannot submit another review again"
+
+    else:
+        review_available = "disabled" 
+        messages = "You Need To Login First"
+
 
     context = {
         'obj': obj,
         'user_review': user_review,
         'ms_review': ms_review,
-        'rateSum': ratingResults
+        'rateSum': ratingResults,
+        'reviewStatus': review_available,
+        'messageModal': messages
     }
 
     return render(request,'rating.html', context)
 
 def viewProductByCategory(request, categoryName):
+    isLogin = request.POST.get('isLogin')
+    if request.method == 'POST' and isLogin == "1":
+        loginAccount (request)
+
     productList = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName=categoryName)[:12]
     context={
         'productList': productList,
