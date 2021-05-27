@@ -6,7 +6,7 @@ DIAZ
 - edit profile
 - music store, jadi 3 foto
 - review helpful (done)
-    -validasi kalau user sebelumnya udh mencet helpful/notHelpful
+    -validasi kalau user sebelumnya udh mencet helpful/notHelpful (done)
 - report review
 - forgot password
 

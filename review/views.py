@@ -119,26 +119,32 @@ def feedback (request, productName, brand, feedback, user):
         userSubmitHelpful = User.objects.get(userName = username)
     else:
         username = ''
-        
-    if feedback == "helpful" :
-        getReview.helpful += 1
-        getReview.save()
 
-        helpObject = HelpfulData.objects.create(
-            reviewId = getReview,
-            userID = userSubmitHelpful
-        )
-        helpObject.save()
+    getHelpfulData = HelpfulData.objects.filter(reviewId=getReview,userID=userSubmitHelpful)
+    if getHelpfulData:
+        messages.success(request, 'You Already Submit Yout Response for This Review Before')
+        return redirect ('showProduct', brand=brand, productName=productName)
+    else:
+        if feedback == "helpful" :
+            getReview.helpful += 1
+            getReview.save()
 
-    else : 
-        getReview.notHelpful += 1
-        getReview.save()
+            helpObject = HelpfulData.objects.create(
+                reviewId = getReview,
+                userID = userSubmitHelpful
+            )
+            helpObject.save()
+            messages.success(request, 'success')
+        else : 
+            getReview.notHelpful += 1
+            getReview.save()
 
-        helpObject = HelpfulData.objects.create(
-            reviewId = getReview,
-            userID = userSubmitHelpful
-        )
-        helpObject.save()
+            helpObject = HelpfulData.objects.create(
+                reviewId = getReview,
+                userID = userSubmitHelpful
+            )
+            helpObject.save()
+            messages.success(request, 'success')
 
     return redirect ('showProduct', brand=brand, productName=productName)
     

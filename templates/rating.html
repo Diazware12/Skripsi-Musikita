@@ -187,7 +187,9 @@
                               </div>
                             </div>
                             <div class="col mt-2">
-                              {% if not mrev.helpful == 0 and not mrev.notHelpful == 0%}
+                              {% if mrev.helpful == 0 and mrev.notHelpful == 0%}
+                                <span></span>
+                              {% else %}
                                 {{mrev.helpful}} of {{mrev.helpful|add:mrev.notHelpful}} users found this helpful
                               {% endif %}                              
                             </div>
@@ -271,7 +273,9 @@
                           </div>
                         </div>
                         <div class="col mt-2">
-                          {% if not urev.helpful == 0 and not urev.notHelpful == 0%}
+                          {% if urev.helpful == 0 and urev.notHelpful == 0%}
+                            <span></span>
+                          {% else %}
                             {{urev.helpful}} of {{urev.helpful|add:urev.notHelpful}} users found this helpful
                           {% endif %}
                         </div>
