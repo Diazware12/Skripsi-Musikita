@@ -10,22 +10,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     {% include "snippets/headImport.html" %}
 
-    {% comment %} 
-    <script>
-        console.log("hello");
-
-        $(document).ready(function(){
-            var $productvar = $("#productddl");
-                $itemvar = $("#itemddl");
-
-                $options=$itemvar.find('option');
-                $productvar.on('change',function(){
-                    $itemvar.html($options.filter('[value="'+this.value+'"]'));
-                }).trigger('change');
-        });
-    </script> 
-    {% endcomment %}
-
 </head>
 <body>
 
@@ -85,12 +69,6 @@
 
             <div class="pt-3">
                 {{ form.videoUrl }}
-            </div>
-            
-            <h5 class="pt-3">Product Picture</h5>
-
-            <div class="pt-3">
-                {{ form.productPicture }}
             </div>
             
             

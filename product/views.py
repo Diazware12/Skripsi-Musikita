@@ -34,8 +34,6 @@ def addProduct (request):
         subCategory = request.POST.get('subCategory')
         description = request.POST.get('description')
         videoUrl = request.POST.get('videoUrl')
-        productPicture = request.FILES['productPicture']
-        productPicture.name = productName+'.jpg'
         web_direct = ''
 
         brand_Id = Brand.objects.get(brandName = brand)
@@ -61,15 +59,13 @@ def addProduct (request):
                 videoUrl = videoUrl,
                 minPrice = 0,
                 maxPrice = 0,
-                dtm_crt = datetime.date.today(),
-                productIMG = productPicture
+                dtm_crt = datetime.date.today()
             )
 
             product_obj.save()
-            img = Image.open(product_obj.productIMG.path)
-            img = make_square(img)
-            img.save(product_obj.productIMG.path)
             web_direct = 'success.html'
+
+            return redirect ('addProductPicture', brand=brand_Id.brandName, productName=product_obj.productName)
 
         except Exception as e:
             print(e)
@@ -101,6 +97,30 @@ def getJsonSubCategoryData (request, *args, **kwargs):
         'data':subCat_models 
     })
     
+def addPicture (request,productName,brand):
+    web_direct = ''
+    if request.method != 'POST':
+        context = {
+            'brand': brand,
+            'productName': productName,
+        }
+        return render(request,'addProductPicture.html',context)
+    else:
+        productPicture = request.FILES['productPicture']
+        productPicture.name = productName+'.jpg'    
+        
+        getProduct = Product.objects.select_related(
+                            'brandId').get(
+                            productName = productName,
+                            brandId__brandName = brand)
+
+        getProduct.productIMG = productPicture
+        getProduct.save()
+
+        web_direct = 'success.html'
+        
+    return render(request,web_direct)
+
 def make_square(img):
     fill_color=(255, 255, 255)
 

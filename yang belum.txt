@@ -5,6 +5,7 @@ DIAZ
 - profile blm
 - edit profile
 - music store, jadi 3 foto
+- cropper dicoba lagi (done)
 - review helpful (done)
     -validasi kalau user sebelumnya udh mencet helpful/notHelpful (done)
 - report review

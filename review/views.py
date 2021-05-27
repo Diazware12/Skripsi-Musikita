@@ -92,9 +92,6 @@ def putReviewAvg(rating):
         if average != None:
             avgUpdate.avgScore = average
             avgUpdate.save()
-        else:
-            avgUpdate.avgScore = average
-            avgUpdate.save()
 
     return 'success'
 

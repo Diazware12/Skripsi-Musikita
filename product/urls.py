@@ -8,6 +8,8 @@ urlpatterns = [
    #json
       path('addProduct/cat-json/',views.getJsonCategoryData,name="cat-json"),
       path('addProduct/subCat-json/<str:cat>',views.getJsonSubCategoryData,name="cat-json"),
+   path('addProduct/<brand>/<productName>/addPicture',views.addPicture,name="addProductPicture"),
+
    path('category/<categoryName>/',views.viewProductByCategory,name="category"),
    path('category/<categoryName>/<subCategoryName>/',views.viewProductBySubCategory,name="subcategory"),
    path('<brand>/<productName>/',views.showProduct,name="showProduct"),
