@@ -12,6 +12,7 @@ DIAZ
 - forgot password
 
 CALVIN
+- productVisit
 - dropdown list blum diganti isinya - (done)
 - carousel blm ada gambar musiknya
     -> buat page add carousel
