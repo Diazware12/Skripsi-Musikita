@@ -20,3 +20,5 @@ class MusicStoreData (models.Model): #ganti nama
     address = models.CharField(blank=False,max_length=255)
     contact = models.CharField(null=False,max_length=16,default='') #
     musicStorePicture = models.ImageField(null=False, blank=False, upload_to=settings.MEDIA_ROOT+'/musicStorePictures', max_length=255)
+    musicStorePicture2 = models.ImageField(null=False, blank=False, upload_to=settings.MEDIA_ROOT+'/musicStorePictures', max_length=255, default='')
+    musicStorePicture3 = models.ImageField(null=False, blank=False, upload_to=settings.MEDIA_ROOT+'/musicStorePictures', max_length=255, default='')

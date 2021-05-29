@@ -1,20 +1,15 @@
 DIAZ
-- hot product, visitnya blm ada score nya (done)
+
 - footer: masih blm tau harus diisi apa 
 - searching blm bisa
 - profile blm
 - edit profile
-- music store, jadi 3 foto
-- cropper dicoba lagi (done)
-- review helpful (done)
-    -validasi kalau user sebelumnya udh mencet helpful/notHelpful (done)
-- report review
-- forgot password
+- report review #
+- forgot password #
 - halaman buat brand
 
 CALVIN
 - productVisit
-- dropdown list blum diganti isinya - (done)
 - carousel blm ada gambar musiknya
     -> buat page add carousel
 - editor's choice masih dummy
@@ -22,6 +17,14 @@ CALVIN
 
 - filtering apagi, blm samsek
 
+
+yang done
+    - music store, jadi 3 foto (done)
+    - cropper dicoba lagi (done)
+    - review helpful (done)
+    - validasi kalau user sebelumnya udh mencet helpful/notHelpful (done)
+    - dropdown list blum diganti isinya - (done)
+    - hot product, visitnya blm ada score nya (done)
 
 
 OPSIONAL

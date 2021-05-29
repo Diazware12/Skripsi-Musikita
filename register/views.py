@@ -16,6 +16,7 @@ from django.contrib.auth.models import User as auth_user
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import allowed_users
+from Skripsi.views import countUserPending
 
 
 def registerMember (request):
@@ -96,6 +97,10 @@ def registerMusicStore (request):
         conf_pass = request.POST.get('confirm_pass')
         msPicture = request.FILES['musicStorePicture']
         msPicture.name = musicStoreName+'.jpg'
+        msPicture2 = request.FILES['musicStorePicture2']
+        msPicture2.name = musicStoreName+'2.jpg'
+        msPicture3 = request.FILES['musicStorePicture3']
+        msPicture3.name = musicStoreName+'3.jpg'
         description = request.POST.get('description')
 
         web_direct = ''
@@ -137,7 +142,9 @@ def registerMusicStore (request):
             mStore_obj = MusicStoreData.objects.create(
                 userID = profile_obj,
                 address = address,
-                musicStorePicture = msPicture
+                musicStorePicture = msPicture,
+                musicStorePicture2 = msPicture2,
+                musicStorePicture3 = msPicture3,
             ) 
             mStore_obj.save()
 
@@ -220,6 +227,7 @@ def musicStorePendingList (request):
 
     context = {
         'obj': qux,
+        'userPending': countUserPending(request)
     }
     return render(request,'userApproveList.html', context)    
 
@@ -231,9 +239,9 @@ def musicStoreApproval (request,auth_token):
 
     context = {
         'obj': qux,
+        'userPending': countUserPending(request)
     }
     return render(request,'musicStoreApproval.html', context)    
-
 
 @login_required
 @allowed_users(allowed_roles=['Admin'])
@@ -263,7 +271,9 @@ def reject (request,auth_token):
     if request.method != 'POST':
         rejectionForm = RejectionReason()
         context = {
-            'form': rejectionForm
+            'form': rejectionForm,
+            'userPending': countUserPending(request)
+
         }
         return render(request,'rejectionReason.html', context)
     else :

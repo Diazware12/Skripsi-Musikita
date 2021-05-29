@@ -12,7 +12,7 @@ from Skripsi.views import loginAccount
 from review.models import Review
 from django.db import connection
 import re
-from Skripsi.views import loginAccount
+from Skripsi.views import loginAccount, countUserPending
 
 @login_required
 @allowed_users(allowed_roles=['Admin'])
@@ -255,7 +255,8 @@ def showProduct (request, productName, brand):
                 "negative_user": qux[4],
                 "positive_music": qux[5],
                 "mixed_music": qux[6],
-                "negative_music": qux[7]
+                "negative_music": qux[7],
+                'userPending': countUserPending(request)
             })
         
     username = None
@@ -284,7 +285,8 @@ def showProduct (request, productName, brand):
         'ms_review': ms_review,
         'rateSum': ratingResults,
         'reviewStatus': review_available,
-        'messageModal': messages
+        'messageModal': messages,
+        'userPending': countUserPending(request)
     }
 
     return render(request,'rating.html', context)
@@ -298,6 +300,7 @@ def viewProductByCategory(request, categoryName):
     context={
         'productList': productList,
         'categoryName': categoryName,
+        'userPending': countUserPending(request)
     }
     return render(request,'productListByCategory.html', context)
 
@@ -307,5 +310,6 @@ def viewProductBySubCategory(request, categoryName, subCategoryName):
         'productList': productList,
         'categoryName': categoryName,
         'subCategoryName': subCategoryName,
+        'userPending': countUserPending(request)
     }
     return render(request,'productListByCategory.html', context)

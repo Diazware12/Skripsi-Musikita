@@ -109,6 +109,16 @@ class MusicStoreForm (forms.Form):
         label='musicStorePicture',
     )
 
+    musicStorePicture2 = forms.ImageField(
+        required=True,
+        label='musicStorePicture2',
+    )
+
+    musicStorePicture3 = forms.ImageField(
+        required=True,
+        label='musicStorePicture3',
+    )
+
     description = forms.CharField(
         required=True,
         label='description',
@@ -132,3 +142,27 @@ class RejectionReason (forms.Form):
             }
         )
     ) 
+
+class resetPassword (forms.Form):       
+    
+    password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Password'
+            }
+        ),
+        label='Password',
+    )
+    
+    confirm_pass= forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Confirm Password'
+            }
+        ),
+        label='confirm_pass',
+    )

@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect 
-from register.models import User
+from register.models import User,MusicStoreData
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 import datetime
@@ -34,6 +34,7 @@ def dashboard (request):
         'newReleaseSoundSystem': newReleaseSoundSystem,
         'newReleaseAccessories': newReleaseAccessories,
         'newReleaseDAW': newReleaseDAW,
+        'userPending': countUserPending(request)
     }
     return render(request,'dashboard.html', context)
 
@@ -46,7 +47,6 @@ def profile (request):
 
 def profileMusicStore (request):
     return render(request,'profileMusicStore.html')
-
 
 def productList (request):
     isLogin = request.POST.get('isLogin')
@@ -109,3 +109,9 @@ def loginAccount (request):
 
         else:
             messages.error(request, 'We cannot find an account with that email address')
+
+def countUserPending(request):
+    obj = MusicStoreData.objects.select_related('userID').filter(
+            userID__status='AdminPending',
+            userID__roleId='Mus_Store').count()
+    return obj

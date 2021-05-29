@@ -16,6 +16,11 @@
         <h1 class="pb-5 pt-5">User Approval List</h1>
         
         <div class="row">
+        {% if obj|length == 0 %}
+            <div class="col-sm-6 pb-3">
+                Belum ada User yang berstatus "Pending"
+            </div>
+        {% else %}
             {% for obj in obj %}
                 <div class="col-sm-6 pb-3">
                     <div class="card">
@@ -35,6 +40,7 @@
                     </div>
                 </div>
             {% endfor %}
+        {% endif %}
         </div>
         <div class="d-flex flex-row-reverse">
             <div class="p-2">

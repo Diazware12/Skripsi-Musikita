@@ -32,7 +32,7 @@
 
             {% if request.user.groups.all.0.name == 'Admin' %}
               <li><a href="{% url 'addProduct' %}">Add Product</a></li>
-              <li><a href="{% url 'userApproveList' %}">User Pending</a></li>  
+              <li><a href="{% url 'userApproveList' %}">User Pending ({{userPending}})</a></li>  
             {% endif %}
 
             <li class="nav-item dropdown">
