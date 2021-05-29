@@ -10,6 +10,7 @@ DIAZ
     -validasi kalau user sebelumnya udh mencet helpful/notHelpful (done)
 - report review
 - forgot password
+- halaman buat brand
 
 CALVIN
 - productVisit

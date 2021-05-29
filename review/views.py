@@ -8,10 +8,10 @@ import datetime
 from django.db import connection
 
 from django.contrib.auth.decorators import login_required, user_passes_test
-from Skripsi.decorator import is_User
+from Skripsi.decorator import allowed_users
 
 @login_required
-@user_passes_test(is_User)
+@allowed_users(allowed_roles=['Reg_User','Mus_Store'])
 def reviewProduct (request, productName, brand):
     web_direct = ''
     if request.method != 'POST':
@@ -96,7 +96,7 @@ def putReviewAvg(rating):
     return 'success'
 
 @login_required
-@user_passes_test(is_User)
+@allowed_users(allowed_roles=['Reg_User','Mus_Store'])
 def feedback (request, productName, brand, feedback, user):
     getProduct = Product.objects.select_related(
                         'brandId').get(

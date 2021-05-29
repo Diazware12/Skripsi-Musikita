@@ -1,7 +1,14 @@
-from django.db.models import Q
+from django.http import HttpResponse
 
-def is_Admin(user):
-    return user.groups.filter(name='Admin').exists()
-
-def is_User(user):
-    return user.groups.filter(Q(name='Reg_User') | Q(name='Mus_Store')).exists()
+def allowed_users(allowed_roles=[]):
+    def decorator(view_func):
+        def wrapper_func(request, *args, **kwargs):
+            group = None
+            if request.user.groups.exists():
+                group = request.user.groups.all()[0].name
+            if group in allowed_roles:
+                return view_func(request, *args, **kwargs)
+            else:
+                return HttpResponse('You are not authorized to view this page')
+        return wrapper_func
+    return decorator

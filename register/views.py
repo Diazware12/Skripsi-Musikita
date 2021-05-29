@@ -15,7 +15,7 @@ from .forms import UserForm, MusicStoreForm, RejectionReason
 from django.contrib.auth.models import User as auth_user
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, user_passes_test
-from Skripsi.decorator import is_Admin
+from Skripsi.decorator import allowed_users
 
 
 def registerMember (request):
@@ -213,7 +213,7 @@ def regisUserAuth(userRegis):
     userAuth.groups.add(getgroupId)
 
 @login_required
-@user_passes_test(is_Admin)
+@allowed_users(allowed_roles=['Admin'])
 def musicStorePendingList (request):
 
     qux = MusicStoreData.objects.select_related('userID').filter(userID__status="AdminPending", userID__verified_at__isnull= False)[:8]
@@ -224,7 +224,7 @@ def musicStorePendingList (request):
     return render(request,'userApproveList.html', context)    
 
 @login_required
-@user_passes_test(is_Admin)
+@allowed_users(allowed_roles=['Admin'])
 def musicStoreApproval (request,auth_token):
 
     qux = MusicStoreData.objects.select_related('userID').get(userID__auth_token=auth_token)
@@ -236,7 +236,7 @@ def musicStoreApproval (request,auth_token):
 
 
 @login_required
-@user_passes_test(is_Admin)
+@allowed_users(allowed_roles=['Admin'])
 def approve (request,auth_token):
     webRender = ''
     try:
@@ -257,7 +257,7 @@ def approve (request,auth_token):
     return render(request,webRender)
 
 @login_required
-@user_passes_test(is_Admin)
+@allowed_users(allowed_roles=['Admin'])
 def reject (request,auth_token):
     webRender=''
     if request.method != 'POST':

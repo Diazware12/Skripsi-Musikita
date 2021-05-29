@@ -7,7 +7,7 @@ from product.models import Product, Category, SubCategory, Brand
 import datetime
 from PIL import Image
 from django.contrib.auth.decorators import login_required, user_passes_test
-from Skripsi.decorator import is_Admin
+from Skripsi.decorator import allowed_users
 from Skripsi.views import loginAccount
 from review.models import Review
 from django.db import connection
@@ -15,7 +15,7 @@ import re
 from Skripsi.views import loginAccount
 
 @login_required
-@user_passes_test(is_Admin)
+@allowed_users(allowed_roles=['Admin'])
 def addProduct (request):
     if request.method != 'POST':
         ddCategory = Category.objects.all()
