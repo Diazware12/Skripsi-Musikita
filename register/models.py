@@ -7,7 +7,7 @@ class User (models.Model):
     email = models.CharField(max_length=60)
     password = models.CharField(max_length=255)
     roleId = models.CharField(max_length=10)
-    description = models.CharField(blank=True,max_length=255)
+    description = models.TextField()
     status = models.CharField(max_length=15)
     dtm_crt = models.DateTimeField(null=False)
     auth_token = models.CharField(max_length=100,null=True) #

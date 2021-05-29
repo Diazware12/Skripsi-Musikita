@@ -4,19 +4,17 @@ from register.models import User, MusicStoreData
 import datetime
 from django.contrib.auth.hashers import make_password
 import uuid
-from django.core.mail import  EmailMessage
 from django.conf import settings
 from django.http import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .utils import token_generator
-import re
 from .forms import UserForm, MusicStoreForm, RejectionReason
 from django.contrib.auth.models import User as auth_user
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import allowed_users
-from Skripsi.views import countUserPending
+from Skripsi.views import countUserPending, sendMailAfterRegis, weakPassword
 
 
 def registerMember (request):
@@ -162,48 +160,6 @@ def registerMusicStore (request):
             web_direct = 'error.html'
 
     return render(request,web_direct)
-
-def weakPassword (password):
-    if (password == "\n" or password == " "):
-        return "Password cannot be a newline or space!"
-    
-    if (9 <= len(password) <= 20):
-        if re.search(r'(.)\1\1',password): 
-            return "Weak Password: Same character repeats three or more times in a row"
-        
-        if re.search(r'(..)(.*?)\1', password):
-            return "Weak password: Same string pattern repetition"
-   
-        else:
-            return "True"
-    else:
-        return "Password length must be 9-20 characters!"
-
-def sendMailAfterRegis (domain, user, context, additional_msg):
-    subject = ''
-    messages = ''
-    if (context == 'verification'):
-        subject = 'Your Account Need To Be Verified'
-        activate_url = 'http://' + domain + '/verify/' + user.auth_token
-        messages = 'hi ' + user.userName + ' please verify this account\n' + activate_url
-    elif (context == 'admin_approve'):
-        subject = 'Your Account Has Been Verified by Admin'
-        messages = 'hi ' + user.userName + ',\n\n' + 'Your Music Store\'s account has been verified by admin.\n' + 'Now you can login using your account\n' + 'http://' + domain 
-    else:   
-        subject = 'Your Account Has Been Rejected by Admin'               
-        messages = 'hi ' + user.userName + ',\n\n' + 'Unfortunately Your Music Store\'s account has been Rejected by admin because:\n\n' + additional_msg + '\n\nPlease make a new music store\'s account based on the admin\'s note\n' +'http://' + domain
-
-    email_from = settings.EMAIL_HOST_USER
-    receipent_list = [user.email]
-    email = EmailMessage(
-        subject,
-        messages,
-        email_from,
-        receipent_list
-    )
-
-    email.send(fail_silently=False)
-    # number = 1
 
 def regisUserAuth(userRegis):
 

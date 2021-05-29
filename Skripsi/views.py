@@ -1,16 +1,23 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect 
 from register.models import User,MusicStoreData
+from django.contrib.auth.models import User as auth_user
 from django.contrib import messages
+from django.core.mail import  EmailMessage
 from django.contrib.auth import authenticate, login, logout
 import datetime
-from .forms import LoginForm
+from django.contrib.sites.shortcuts import get_current_site
 from product.models import *
+from .forms import ForgotPasswordForm
+import re
 
 def dashboard (request):
     isLogin = request.POST.get('isLogin')
+    isForgotPass = request.POST.get('isForgotPassword')
     if request.method == 'POST' and isLogin == "1":
         loginAccount (request)
+    elif request.method == 'POST' and isForgotPass == "1":
+        forgotPassword (request)
     
 
     #hot item
@@ -78,7 +85,7 @@ def verifyEmail (request, auth_token):
         print (e)   
 
     return render(request,webRender)
-    
+
 def loginAccount (request):
         email = request.POST.get('userEmail')
         password = request.POST.get('userPassword')
@@ -108,10 +115,111 @@ def loginAccount (request):
                return redirect ('dashboard') 
 
         else:
-            messages.error(request, 'We cannot find an account with that email address')
+            messages.error(request, 'We cannot find an account with that email address or that password')
+
+def sendMailAfterRegis (domain, user, context, additional_msg):
+    subject = ''
+    messages = ''
+    if (context == 'verification'):
+        subject = 'Your Account Need To Be Verified'
+        activate_url = 'http://' + domain + '/verify/' + user.auth_token
+        messages = 'hi ' + user.userName + ' please verify this account\n' + activate_url
+    elif (context == 'admin_approve'):
+        subject = 'Your Account Has Been Verified by Admin'
+        messages = 'hi ' + user.userName + ',\n\n' + 'Your Music Store\'s account has been verified by admin.\n' + 'Now you can login using your account\n' + 'http://' + domain 
+    elif (context == 'admin_reject'):   
+        subject = 'Your Account Has Been Rejected by Admin'               
+        messages = 'hi ' + user.userName + ',\n\n' + 'Unfortunately Your Music Store\'s account has been Rejected by admin because:\n\n' + additional_msg + '\n\nPlease make a new music store\'s account based on the admin\'s note\n' +'http://' + domain
+    elif (context == 'forgot_password'):  
+        subject = 'Reset Your Password' 
+        activate_url = 'http://' + domain + '/forgot_Pass/' + user.auth_token              
+        messages = 'hi ' + user.userName + ',\n\n' + 'Please click the link down below to reset your password\n\n' + activate_url
+
+    email_from = settings.EMAIL_HOST_USER
+    receipent_list = [user.email]
+    email = EmailMessage(
+        subject,
+        messages,
+        email_from,
+        receipent_list
+    )
+
+    email.send(fail_silently=False)
+    # number = 1
+
+def forgotPassword (request):
+    email = request.POST.get('userEmail')
+
+    username = User.objects.filter(email = email).values_list(
+        'userName', flat=True
+        ).first()
+
+    if username is None:
+        messages.error(request, 'We cannot find an account with that email address or that password')
+    else:
+        user = User.objects.get(userName = username)
+        domain = get_current_site(request).domain
+        sendMailAfterRegis(domain, user, 'forgot_password', '')
+        messages.error(request, 'We already send you email to reset your password')
+
+def forgotPasswordForm (request,auth_token):
+    getUser = User.objects.get(auth_token = auth_token)
+    if request.method != 'POST':
+        forgot_pass_form = ForgotPasswordForm()
+        context = {
+            'form': forgot_pass_form,
+            'username': getUser.userName
+        }
+        return render(request,'forgotPassword.html', context)
+    else :
+        password = request.POST.get('userPassword')
+        conf_pass = request.POST.get('confUserPassword')
+
+        web_direct = 'success.html'
+
+        try: 
+            check_pass = weakPassword (password)
+            if check_pass != 'True':
+                messages.success(request, check_pass)
+                return redirect ('regularUser')
+
+            if (conf_pass != password):
+                messages.success(request, 'confirm password should be same as password')
+                return redirect ('regularUser')
+
+            getUser.password = password
+            getUser.save()
+
+            userAuth = auth_user.objects.get(username = getUser.userName)
+            userAuth.password = password
+            userAuth.save()
+
+            return redirect ('dashboard')
+
+        except Exception as e:
+            print(e)
+            web_direct = 'error.html'
+
+    return render(request,web_direct)
 
 def countUserPending(request):
     obj = MusicStoreData.objects.select_related('userID').filter(
             userID__status='AdminPending',
             userID__roleId='Mus_Store').count()
     return obj
+
+def weakPassword (password):
+    if (password == "\n" or password == " "):
+        return "Password cannot be a newline or space!"
+    
+    if (9 <= len(password) <= 20):
+        if re.search(r'(.)\1\1',password): 
+            return "Weak Password: Same character repeats three or more times in a row"
+        
+        if re.search(r'(..)(.*?)\1', password):
+            return "Weak password: Same string pattern repetition"
+   
+        else:
+            return "True"
+    else:
+        return "Password length must be 9-20 characters!"

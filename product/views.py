@@ -12,7 +12,7 @@ from Skripsi.views import loginAccount
 from review.models import Review
 from django.db import connection
 import re
-from Skripsi.views import loginAccount, countUserPending
+from Skripsi.views import loginAccount, countUserPending, forgotPassword
 
 @login_required
 @allowed_users(allowed_roles=['Admin'])
@@ -149,8 +149,11 @@ def numIndicator (number):
 
 def showProduct (request, productName, brand):
     isLogin = request.POST.get('isLogin')
+    isForgotPass = request.POST.get('isForgotPassword')
     if request.method == 'POST' and isLogin == "1":
         loginAccount (request)
+    elif request.method == 'POST' and isForgotPass == "1":
+        forgotPassword (request)
     
     user_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Reg_User",productId__productName=productName)
     ms_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Mus_Store",productId__productName=productName)
@@ -293,9 +296,12 @@ def showProduct (request, productName, brand):
 
 def viewProductByCategory(request, categoryName):
     isLogin = request.POST.get('isLogin')
+    isForgotPass = request.POST.get('isForgotPassword')
     if request.method == 'POST' and isLogin == "1":
         loginAccount (request)
-
+    elif request.method == 'POST' and isForgotPass == "1":
+        forgotPassword (request)
+        
     productList = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName=categoryName)[:12]
     context={
         'productList': productList,

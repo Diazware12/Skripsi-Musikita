@@ -62,7 +62,9 @@
 
                 {% comment %} {{form.userPassword}} {% endcomment %}
                 <input type="password" name="userPassword" class="form-control" required="" id="id_userPassword" required>
-                <small><a href="#" style="color: #38a100;">Forgot Your Password?</a></small>
+                <small>
+                  <a id="forgotPass" href="#forgotPasswordModal" data-toggle="modal" data-target="#forgotPasswordModal" style="color: #38a100;">Forgot Your Password?</a>
+                </small>
             </div>
             <div class="d-flex flex-row-reverse bd-highlight pt-3">
               <div class="p-2 bd-highlight"><button type="submit" class="greenbutton">Login</button></div>
@@ -74,7 +76,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- Modal review-->
 <div class="modal fade" id="reviewLoginFirstModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -92,6 +93,43 @@
   </div>
 </div>
 
+<!-- Forgot Password review-->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="margin: auto; padding-left: 20%;" id="exampleModalLongTitle">Forgot Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container" style="width: 80%; height: 80%;">
+          <form method="POST">
+
+            {% csrf_token %}
+            
+            <div class="d-flex">
+              <div class="mr-auto"><h6>Email Address</h6></div>
+            </div>
+
+              {% comment %} {{form.userEmail}} {% endcomment %}
+              <input type="email" name="userEmail" class="form-control" required="" id="id_userEmail" required>
+              <small class="text-muted">example:email@musikita.com</small>
+
+            <div class="d-flex flex-row-reverse bd-highlight pt-3">
+              <div class="p-2 bd-highlight"><button type="submit" class="greenbutton">Submit</button></div>
+            </div>
+            <input name="isForgotPassword" value="1" style="display: none;">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- response review-->
 <div class="modal fade" id="responseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -142,24 +180,5 @@
 <script src="{% static 'vendor2/scripts/aos.js'%}"></script>
 <script src="{% static 'vendor2/scripts/ekko-lightbox.min.js'%}"></script>
 <script src="{% static 'vendor2/scripts/main.js'%}"></script>
-<script src="{% static 'vendor2/scripts/custom.js'%}"></script>
+<script src="{% static 'vendor2/scripts/customs.js'%}"></script>
 
-<script type="text/javascript">
-  loginStatus = document.getElementById('logged_in').innerHTML; 
-  console.log(loginStatus);
-  response_messages = document.getElementById('responseMsg').innerHTML;
-  message = document.getElementById('msg').innerHTML;
-
-  if (loginStatus == 'false'){
-    if (message != '') {
-      $('#loginModal').modal('show'); 
-    }
-  } else {
-    if (response_messages != 'success') {
-      $('#responseModal').modal('show'); 
-    }
-  }
-
-
-  
-</script>

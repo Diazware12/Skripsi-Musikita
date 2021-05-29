@@ -33,6 +33,7 @@ urlpatterns = [
     path('product/',include('product.urls'),name="product"),
     url(r'^success/',views.token),
     path('verify/<auth_token>',views.verifyEmail,name="verify"),
+    path('forgot_Pass/<auth_token>',views.forgotPasswordForm,name="forgot_pass"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

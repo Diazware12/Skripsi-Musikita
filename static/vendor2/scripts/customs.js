@@ -8,7 +8,29 @@ $("#register").on( "click", function() {
   $('#signUpModal').modal('show');  
 });
 
-console.log("assert");
+$("#forgotPass").on( "click", function() {
+	$('#loginModal').modal('hide');  
+});
+
+$("#forgotPass").on( "click", function() {
+  $('#forgotPasswordModal').modal('show');  
+});
+
+loginStatus = document.getElementById('logged_in').innerHTML; 
+console.log(loginStatus);
+response_messages = document.getElementById('responseMsg').innerHTML;
+message = document.getElementById('msg').innerHTML;
+
+if (loginStatus == 'false'){
+  if (message != '') {
+    $('#loginModal').modal('show'); 
+  }
+} else {
+  if (response_messages != 'success') {
+    $('#responseModal').modal('show'); 
+  }
+}
+
 
 var rate1 = document.getElementById("rate-1");
 var rate2 = document.getElementById("rate-2");

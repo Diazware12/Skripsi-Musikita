@@ -5,8 +5,10 @@ DIAZ
 - profile blm
 - edit profile
 - report review #
-- forgot password #
-- halaman buat brand
+- halaman buat brand    
+- datetime masih salah
+- fitur "see more.." pada deskripsi
+- validasi pada form (max length, dll)
 
 CALVIN
 - productVisit
@@ -25,6 +27,7 @@ yang done
     - validasi kalau user sebelumnya udh mencet helpful/notHelpful (done)
     - dropdown list blum diganti isinya - (done)
     - hot product, visitnya blm ada score nya (done)
+    - forgot password (done)
 
 
 OPSIONAL
