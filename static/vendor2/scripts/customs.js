@@ -17,7 +17,6 @@ $("#forgotPass").on( "click", function() {
 });
 
 loginStatus = document.getElementById('logged_in').innerHTML; 
-console.log(loginStatus);
 response_messages = document.getElementById('responseMsg').innerHTML;
 message = document.getElementById('msg').innerHTML;
 

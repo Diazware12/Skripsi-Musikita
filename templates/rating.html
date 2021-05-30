@@ -173,7 +173,9 @@
                             <div class="col"><h5 class="card-title">{{mrev.title}}</h5></div>
                             {% if user.is_authenticated %}
                               {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
-                                <div class="col-md-5"><a href="{% url 'reportReview' brand=obj.brandId.brandName productName=obj.productName user=mrev.userID.userName%}">Report As Abuse</a></div>
+                                {% if request.user.username != mrev.userID.userName %}
+                                  <div class="col-md-5"><a href="{% url 'reportReview' brand=obj.brandId.brandName productName=obj.productName user=mrev.userID.userName%}">Report As Abuse</a></div>
+                                {% endif %}
                               {% endif %}
                             {% endif %}
                           </div>
@@ -182,15 +184,17 @@
                           {% if user.is_authenticated %}
                             {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
                               <div class="row">
-                                <div class="col-md-3 mt-2">
-                                  <p>Helpful?</p>
-                                </div>
-                                <div class="col">
-                                  <div class="d-flex flex-row">
-                                    <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='helpful' user=mrev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">Yes</a></div>
-                                    <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='notHelpful' user=mrev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">No</a></div>
+                                {% if request.user.username != mrev.userID.userName %}
+                                  <div class="col-md-3 mt-2">
+                                    <p>Helpful?</p>
                                   </div>
-                                </div>
+                                  <div class="col">
+                                    <div class="d-flex flex-row">
+                                      <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='helpful' user=mrev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">Yes</a></div>
+                                      <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='notHelpful' user=mrev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">No</a></div>
+                                    </div>
+                                  </div>
+                                {% endif %}
                                 <div class="col mt-2">
                                   {% if mrev.helpful == 0 and mrev.notHelpful == 0%}
                                     <span></span>
@@ -269,7 +273,9 @@
                         <div class="col"><h5 class="card-title">{{urev.title}}</h5></div>
                             {% if user.is_authenticated %}
                               {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
-                                <div class="col-md-5"><a href="{% url 'reportReview' brand=obj.brandId.brandName productName=obj.productName user=urev.userID.userName%}">Report As Abuse</a></div>
+                                {% if request.user.username != urev.userID.userName %}
+                                  <div class="col-md-5"><a href="{% url 'reportReview' brand=obj.brandId.brandName productName=obj.productName user=urev.userID.userName%}">Report As Abuse</a></div>
+                                {% endif %}
                               {% endif %}
                             {% endif %}
                       </div>
@@ -278,15 +284,17 @@
                       {% if user.is_authenticated %}
                         {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
                           <div class="row">
-                            <div class="col-md-3 mt-2">
-                              <p>Helpful?</p>
-                            </div>
-                            <div class="col">
-                              <div class="d-flex flex-row">
-                                <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='helpful' user=urev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">Yes</a></div>
-                                <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='notHelpful' user=urev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">No</a></div>
+                            {% if request.user.username != urev.userID.userName %}
+                              <div class="col-md-3 mt-2">
+                                <p>Helpful?</p>
                               </div>
-                            </div>
+                              <div class="col">
+                                <div class="d-flex flex-row">
+                                  <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='helpful' user=urev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">Yes</a></div>
+                                  <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='notHelpful' user=urev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">No</a></div>
+                                </div>
+                              </div>
+                            {% endif %}
                             <div class="col mt-2">
                               {% if urev.helpful == 0 and urev.notHelpful == 0%}
                                 <span></span>
@@ -297,13 +305,9 @@
                           </div>
                         {% endif %}
                       {% endif %}
-
-
                     </div>
                   </div>
-
                 </td>
-
               </tr> 
             {% endfor %}
          

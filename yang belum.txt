@@ -5,9 +5,8 @@ DIAZ
 - profile blm
 - edit profile
 - halaman buat brand    
-- edit add product pas kita back #
-- notifikasi buat admin #
 - halaman report review
+- halaman "about Musikita"
 
 CALVIN
 - productVisit
@@ -30,6 +29,7 @@ yang done
     - datetime masih salah (done)
     - fitur "see more.." pada deskripsi (done)
     - validasi pada form (max length, dll) (done)
+    - edit add product pas kita back (done)
 
 OPSIONAL
 - template email bagusin

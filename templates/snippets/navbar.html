@@ -29,10 +29,11 @@
       <div class="right">
         <ul>
           {% if user.is_authenticated %}
-
+      
             {% if request.user.groups.all.0.name == 'Admin' %}
-              <li><a href="{% url 'addProduct' %}">Add Product</a></li>
-              <li><a href="{% url 'userApproveList' %}">User Pending ({{userPending}})</a></li>  
+              <li><a href="{% url 'userApproveList' %}">User Pending ({{userPending}})</a></li> 
+            {% else %} 
+              <li><a href="#">About Musikita</a></li>
             {% endif %}
 
             <li class="nav-item dropdown">
@@ -40,13 +41,17 @@
                 {{request.user.username}}
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">profile</a>
+                 {% if request.user.groups.all.0.name == 'Admin' %}
+                    <a class="dropdown-item" href="{% url 'addProduct' %}">Add Product</a>
+                  {% else %}
+                    <a class="dropdown-item" href="#">profile</a>
+                 {% endif %}
                 <a class="dropdown-item" href="{% url 'logoutUser' %}">Logout</a>
               </div>
             </li>
-
+            
           {% else %}
-            <li><a href="#">Whats Next</a></li>
+            <li><a href="#">About Musikita</a></li>
             <li><a href="#signUpModal" data-toggle="modal" data-target="#signUpModal">Sign Up</a></li>
             <li><a href="#loginModal" data-toggle="modal" data-target="#loginModal">LogIn</a></li>
           {% endif %}

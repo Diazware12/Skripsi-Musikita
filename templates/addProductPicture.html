@@ -49,11 +49,13 @@
             <span id="brand" style="display: none;" value="{{brand}}">{{brand}}</span>
             <span id="productName" style="display: none;" value="{{productName}}">{{productName}}</span>
 
-            <div class="d-flex flex-row-reverse bd-highlight pb-5">
-                <div class="p-2 bd-highlight">
-                    <button class="greenbutton" id="confirm-btn">Add</button>
-                </div>
+            <div class="d-flex flex-row-reverse bd-highlight pt-3">
+              <div class="p-2 bd-highlight"><button class="greenbutton" id="confirm-btn">Add</button></div>
+              <div class="p-2 bd-highlight"><a type="submit" class="greenbutton" href="{% url 'editProduct' context='editAddProduct' brand=brand productName=productName %}"style="text-decoration: none;">edit</a></div>
             </div>
+
+            
+
     </div>
     <script src="{% static 'vendor2/scripts/cropProductPicture.js'%}"></script>  
     

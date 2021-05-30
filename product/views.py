@@ -11,6 +11,7 @@ from Skripsi.decorator import allowed_users
 from Skripsi.views import loginAccount
 from review.models import Review
 from django.db import connection
+import requests
 import re
 from Skripsi.views import loginAccount, countUserPending, forgotPassword
 
@@ -53,8 +54,9 @@ def addProduct (request):
             if len(description) < 75:
                 messages.success(request, 'description need to be equal or more than 75 character')
                 return redirect ('addProduct')
-            
-            if not 'youtube' in videoUrl or not 'youtu.be' in videoUrl:
+
+            req = requests.head(videoUrl)
+            if req.status_code == 404:
                 messages.success(request, 'video Url\'s not valid')
                 return redirect ('addProduct')
 
@@ -81,13 +83,91 @@ def addProduct (request):
 
     return render(request,web_direct)
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def addEditProduct (request,context,productName,brand):
+    getProduct = Product.objects.select_related('brandId').get(
+        brandId__brandName=brand,
+        productName=productName)
+
+    if request.method != 'POST':
+        ddCategory = Category.objects.all()
+        ddSubCategory = SubCategory.objects.all()
+        product = getProduct
+        form = ProductForm()
+        context = {
+            'form':form,
+            'product': product,
+            'category': ddCategory,
+            'subCategory': ddSubCategory,
+        }
+        return render(request,'addProductEdit.html', context)
+    else :
+        productName = request.POST.get('productName') 
+        brand = request.POST.get('productBrand') 
+        category = request.POST.get('category')
+        subCategory = request.POST.get('subCategory')
+        description = request.POST.get('description')
+        videoUrl = request.POST.get('videoUrl')
+
+        brand_Id = Brand.objects.get(brandName = brand)
+
+        category_Id = Category.objects.get(categoryName = category)
+
+        subCategory_Id = SubCategory.objects.get(
+                            subCategoryName = subCategory, 
+                            categoryId = category_Id
+                        )
+        
+        try: 
+            if len(description) < 75:
+                messages.success(request, 'description need to be equal or more than 75 character')
+                return redirect ('editProduct',productName=productName,brand=brand)
+            
+            req = requests.head(videoUrl)
+            if req.status_code == 404:
+                messages.success(request, 'video Url\'s not valid')
+                return redirect ('editProduct',productName=productName,brand=brand)
+
+            getProduct.categoryId=category_Id
+            getProduct.subCategoryId = subCategory_Id
+            getProduct.brandId = brand_Id
+            getProduct.productName = productName
+            getProduct.description = description
+            getProduct.videoUrl = videoUrl
+            getProduct.minPrice = 0
+            getProduct.maxPrice = 0
+            getProduct.save()
+            web_direct = 'success.html'
+
+            if (context == "editAddProduct"):
+                return redirect ('addProductPicture', brand=brand_Id.brandName, productName=getProduct.productName)
+
+        except Exception as e:
+            print(e)
+            web_direct = 'error.html'
+
+    return render(request,web_direct)    
+
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def getJsonCategoryData (request):
     catValue = list(Category.objects.values())
     return JsonResponse ({
         'data':catValue 
     })
 
-def getJsonSubCategoryData (request, *args, **kwargs):
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def getJsonCategoryDataEdit (request,context,brand,productName):
+    catValue = list(Category.objects.values())
+    return JsonResponse ({
+        'data':catValue 
+    })
+
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def getJsonSubCategoryDataEdit (request,context,brand,productName, *args, **kwargs):
     selected_category = kwargs.get('cat')
 
     cat_Id = Category.objects.filter(
@@ -104,8 +184,30 @@ def getJsonSubCategoryData (request, *args, **kwargs):
     return JsonResponse ({
         'data':subCat_models 
     })
-    
-def addPicture (request,productName,brand):
+
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def getJsonSubCategoryData (request, *args, **kwargs):
+    selected_category = kwargs.get('cat')
+
+    cat_Id = Category.objects.filter(
+                    categoryName = selected_category
+            ).values_list('categoryId', flat=True
+            ).first()
+
+    print(cat_Id)
+
+    subCat_models = list(
+        SubCategory.objects.filter(categoryId=cat_Id).values()
+    )
+
+    return JsonResponse ({
+        'data':subCat_models 
+    }) 
+
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def addEditPicture (request,productName,brand):
     web_direct = ''
     if request.method != 'POST':
         context = {
@@ -266,7 +368,6 @@ def showProduct (request, productName, brand):
                 "mixed_music": qux[1],
                 "negative_music": qux[2]
             })
-
 
     with connection.cursor() as cursor:
         raw_sql ="""            

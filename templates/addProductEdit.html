@@ -1,0 +1,91 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {% include "snippets/headImport.html" %}
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="pb-5 pt-5">Add Product</h1>
+        <form method='POST' enctype="multipart/form-data">
+        
+            {% csrf_token %}
+
+            {% if messages %}
+            
+                {% for message in messages %}
+                    <div class="alert alert-info"> 
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            
+            {% endif %}
+
+            <h5 class="pt-3">Product Name</h5>
+
+            <div class="pt-3">
+               <input type="text" class="form-control" name="productName" value="{{ product.productName }}">
+            </div>
+
+            <h5 class="pt-3">Product Brand</h5>
+
+            <div class="pt-3">
+                {{ form.productBrand }}
+            </div>
+
+            <span id="productName" style="display: none;" value="{{ product.productName }}">{{ product.productName }}</span>
+            <span id="brand" style="display: none;" value="{{product.brandId.brandName}}">{{product.brandId.brandName}}</span>
+
+
+            <h5 class="pt-3">Product Category</h5>
+            
+            <div class="pt-3" id="category">
+                <select class="form-control" id="categoryddl" name="category" required>
+                    <option disabled value="" selected="">---------</option>
+                </select>
+            </div>
+
+            <h5 class="pt-3">Product Sub-Category</h5>
+
+            <div class="pt-3" id="subcategory">
+                <select class="form-control" id="subcategoryddl" name="subCategory" required>
+                    <option disabled value="" selected="" id="subCategoryText">---------</option>
+                </select>
+            </div>
+
+            <h5 class="pt-3">Description</h5>
+
+            <div class="pt-3">
+                <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3">{{product.description}}</textarea>
+            </div>
+
+            <h5 class="pt-3">Youtube Video Url</h5>
+
+            <div class="pt-3">
+                <input type="text" class="form-control" name="videoUrl" value="{{ product.videoUrl }}">
+            </div>
+            
+            
+            <div class="d-flex flex-row-reverse bd-highlight pb-5">
+                <div class="p-2 bd-highlight">
+                    <button type="submit" class="greenbutton">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="{% static 'vendor2/scripts/dropdownEdit.js'%}"></script>
+    {% include "snippets/scripts.html" %}
+    
+</body>
+
+
+
+</html>
