@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect 
 from register.models import User,MusicStoreData
 from django.contrib.auth.models import User as auth_user
+from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.core.mail import  EmailMessage
 from django.contrib.auth import authenticate, login, logout
@@ -56,11 +57,8 @@ def profileMusicStore (request):
     return render(request,'profileMusicStore.html')
 
 def productList (request):
-    isLogin = request.POST.get('isLogin')
-    if request.method == 'POST' and isLogin == "1":
-        loginAccount (request)
+    return render(request,'productList.html')  
 
-    return render(request,'productList.html')   
 
 def token (request):
     return render(request,'token-send.html')  
@@ -187,11 +185,11 @@ def forgotPasswordForm (request,auth_token):
                 messages.success(request, 'confirm password should be same as password')
                 return redirect ('regularUser')
 
-            getUser.password = password
+            getUser.password = make_password(password)
             getUser.save()
 
             userAuth = auth_user.objects.get(username = getUser.userName)
-            userAuth.password = password
+            userAuth.password = make_password(password)
             userAuth.save()
 
             return redirect ('dashboard')

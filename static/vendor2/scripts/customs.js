@@ -31,7 +31,6 @@ if (loginStatus == 'false'){
   }
 }
 
-
 var rate1 = document.getElementById("rate-1");
 var rate2 = document.getElementById("rate-2");
 var rate3 = document.getElementById("rate-3");

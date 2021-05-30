@@ -4,11 +4,10 @@ DIAZ
 - searching blm bisa
 - profile blm
 - edit profile
-- report review #
 - halaman buat brand    
-- datetime masih salah
-- fitur "see more.." pada deskripsi
-- validasi pada form (max length, dll)
+- edit add product pas kita back #
+- notifikasi buat admin #
+- halaman report review
 
 CALVIN
 - productVisit
@@ -16,9 +15,8 @@ CALVIN
     -> buat page add carousel
 - editor's choice masih dummy
 - new released item, visitnya blm ada score nya (masih dummy)
-
 - filtering apagi, blm samsek
-
+- range price
 
 yang done
     - music store, jadi 3 foto (done)
@@ -28,7 +26,10 @@ yang done
     - dropdown list blum diganti isinya - (done)
     - hot product, visitnya blm ada score nya (done)
     - forgot password (done)
-
+    - report review (done)
+    - datetime masih salah (done)
+    - fitur "see more.." pada deskripsi (done)
+    - validasi pada form (max length, dll) (done)
 
 OPSIONAL
 - template email bagusin

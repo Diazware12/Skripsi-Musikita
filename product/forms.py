@@ -56,7 +56,7 @@ class ProductForm (forms.Form):
         widget=forms.Textarea(
             attrs={
                 'class':'form-control',
-                'placeholder':'Product Description'
+                'placeholder':'Product Description (min. 75 character)'
             }
         )
     )

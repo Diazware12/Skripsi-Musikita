@@ -28,7 +28,6 @@ urlpatterns = [
     url(r'^profile/',views.profile),
     url(r'^profileMusicStore/',views.profileMusicStore),
     url(r'^productList/',views.productList),
-    # url(r'^register/',include('register.urls')),
     path('register/',include('register.urls'),name="register"),
     path('product/',include('product.urls'),name="product"),
     url(r'^success/',views.token),

@@ -22,4 +22,4 @@ class Report (models.Model):
     reportId = models.AutoField(primary_key=True,null=False)
     reviewId = models.ForeignKey(Review,on_delete=models.CASCADE)
     userID = models.ForeignKey(User,on_delete=models.CASCADE) 
-    reason = models.TextField()
+    reason = models.CharField(max_length=50)

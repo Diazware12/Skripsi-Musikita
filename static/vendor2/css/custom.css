@@ -117,6 +117,13 @@ nav > .nav.nav-tabs{
     border-radius: 8px; 
   }
 
+.morecontent span {
+  display: none;
+}
+.morelink {
+    display: block;
+}
+
 
 .star-widget label{
   font-size: 20px;

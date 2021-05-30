@@ -4,7 +4,7 @@ from django.contrib import messages
 from .forms import ProductForm
 from django.conf import settings
 from product.models import Product, Category, SubCategory, Brand
-import datetime
+from datetime import datetime
 from PIL import Image
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import allowed_users
@@ -50,6 +50,14 @@ def addProduct (request):
                 messages.success(request, 'Product is already exist')
                 return redirect ('addProduct')
 
+            if len(description) < 75:
+                messages.success(request, 'description need to be equal or more than 75 character')
+                return redirect ('addProduct')
+            
+            if not 'youtube' in videoUrl or not 'youtu.be' in videoUrl:
+                messages.success(request, 'video Url\'s not valid')
+                return redirect ('addProduct')
+
             product_obj = Product.objects.create(
                 categoryId = category_Id,
                 subCategoryId = subCategory_Id,
@@ -59,7 +67,7 @@ def addProduct (request):
                 videoUrl = videoUrl,
                 minPrice = 0,
                 maxPrice = 0,
-                dtm_crt = datetime.date.today()
+                dtm_crt = datetime.now()
             )
 
             product_obj.save()
@@ -139,12 +147,18 @@ def make_square(img):
     return new_img
 
 def numIndicator (number):
-    num_array = number.split ('.')
-    finalNum = 0
-    if (num_array[1] == "0"):
-        finalNum = int(num_array[0])
-    else: 
-        finalNum = float(number)
+
+    finalNum = None
+    if number != None:
+        num_array = number.split ('.')
+        
+        if (num_array[1] == "0"):
+            finalNum = int(num_array[0])
+        else: 
+            finalNum = float(number)
+    else:
+        finalNum = None
+
     return finalNum
 
 def showProduct (request, productName, brand):
@@ -160,28 +174,13 @@ def showProduct (request, productName, brand):
 
     obj = Product.objects.select_related('brandId').get(productName = productName, brandId__brandName=brand)
 
-    ratingResults = []
+    ratingUserScore = []
+    ratingMusicStore = []
+    userAvg = None
+    musStoreAvg = None
     with connection.cursor() as cursor:
         raw_sql =""" 
-                    with 
-                        avgUser as(
-                            select 
-                                FORMAT (avg(r.rating), 1) as user_avg,
-                                p.productId as productId
-                            from review_review as r
-                            join register_user as u on r.userID_id = u.userID
-                            join product_product as p on r.productId_id = p.productId
-                            where u.roleId like "%Reg_User%" and p.productId= """+str(obj.productId)+"""),
-
-                        avgMusStore as(
-                        select 
-                            FORMAT (avg(r.rating), 1) as Mus_store_avg,
-                            p.productId as productId
-                        from review_review as r
-                        join register_user as u on r.userID_id = u.userID
-                        join product_product as p on r.productId_id = p.productId
-                        where u.roleId like "%Mus_Store%" and p.productId= """+str(obj.productId)+"""),
-                        
+                    with                         
                         statsUser as (
                             select 
                             FORMAT((
@@ -210,8 +209,22 @@ def showProduct (request, productName, brand):
                             join register_user as u on r.userID_id = u.userID
                             join product_product as p on r.productId_id = p.productId
                             where u.roleId like "%Reg_User%" and p.productId = """+str(obj.productId)+"""
-                        ),
+                        )
+                    select positive_user, mixed_user, negative_user
+                    from statsUser  
+                """            
+        cursor.execute(raw_sql)
 
+        for qux in cursor.fetchall():
+            ratingUserScore.append({
+                "positive_user": qux[0],
+                "mixed_user": qux[1],
+                "negative_user": qux[2]
+            })
+
+    with connection.cursor() as cursor:
+        raw_sql =""" 
+                    with                         
                         statsMusStore as (
                             select 
                                 FORMAT((
@@ -242,26 +255,47 @@ def showProduct (request, productName, brand):
                                 where u.roleId like "%Mus_Store%" and p.productId = """+str(obj.productId)+"""
                         )    
                         
-                    select user_avg, Mus_store_avg, positive_user, mixed_user, negative_user, positive_ms, mixed_ms, negative_ms
-                    from avgUser join avgMusStore using (productId)
-                    join statsUser using (productId)
-                    join statsMusStore using (productId)      
+                    select positive_ms, mixed_ms, negative_ms
+                    from statsMusStore 
                 """            
         cursor.execute(raw_sql)
 
         for qux in cursor.fetchall():
-            ratingResults.append({
-                "userAvg": numIndicator (qux[0]),
-                "musStoreAvg": numIndicator (qux[1]),
-                "positive_user": qux[2],
-                "mixed_user": qux[3],
-                "negative_user": qux[4],
-                "positive_music": qux[5],
-                "mixed_music": qux[6],
-                "negative_music": qux[7],
-                'userPending': countUserPending(request)
+            ratingMusicStore.append({
+                "positive_music": qux[0],
+                "mixed_music": qux[1],
+                "negative_music": qux[2]
             })
+
+
+    with connection.cursor() as cursor:
+        raw_sql ="""            
+                    select 
+                        FORMAT (avg(r.rating), 1) as user_avg
+                    from review_review as r
+                    join register_user as u on r.userID_id = u.userID
+                    join product_product as p on r.productId_id = p.productId
+                    where u.roleId like "%Reg_User%" and p.productId="""+str(obj.productId)+"""
+                """            
+        cursor.execute(raw_sql)
+
+        for qux in cursor.fetchall():
+            userAvg = numIndicator (qux[0])
         
+    with connection.cursor() as cursor:
+        raw_sql ="""            
+                    select 
+                        FORMAT (avg(r.rating), 1) as Mus_store_avg
+                    from review_review as r
+                    join register_user as u on r.userID_id = u.userID
+                    join product_product as p on r.productId_id = p.productId
+                    where u.roleId like "%Mus_Store%" and p.productId="""+str(obj.productId)+"""
+                """            
+        cursor.execute(raw_sql)
+
+        for qux in cursor.fetchall():
+            musStoreAvg = numIndicator (qux[0]) 
+
     username = None
     review_available = None
     messages = None
@@ -286,7 +320,10 @@ def showProduct (request, productName, brand):
         'obj': obj,
         'user_review': user_review,
         'ms_review': ms_review,
-        'rateSum': ratingResults,
+        'ratingUserScore': ratingUserScore,
+        'ratingMusicStore': ratingMusicStore,
+        'userAvg': userAvg,
+        'musStoreAvg': musStoreAvg,
         'reviewStatus': review_available,
         'messageModal': messages,
         'userPending': countUserPending(request)

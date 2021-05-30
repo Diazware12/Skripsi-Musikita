@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from register.models import User, MusicStoreData
-import datetime
+from datetime import datetime
 from django.contrib.auth.hashers import make_password
 import uuid
 from django.conf import settings
@@ -59,7 +59,7 @@ def registerMember (request):
                 roleId = 'Reg_User',
                 description = '',
                 status = 'Pending',
-                dtm_crt = datetime.date.today(),
+                dtm_crt = datetime.now(),
                 verified_at = None,
                 auth_token = token
             )
@@ -130,7 +130,7 @@ def registerMusicStore (request):
                 roleId = 'Mus_Store',
                 description = description,
                 status = 'Pending',
-                dtm_crt = datetime.date.today(),
+                dtm_crt = datetime.now(),
                 verified_at = None,
                 auth_token = token
             )

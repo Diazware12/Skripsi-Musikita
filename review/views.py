@@ -1,10 +1,10 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from .forms import ReviewForm
-from .models import Review, HelpfulData
+from .forms import ReviewForm, ReportForm
+from .models import Review, HelpfulData, Report
 from product.models import Product
 from register.models import User
-import datetime
+from datetime import datetime
 from django.db import connection
 
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -36,11 +36,15 @@ def reviewProduct (request, productName, brand):
             if rate == '':
                 messages.success(request, 'you need to fill-in the rate')
                 return redirect ('reviewProduct', brand=brand, productName=productName)
+
+            if len(reviewDescription) < 75:
+                messages.success(request, 'review need to be equal or more than 75 character')
+                return redirect ('reviewProduct', brand=brand, productName=productName)
             
             rating_obj = Review.objects.create(
                 productId = product,
                 userID = user,
-                dtm_crt = datetime.date.today(),
+                dtm_crt = datetime.now(),
                 title = reviewTitle,
                 description = reviewDescription,
                 rating = rate
@@ -144,4 +148,49 @@ def feedback (request, productName, brand, feedback, user):
             messages.success(request, 'success')
 
     return redirect ('showProduct', brand=brand, productName=productName)
-    
+
+@login_required
+@allowed_users(allowed_roles=['Reg_User','Mus_Store'])
+def reportReview (request, productName, brand, user):
+    getProduct = Product.objects.select_related(
+                        'brandId').get(
+                        productName = productName,
+                        brandId__brandName = brand)
+
+    obj = Review.objects.select_related('userID').get(
+                productId = getProduct.productId,
+                userID__userName = user
+            )
+    web_direct = None
+    if request.method != 'POST':
+        form = ReportForm()
+
+
+        context = {
+            'form': form,
+            'obj': obj,
+            'productName': getProduct.productName,
+            'brand': getProduct.brandId.brandName
+        }
+        return render(request,'reportView.html', context)
+    else :
+        reason = request.POST.get('reportReason')
+        try: 
+            
+            getUser = User.objects.get(userName = request.user.username)
+            
+            report_obj = Report.objects.create(
+                reviewId = obj,
+                userID = getUser,
+                reason = reason
+            )
+            report_obj.save()
+
+            return redirect('showProduct', brand=brand, productName=productName)
+
+        except Exception as e:
+            print(e)
+            web_direct = 'error.html'
+
+    return render(request,web_direct)
+ 
