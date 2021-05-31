@@ -16,7 +16,7 @@
 {% include "snippets/navbar.html" %}
 
     <div class="container">
-        <div class="separator"><div class="h1 text-center" ><span>{{Brand}} > </span><span>{{productName}}</span></div></div>
+        <div class="separator"><div class="h1 text-center" ><span>{{Brand}}: </span><span>{{productName}}</span></div></div>
 
         <form method='POST'>
             {% csrf_token %}
@@ -83,7 +83,14 @@
 
 
 
-{% include "snippets/footerAndScripts.html" %}
+{% include "snippets/footer.html" %}
+<script src="{% static 'vendor2/scripts/jquery.min.js'%}"></script>
+<script src="{% static 'vendor2/scripts/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static 'vendor2/scripts/aos.js'%}"></script>
+<script src="{% static 'vendor2/scripts/ekko-lightbox.min.js'%}"></script>
+<script src="{% static 'vendor2/scripts/main.js'%}"></script>
+<script src="{% static 'vendor2/scripts/seeMore.js'%}"></script>
+<script src="{% static 'vendor2/scripts/rating.js'%}"></script>
 
 </body>
 </html>

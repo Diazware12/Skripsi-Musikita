@@ -8,6 +8,7 @@ DIAZ
 - "see more musicstore/user review" di halaman review
 - add brand
 - paging setiap halaman
+- validasi error
 
 
 CALVIN

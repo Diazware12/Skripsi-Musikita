@@ -68,12 +68,12 @@
                 <div class="pt-3">
                     <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3">{{User.description}}</textarea>
                 </div>
-                
-                <div class="d-flex flex-row-reverse bd-highlight pb-5">
-                    <div class="p-2 bd-highlight">
-                        <button type="submit" class="greenbutton">Add</button>
-                    </div>
+
+                <div class="d-flex flex-row-reverse bd-highlight pt-3">
+                    <div class="p-2 bd-highlight"><button type="submit" class="greenbutton">Add</button></div>
+                    <div class="p-2 bd-highlight"><a type="submit" class="greenbutton" href="{% url 'profilePage' userName=User.userName %}"style="text-decoration: none;">back</a></div>
                 </div>
+
             </form>
 
         {% endif %}

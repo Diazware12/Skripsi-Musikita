@@ -1,5 +1,6 @@
 from django.db import models
 from Skripsi import settings
+from django.core.exceptions import ObjectDoesNotExist
 
 class User (models.Model):
     userID = models.AutoField(primary_key=True,null=False)

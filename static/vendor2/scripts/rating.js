@@ -1,35 +1,3 @@
-
-//register sign-up modal
-$("#register").on( "click", function() {
-	$('#loginModal').modal('hide');  
-});
-
-$("#register").on( "click", function() {
-  $('#signUpModal').modal('show');  
-});
-
-$("#forgotPass").on( "click", function() {
-	$('#loginModal').modal('hide');  
-});
-
-$("#forgotPass").on( "click", function() {
-  $('#forgotPasswordModal').modal('show');  
-});
-
-loginStatus = document.getElementById('logged_in').innerHTML; 
-response_messages = document.getElementById('responseMsg').innerHTML;
-message = document.getElementById('msg').innerHTML;
-
-if (loginStatus == 'false'){
-  if (message != '') {
-    $('#loginModal').modal('show'); 
-  }
-} else {
-  if (response_messages != 'success') {
-    $('#responseModal').modal('show'); 
-  }
-}
-
 var rate1 = document.getElementById("rate-1");
 var rate2 = document.getElementById("rate-2");
 var rate3 = document.getElementById("rate-3");
@@ -42,14 +10,13 @@ var rate9 = document.getElementById("rate-9");
 var rate10 = document.getElementById("rate-10");
 
 var valueTemp = 0;
-
+console.log(valueTemp);
 function addNum(num){
     document.getElementById("score").innerHTML = num;
 }
 function removeNum(){
     document.getElementById("score").innerHTML = valueTemp;
 }
-
 function score(){
 
     if (rate1.checked){
@@ -94,12 +61,3 @@ function score(){
     }
 
 }
-
-
-
-
-
-    
-
-
-

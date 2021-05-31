@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.http import HttpResponse
 from django.contrib import messages
 from .forms import ReviewForm, ReportForm
 from .models import Review, HelpfulData, Report
@@ -13,34 +14,41 @@ from Skripsi.decorator import allowed_users
 @login_required
 @allowed_users(allowed_roles=['Reg_User','Mus_Store'])
 def reviewProduct (request, productName, brand):
-    web_direct = ''
-    if request.method != 'POST':
-        review_form = ReviewForm()
-        context = {
-            'form': review_form,
-            'Brand': brand,
-            'productName': productName
-        }
-        return render(request,'scoreRating.html', context)
-    else :
-
-        rate = request.POST.get('rate')
-        reviewTitle = request.POST.get('reviewTitle')
-        reviewDescription = request.POST.get('reviewDescription')
-        
-        product = Product.objects.get(productName=productName) #
+    error = 0
+    try:
+        product = Product.objects.select_related('brandId').get(productName=productName,brandId__brandName=brand) #
         userAuthName = request.user.username
-        user = User.objects.get(userName = userAuthName) #
+        user = User.objects.get(userName = userAuthName)
 
-        try: 
-            if rate == '':
+    
+        if Review.objects.filter(productId=product,userID=user).first():
+            return HttpResponse('You are not allowed to view this page')
+        if request.method != 'POST':
+            review_form = ReviewForm()
+            context = {
+                'form': review_form,
+                'Brand': brand,
+                'productName': productName
+            }
+            return render(request,'scoreRating.html', context)
+        else :
+
+            rate = request.POST.get('rate')
+            reviewTitle = request.POST.get('reviewTitle')
+            reviewDescription = request.POST.get('reviewDescription')
+            error = 1
+            
+            if rate == None:
                 messages.success(request, 'you need to fill-in the rate')
                 return redirect ('reviewProduct', brand=brand, productName=productName)
+
+            if reviewTitle == '' or reviewDescription == '':
+                raise Exception("required field Empty")
 
             if len(reviewDescription) < 75:
                 messages.success(request, 'review need to be equal or more than 75 character')
                 return redirect ('reviewProduct', brand=brand, productName=productName)
-            
+                
             rating_obj = Review.objects.create(
                 productId = product,
                 userID = user,
@@ -55,14 +63,18 @@ def reviewProduct (request, productName, brand):
 
             return redirect ('showProduct', brand=brand, productName=productName)
 
-        except Exception as e:
-            print(e)
+    except Exception as e:
+        print(e)
+        context = None
+        if error == 0:
+            context = {
+                'message': "Product \""+ productName +"\" from brand \""+ brand +"\" Not Found"
+            }
+        else:
             context = {
                 'message': 'error'
             }
-            return render(request,'error.html', context)
-
-    return render(request,web_direct)
+        return render(request,'error.html', context)
 
 def putReviewAvg(rating):
     average = 0
@@ -155,33 +167,36 @@ def feedback (request, productName, brand, feedback, user):
 @login_required
 @allowed_users(allowed_roles=['Reg_User','Mus_Store'])
 def reportReview (request, productName, brand, user):
-    getProduct = Product.objects.select_related(
-                        'brandId').get(
-                        productName = productName,
-                        brandId__brandName = brand)
+    error = 0
+    try:
+        getProduct = Product.objects.select_related(
+                            'brandId').get(
+                            productName = productName,
+                            brandId__brandName = brand)
 
-    obj = Review.objects.select_related('userID').get(
-                productId = getProduct.productId,
-                userID__userName = user
-            )
-    web_direct = None
-    if request.method != 'POST':
-        form = ReportForm()
+        obj = Review.objects.select_related('userID').get(
+                    productId = getProduct.productId,
+                    userID__userName = user
+                )
+        web_direct = None
+        if request.method != 'POST':
+            form = ReportForm()
+            context = {
+                'form': form,
+                'obj': obj,
+                'productName': getProduct.productName,
+                'brand': getProduct.brandId.brandName
+            }
+            return render(request,'reportView.html', context)
+        else :
+            reason = request.POST.get('reportReason')
+            error = 1
 
+            if reason == '' or reason == None:
+                raise Exception("required field Empty")
 
-        context = {
-            'form': form,
-            'obj': obj,
-            'productName': getProduct.productName,
-            'brand': getProduct.brandId.brandName
-        }
-        return render(request,'reportView.html', context)
-    else :
-        reason = request.POST.get('reportReason')
-        try: 
-            
             getUser = User.objects.get(userName = request.user.username)
-            
+                
             report_obj = Report.objects.create(
                 reviewId = obj,
                 userID = getUser,
@@ -191,12 +206,16 @@ def reportReview (request, productName, brand, user):
 
             return redirect('showProduct', brand=brand, productName=productName)
 
-        except Exception as e:
-            print(e)
+    except Exception as e:
+        print(e)
+        context = None
+        if error == 0:
+            context = {
+                'message': "Product \""+ productName +"\" from brand \""+ brand +"\" Not Found"
+            }
+        else:
             context = {
                 'message': 'error'
             }
-            return render(request,'error.html', context)
-
-    return render(request,web_direct)
+        return render(request,'error.html', context)
  

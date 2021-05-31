@@ -8,6 +8,7 @@ from Skripsi.views import loginAccount, countUserPending, forgotPassword, numInd
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.models import User as auth_user
 from Skripsi.decorator import allowed_users
+import os
 # Create your views here.
 
 def profilePage(request,userName):
@@ -133,7 +134,7 @@ def editProfilePicture (request,userName):
         getUser = User.objects.get(userName=userName)
         web_direct = None
         if request.user.username != getUser.userName:
-            return HttpResponse('You are not authorized to view this page')
+            return HttpResponse('You are not allowed to view this page')
         elif request.method != 'POST':
             context = {
                 'User': getUser,
@@ -141,10 +142,15 @@ def editProfilePicture (request,userName):
             }
             return render(request,'profileEdit.html', context)
         else:
-            error = 1
+            
             profilePic = request.FILES['profilePicture']
             profilePic.name = userName+'.jpg'
+            error = 1
             
+            if os.path.exists(str(getUser.profilePicture)):
+                os.remove(str(getUser.profilePicture))
+            else:
+                pass
                 
             getUser.profilePicture = profilePic
             getUser.save()
@@ -175,7 +181,7 @@ def editUserData (request,userName):
         getUser = User.objects.get(userName=userName)
 
         if request.user.username != getUser.userName:
-            return HttpResponse('You are not authorized to view this page')
+            return HttpResponse('You are not allowed to view this page')
         elif request.method != 'POST':
             context = {
                 'User': getUser,

@@ -11,7 +11,7 @@ from Skripsi.decorator import allowed_users
 from review.models import Review
 from django.db import connection
 import requests
-import re
+import os
 from Skripsi.views import loginAccount, countUserPending, forgotPassword, numIndicator
 
 @login_required
@@ -229,6 +229,11 @@ def addEditPicture (request,productName,brand):
                             productName = productName,
                             brandId__brandName = brand)
 
+        if os.path.exists(str(getProduct.productIMG)):
+            os.remove(str(getProduct.productIMG))
+        else:
+            pass
+
         getProduct.productIMG = productPicture
         getProduct.save()
 
@@ -260,167 +265,175 @@ def showProduct (request, productName, brand):
         loginAccount (request)
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
-    
-    user_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Reg_User",productId__productName=productName)[:5]
-    ms_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Mus_Store",productId__productName=productName)[:5]
 
-    obj = Product.objects.select_related('brandId').get(productName = productName, brandId__brandName=brand)
+    try:
+        user_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Reg_User",productId__productName=productName)[:5]
+        ms_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Mus_Store",productId__productName=productName)[:5]
+        obj = Product.objects.select_related('brandId').get(productName = productName, brandId__brandName=brand)
 
-    ratingUserScore = []
-    ratingMusicStore = []
-    userAvg = None
-    musStoreAvg = None
-    with connection.cursor() as cursor:
-        raw_sql =""" 
-                    with                         
-                        statsUser as (
-                            select 
-                            FORMAT((
-                                (select count(*) from review_review as r
-                                join register_user as u on r.userID_id = u.userID
-                                where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating <= 10 and r.rating >=8)
-                                /(count(u.userID))
-                                *100
-                            ),0) as positive_user,
-                            FORMAT((
-                                (select count(*) from review_review as r
-                                join register_user as u on r.userID_id = u.userID
-                                where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating < 8 and r.rating >=5)
-                                /(count(u.userID))
-                                *100
-                            ),0) as mixed_user,
-                            FORMAT((
-                                (select count(*) from review_review as r
-                                join register_user as u on r.userID_id = u.userID
-                                where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating < 5 and r.rating >=0)
-                                /(count(u.userID))
-                                *100
-                            ),0) as negative_user,
-                            p.productId as productId
-                            from review_review as r
-                            join register_user as u on r.userID_id = u.userID
-                            join product_product as p on r.productId_id = p.productId
-                            where u.roleId like "%Reg_User%" and p.productId = """+str(obj.productId)+"""
-                        )
-                    select positive_user, mixed_user, negative_user
-                    from statsUser  
-                """            
-        cursor.execute(raw_sql)
-
-        for qux in cursor.fetchall():
-            ratingUserScore.append({
-                "positive_user": qux[0],
-                "mixed_user": qux[1],
-                "negative_user": qux[2]
-            })
-
-    with connection.cursor() as cursor:
-        raw_sql =""" 
-                    with                         
-                        statsMusStore as (
-                            select 
+        ratingUserScore = []
+        ratingMusicStore = []
+        userAvg = None
+        musStoreAvg = None
+        with connection.cursor() as cursor:
+            raw_sql =""" 
+                        with                         
+                            statsUser as (
+                                select 
                                 FORMAT((
                                     (select count(*) from review_review as r
                                     join register_user as u on r.userID_id = u.userID
-                                    where u.roleId like "%Mus_Store%" and productId_id = """+str(obj.productId)+""" and r.rating <= 10 and r.rating >=8)
+                                    where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating <= 10 and r.rating >=8)
                                     /(count(u.userID))
                                     *100
-                                ),0) as positive_ms,
+                                ),0) as positive_user,
                                 FORMAT((
                                     (select count(*) from review_review as r
                                     join register_user as u on r.userID_id = u.userID
-                                    where u.roleId like "%Mus_Store%" and productId_id = """+str(obj.productId)+""" and r.rating < 8 and r.rating >=5)
+                                    where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating < 8 and r.rating >=5)
                                     /(count(u.userID))
                                     *100
-                                ),0) as mixed_ms,
+                                ),0) as mixed_user,
                                 FORMAT((
                                     (select count(*) from review_review as r
                                     join register_user as u on r.userID_id = u.userID
-                                    where u.roleId like "%Mus_Store%" and productId_id = """+str(obj.productId)+""" and r.rating < 5 and r.rating >=0)
+                                    where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating < 5 and r.rating >=0)
                                     /(count(u.userID))
                                     *100
-                                ),0) as negative_ms,
+                                ),0) as negative_user,
                                 p.productId as productId
                                 from review_review as r
                                 join register_user as u on r.userID_id = u.userID
                                 join product_product as p on r.productId_id = p.productId
-                                where u.roleId like "%Mus_Store%" and p.productId = """+str(obj.productId)+"""
-                        )    
-                        
-                    select positive_ms, mixed_ms, negative_ms
-                    from statsMusStore 
-                """            
-        cursor.execute(raw_sql)
+                                where u.roleId like "%Reg_User%" and p.productId = """+str(obj.productId)+"""
+                            )
+                        select positive_user, mixed_user, negative_user
+                        from statsUser  
+                    """            
+            cursor.execute(raw_sql)
 
-        for qux in cursor.fetchall():
-            ratingMusicStore.append({
-                "positive_music": qux[0],
-                "mixed_music": qux[1],
-                "negative_music": qux[2]
-            })
+            for qux in cursor.fetchall():
+                ratingUserScore.append({
+                    "positive_user": qux[0],
+                    "mixed_user": qux[1],
+                    "negative_user": qux[2]
+                })
 
-    with connection.cursor() as cursor:
-        raw_sql ="""            
-                    select 
-                        FORMAT (avg(r.rating), 1) as user_avg
-                    from review_review as r
-                    join register_user as u on r.userID_id = u.userID
-                    join product_product as p on r.productId_id = p.productId
-                    where u.roleId like "%Reg_User%" and p.productId="""+str(obj.productId)+"""
-                """            
-        cursor.execute(raw_sql)
+        with connection.cursor() as cursor:
+            raw_sql =""" 
+                        with                         
+                            statsMusStore as (
+                                select 
+                                    FORMAT((
+                                        (select count(*) from review_review as r
+                                        join register_user as u on r.userID_id = u.userID
+                                        where u.roleId like "%Mus_Store%" and productId_id = """+str(obj.productId)+""" and r.rating <= 10 and r.rating >=8)
+                                        /(count(u.userID))
+                                        *100
+                                    ),0) as positive_ms,
+                                    FORMAT((
+                                        (select count(*) from review_review as r
+                                        join register_user as u on r.userID_id = u.userID
+                                        where u.roleId like "%Mus_Store%" and productId_id = """+str(obj.productId)+""" and r.rating < 8 and r.rating >=5)
+                                        /(count(u.userID))
+                                        *100
+                                    ),0) as mixed_ms,
+                                    FORMAT((
+                                        (select count(*) from review_review as r
+                                        join register_user as u on r.userID_id = u.userID
+                                        where u.roleId like "%Mus_Store%" and productId_id = """+str(obj.productId)+""" and r.rating < 5 and r.rating >=0)
+                                        /(count(u.userID))
+                                        *100
+                                    ),0) as negative_ms,
+                                    p.productId as productId
+                                    from review_review as r
+                                    join register_user as u on r.userID_id = u.userID
+                                    join product_product as p on r.productId_id = p.productId
+                                    where u.roleId like "%Mus_Store%" and p.productId = """+str(obj.productId)+"""
+                            )    
+                            
+                        select positive_ms, mixed_ms, negative_ms
+                        from statsMusStore 
+                    """            
+            cursor.execute(raw_sql)
 
-        for qux in cursor.fetchall():
-            userAvg = numIndicator (qux[0])
-        
-    with connection.cursor() as cursor:
-        raw_sql ="""            
-                    select 
-                        FORMAT (avg(r.rating), 1) as Mus_store_avg
-                    from review_review as r
-                    join register_user as u on r.userID_id = u.userID
-                    join product_product as p on r.productId_id = p.productId
-                    where u.roleId like "%Mus_Store%" and p.productId="""+str(obj.productId)+"""
-                """            
-        cursor.execute(raw_sql)
+            for qux in cursor.fetchall():
+                ratingMusicStore.append({
+                    "positive_music": qux[0],
+                    "mixed_music": qux[1],
+                    "negative_music": qux[2]
+                })
 
-        for qux in cursor.fetchall():
-            musStoreAvg = numIndicator (qux[0]) 
+        with connection.cursor() as cursor:
+            raw_sql ="""            
+                        select 
+                            FORMAT (avg(r.rating), 1) as user_avg
+                        from review_review as r
+                        join register_user as u on r.userID_id = u.userID
+                        join product_product as p on r.productId_id = p.productId
+                        where u.roleId like "%Reg_User%" and p.productId="""+str(obj.productId)+"""
+                    """            
+            cursor.execute(raw_sql)
 
-    username = None
-    review_available = None
-    messages = None
-    getUser = request.user.username
-    if getUser != '':
-        username = request.user.username
-        checkReview = Review.objects.select_related(
-                        'userID','productId'
-                      ).filter(userID__userName=username,productId__productName=productName)
-        if not checkReview:
-            review_available = "enabled"
+            for qux in cursor.fetchall():
+                userAvg = numIndicator (qux[0])
+            
+        with connection.cursor() as cursor:
+            raw_sql ="""            
+                        select 
+                            FORMAT (avg(r.rating), 1) as Mus_store_avg
+                        from review_review as r
+                        join register_user as u on r.userID_id = u.userID
+                        join product_product as p on r.productId_id = p.productId
+                        where u.roleId like "%Mus_Store%" and p.productId="""+str(obj.productId)+"""
+                    """            
+            cursor.execute(raw_sql)
+
+            for qux in cursor.fetchall():
+                musStoreAvg = numIndicator (qux[0]) 
+
+        username = None
+        review_available = None
+        messages = None
+        getUser = request.user.username
+        if getUser != '':
+            username = request.user.username
+            checkReview = Review.objects.select_related(
+                            'userID','productId'
+                        ).filter(userID__userName=username,productId__productName=productName)
+            if not checkReview:
+                review_available = "enabled"
+            else:
+                review_available = "disabled"
+                messages = "You cannot submit another review again"
+
         else:
-            review_available = "disabled"
-            messages = "You cannot submit another review again"
-
-    else:
-        review_available = "disabled" 
-        messages = "You Need To Login First"
+            review_available = "disabled" 
+            messages = "You Need To Login First"
 
 
-    context = {
-        'obj': obj,
-        'user_review': user_review,
-        'ms_review': ms_review,
-        'ratingUserScore': ratingUserScore,
-        'ratingMusicStore': ratingMusicStore,
-        'userAvg': userAvg,
-        'musStoreAvg': musStoreAvg,
-        'reviewStatus': review_available,
-        'messageModal': messages,
-        'userPending': countUserPending(request)
-    }
+        context = {
+            'obj': obj,
+            'user_review': user_review,
+            'ms_review': ms_review,
+            'ratingUserScore': ratingUserScore,
+            'ratingMusicStore': ratingMusicStore,
+            'userAvg': userAvg,
+            'musStoreAvg': musStoreAvg,
+            'reviewStatus': review_available,
+            'messageModal': messages,
+            'userPending': countUserPending(request)
+        }
 
-    return render(request,'rating.html', context)
+        return render(request,'rating.html', context)
+    except Exception as e:
+        print(e)
+        context = None
+        context = {
+            'message': "Product \""+ productName +"\" from brand \""+ brand +"\" Not Found"
+        }
+
+        return render(request,'error.html', context)
 
 def viewProductByCategory(request, categoryName):
     isLogin = request.POST.get('isLogin')
