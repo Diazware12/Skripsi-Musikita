@@ -50,8 +50,6 @@ def user_logout (request):
     logout (request)
     return redirect ('dashboard')
 
-def profile (request):
-    return render(request,'profile.html')
 
 def profileMusicStore (request):
     return render(request,'profileMusicStore.html')
@@ -78,7 +76,10 @@ def verifyEmail (request, auth_token):
             profile_obj.verified_at = datetime.date.today()
             profile_obj.save()
         else:
-            return render(request,'error.html')
+            context = {
+                'message': 'error'
+            }
+            return render(request,'error.html', context)
     except Exception as e:
         print (e)   
 
@@ -196,7 +197,10 @@ def forgotPasswordForm (request,auth_token):
 
         except Exception as e:
             print(e)
-            web_direct = 'error.html'
+            context = {
+                'message': 'error'
+            }
+            return render(request,'error.html', context)
 
     return render(request,web_direct)
 
@@ -221,3 +225,21 @@ def weakPassword (password):
             return "True"
     else:
         return "Password length must be 9-20 characters!"
+
+def numIndicator (number):
+
+    finalNum = None
+    if number != None:
+        if isinstance(number, int):
+            finalNum = number
+        else:
+            num_array = number.split ('.')
+            
+            if (num_array[1] == "0"):
+                finalNum = int(num_array[0])
+            else: 
+                finalNum = float(number)
+    else:
+        finalNum = None
+
+    return finalNum

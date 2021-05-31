@@ -68,7 +68,7 @@
                         </div>
                     </div>
                     <p class="pt-1 text-justify">
-                      <span class="more">{{ obj.description }}</span>
+                      <span class="moreDesc">{{ obj.description }}</span>
                     </p>
                 <div class="table-responsive">
 
@@ -129,6 +129,28 @@
           <tbody>
             <tr>
               <td>
+              {% if ratingMusicStore.0.positive_music == None %}
+                <div class="da-expertise">
+                  <div class="col px-0 mb-4">
+                    <p>Positive 0%</p>
+                    <div class="progress" style="height: 5px;">
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                  <div class="col px-0 mb-4">
+                    <p>Mixed 0%</p>
+                    <div class="progress" style="height: 5px;">
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                  <div class="col px-0 mb-4">
+                    <p>Negative 0%</p>
+                    <div class="progress" style="height: 5px;">
+                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>              
+              {% else %}
                 <div class="da-expertise">
                   <div class="col px-0 mb-4">
                     <p>Positive {{ratingMusicStore.0.positive_music}}%</p>
@@ -149,6 +171,7 @@
                     </div>
                   </div>
                 </div>
+              {% endif %}
               </td>
             </tr>
             {% for mrev in ms_review %}
@@ -164,7 +187,11 @@
                                 {% else %}
                                   <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>{{mrev.rating}}</b></div></div>
                                 {% endif %}
-                                <div class="p-2 pt-4"><h5>{{mrev.userID.userName}}</h5></div>
+                                <div class="p-2 pt-4">
+                                  <a href="{% url 'profilePage' userName=mrev.userID.userName %}" style="color: black; text-decoration: none;">
+                                    <h5>{{mrev.userID.userName}}</h5>
+                                  </a>
+                                </div>
                             </div>
                             <div class="pl-2">{{mrev.dtm_crt}}</div>
                         </div>
@@ -227,28 +254,53 @@
           </thead>
           <tbody>
             <tr>
-              <td>
-                <div class="da-expertise">
-                  <div class="col px-0 mb-4">
-                    <p>Positive {{ratingUserScore.0.positive_user}}%</p>
-                    <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.positive_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              {% if ratingUserScore.0.positive_user == None %}
+                <td>
+                  <div class="da-expertise">
+                    <div class="col px-0 mb-4">
+                      <p>Positive 0%</p>
+                      <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <div class="col px-0 mb-4">
+                      <p>Mixed 0%</p>
+                      <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <div class="col px-0 mb-4">
+                      <p>Negative 0%</p>
+                      <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
                     </div>
                   </div>
-                  <div class="col px-0 mb-4">
-                    <p>Mixed {{ratingUserScore.0.mixed_user}}%</p>
-                    <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.mixed_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </td>
+              {% else %}
+                <td>
+                  <div class="da-expertise">
+                    <div class="col px-0 mb-4">
+                      <p>Positive {{ratingUserScore.0.positive_user}}%</p>
+                      <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.positive_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <div class="col px-0 mb-4">
+                      <p>Mixed {{ratingUserScore.0.mixed_user}}%</p>
+                      <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.mixed_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <div class="col px-0 mb-4">
+                      <p>Negative {{ratingUserScore.0.negative_user}}%</p>
+                      <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.negative_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
                     </div>
                   </div>
-                  <div class="col px-0 mb-4">
-                    <p>Negative {{ratingUserScore.0.negative_user}}%</p>
-                    <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.negative_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </div>
-              </td>
+                </td>
+              {% endif %}
             </tr>
             {% for urev in user_review %}
               <tr>
@@ -264,7 +316,11 @@
                               <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>{{urev.rating}}</b></div></div>
                             {% endif %}
 
-                            <div class="p-2 pt-4"><h5>{{urev.userID.userName}}</h5></div>
+                            <div class="p-2 pt-4">
+                              <a href="{% url 'profilePage' userName=urev.userID.userName %}" style="color: black; text-decoration: none;">
+                                <h5>{{urev.userID.userName}}</h5>
+                              </a>                            
+                            </div>
                         </div>
                           <div class="pl-2">{{urev.dtm_crt}}</div>
                     </div>

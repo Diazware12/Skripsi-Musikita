@@ -31,7 +31,7 @@
           {% if user.is_authenticated %}
       
             {% if request.user.groups.all.0.name == 'Admin' %}
-              <li><a href="{% url 'userApproveList' %}">User Pending ({{userPending}})</a></li> 
+              <li><a style="text-decoration: none;" href="{% url 'userApproveList' %}">User Pending ({{userPending}})</a></li> 
             {% else %} 
               <li><a href="#">About Musikita</a></li>
             {% endif %}
@@ -44,7 +44,7 @@
                  {% if request.user.groups.all.0.name == 'Admin' %}
                     <a class="dropdown-item" href="{% url 'addProduct' %}">Add Product</a>
                   {% else %}
-                    <a class="dropdown-item" href="#">profile</a>
+                    <a class="dropdown-item" href="{% url 'profilePage' userName=request.user.username %}">profile</a>
                  {% endif %}
                 <a class="dropdown-item" href="{% url 'logoutUser' %}">Logout</a>
               </div>

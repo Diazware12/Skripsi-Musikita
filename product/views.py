@@ -8,12 +8,11 @@ from datetime import datetime
 from PIL import Image
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import allowed_users
-from Skripsi.views import loginAccount
 from review.models import Review
 from django.db import connection
 import requests
 import re
-from Skripsi.views import loginAccount, countUserPending, forgotPassword
+from Skripsi.views import loginAccount, countUserPending, forgotPassword, numIndicator
 
 @login_required
 @allowed_users(allowed_roles=['Admin'])
@@ -79,7 +78,10 @@ def addProduct (request):
 
         except Exception as e:
             print(e)
-            web_direct = 'error.html'
+            context = {
+                'message': 'error'
+            }
+            return render(request,'error.html', context)
 
     return render(request,web_direct)
 
@@ -145,7 +147,10 @@ def addEditProduct (request,context,productName,brand):
 
         except Exception as e:
             print(e)
-            web_direct = 'error.html'
+            context = {
+                'message': 'error'
+            }
+            return render(request,'error.html', context)
 
     return render(request,web_direct)    
 
@@ -248,21 +253,6 @@ def make_square(img):
         new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
     return new_img
 
-def numIndicator (number):
-
-    finalNum = None
-    if number != None:
-        num_array = number.split ('.')
-        
-        if (num_array[1] == "0"):
-            finalNum = int(num_array[0])
-        else: 
-            finalNum = float(number)
-    else:
-        finalNum = None
-
-    return finalNum
-
 def showProduct (request, productName, brand):
     isLogin = request.POST.get('isLogin')
     isForgotPass = request.POST.get('isForgotPassword')
@@ -271,8 +261,8 @@ def showProduct (request, productName, brand):
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
     
-    user_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Reg_User",productId__productName=productName)
-    ms_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Mus_Store",productId__productName=productName)
+    user_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Reg_User",productId__productName=productName)[:5]
+    ms_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Mus_Store",productId__productName=productName)[:5]
 
     obj = Product.objects.select_related('brandId').get(productName = productName, brandId__brandName=brand)
 

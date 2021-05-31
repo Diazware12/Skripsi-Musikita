@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('',views.dashboard,name="dashboard"),
     path('logout/',views.user_logout,name="logoutUser"),
-    url(r'^profile/',views.profile),
+    path('profile/',include('profileUser.urls')),
     url(r'^profileMusicStore/',views.profileMusicStore),
     url(r'^productList/',views.productList),
     path('register/',include('register.urls'),name="register"),

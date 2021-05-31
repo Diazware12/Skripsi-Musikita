@@ -57,7 +57,10 @@ def reviewProduct (request, productName, brand):
 
         except Exception as e:
             print(e)
-            web_direct = 'error.html'
+            context = {
+                'message': 'error'
+            }
+            return render(request,'error.html', context)
 
     return render(request,web_direct)
 
@@ -190,7 +193,10 @@ def reportReview (request, productName, brand, user):
 
         except Exception as e:
             print(e)
-            web_direct = 'error.html'
+            context = {
+                'message': 'error'
+            }
+            return render(request,'error.html', context)
 
     return render(request,web_direct)
  

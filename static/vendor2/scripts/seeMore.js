@@ -4,6 +4,7 @@ $(document).ready(function() {
     var ellipsestext = "...";
     var moretext = "Show more";
     var lesstext = "Show less";
+    var showCharDesc = 190;
     
 
     $('.more').each(function() {
@@ -13,6 +14,21 @@ $(document).ready(function() {
  
             var c = content.substr(0, showChar);
             var h = content.substr(showChar, content.length - showChar);
+ 
+            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+ 
+            $(this).html(html);
+        }
+ 
+    });
+
+    $('.moreDesc').each(function() {
+        var content = $(this).html();
+ 
+        if(content.length > showCharDesc) {
+ 
+            var c = content.substr(0, showCharDesc);
+            var h = content.substr(showCharDesc, content.length - showCharDesc);
  
             var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
  

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'embed_video',
     'register',
     'product',
-    'review'
+    'review',
+    'profileUser'
 ]
 
 MIDDLEWARE = [

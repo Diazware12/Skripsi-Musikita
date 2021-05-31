@@ -2,11 +2,13 @@ DIAZ
 
 - footer: masih blm tau harus diisi apa 
 - searching blm bisa
-- profile blm
-- edit profile
 - halaman buat brand    
 - halaman report review
 - halaman "about Musikita"
+- "see more musicstore/user review" di halaman review
+- add brand
+- paging setiap halaman
+
 
 CALVIN
 - productVisit
@@ -30,6 +32,8 @@ yang done
     - fitur "see more.." pada deskripsi (done)
     - validasi pada form (max length, dll) (done)
     - edit add product pas kita back (done)
+    - profile blm (done)
+    - edit profile (done)
 
 OPSIONAL
 - template email bagusin

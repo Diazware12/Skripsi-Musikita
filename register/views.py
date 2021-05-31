@@ -214,7 +214,10 @@ def approve (request,auth_token):
 
             webRender = 'success.html'
         else:
-            return render(request,'error.html')
+            context = {
+                'message': 'error'
+            }
+            return render(request,'error.html', context)
     except Exception as e:
         print (e)   
 
@@ -249,7 +252,10 @@ def reject (request,auth_token):
 
                 webRender = 'success.html'
             else:
-                return render(request,'error.html')
+                context = {
+                    'message': 'error'
+                }
+                return render(request,'error.html', context)
         except Exception as e:
             print (e) 
         
