@@ -16,9 +16,9 @@ CALVIN
 - carousel blm ada gambar musiknya
     -> buat page add carousel
 - editor's choice masih dummy
-- new released item, visitnya blm ada score nya (masih dummy)
 - filtering apagi, blm samsek
 - range price
+- validasi category subcategory
 
 yang done
     - music store, jadi 3 foto (done)
@@ -36,6 +36,7 @@ yang done
     - profile blm (done)
     - edit profile (done)
     - edit & delete review (done)
+    - new released item, visitnya blm ada score nya (done)
 
 OPSIONAL
 - template email bagusin
