@@ -12,10 +12,10 @@
 <body>
     {% include "snippets/navbar.html" %}
 
-    <div class="container">
+
         <div class="main-body">        
               <div class="row gutters-sm">
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                   <div class="card">
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
@@ -49,8 +49,6 @@
                     </div>
                   </div>
                 </div>
-
-
                 <div class="col-md-8">
                   <div class="card mb-3">
                     <h3 class="pl-3 pt-3">Review Summary</h3>
@@ -109,43 +107,15 @@
 
 
                   <div class="card mb-3">
-                    <h3 class="pl-3 pt-3">Recent Review</h3>
-
-
                     <!-- review barangnya -->
-                    <div class="d-flex flex-row">
-                        <div class="col pt-4">
-                            <img src="{% static 'img/taylor.jpg' %}"  class="img-fluid z-depth-1" >
-                        </div>
-                        <div class="col-md-9">
-                            <div class="container">
-                                <div class="d-flex flex-row">
-                                    <div class="p-2 pt-4"><h5>Taylor Guitar CX90</h5></div>
-                                    <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>80</b></div></div>
-                                </div>
-                                <p class="pt-1 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
-                                    error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
-                                    officia quis dolore quos sapiente tempore alias.....</p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="d-flex flex-row">
-                        <div class="col pt-4">
-                            <img src="{% static 'img/taylor.jpg' %}"  class="img-fluid z-depth-1" >
-                        </div>
-                        <div class="col-md-9">
-                            <div class="container">
-                                <div class="d-flex flex-row">
-                                    <div class="p-2 pt-4"><h5>Taylor Guitar CX90</h5></div>
-                                    <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>80</b></div></div>
-                                </div>
-                                <p class="pt-1 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, sapiente illo. Sit
-                                    error voluptas repellat rerum quidem, soluta enim perferendis voluptates laboriosam. Distinctio,
-                                    officia quis dolore quos sapiente tempore alias.....</p>
-                            </div>
-                        </div>
-                    </div>
+                          <div class="col-xs-12">
+                            <nav>
+                              <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-date-tab" data-toggle="tab" href="#nav-date" role="tab" aria-controls="nav-date" aria-selected="true">By Date</a>
+                                <a class="nav-item nav-link" id="nav-rating-tab" data-toggle="tab" href="#nav-rating" role="tab" aria-controls="nav-rating" aria-selected="false">By Rate</a>
+                              </div>
+                            </nav>
+                          </div>
                   </div>
 
                     <div class="d-flex flex-row-reverse">
@@ -176,7 +146,7 @@
 
               </div>
             </div>
-        </div>
+        
 
     {% include "snippets/footerAndScripts.html" %}
 </body>

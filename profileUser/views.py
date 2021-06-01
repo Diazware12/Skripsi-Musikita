@@ -142,16 +142,16 @@ def editProfilePicture (request,userName):
             }
             return render(request,'profileEdit.html', context)
         else:
-            
+
+            if os.path.exists(getUser.profilePicture.name):
+                os.remove(getUser.profilePicture.name)
+            else:
+                pass
+
             profilePic = request.FILES['profilePicture']
             profilePic.name = userName+'.jpg'
             error = 1
-            
-            if os.path.exists(str(getUser.profilePicture)):
-                os.remove(str(getUser.profilePicture))
-            else:
-                pass
-                
+
             getUser.profilePicture = profilePic
             getUser.save()
 

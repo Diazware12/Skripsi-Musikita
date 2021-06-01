@@ -1,6 +1,7 @@
 from django.db import models
 from register.models import User
 from product.models import Product
+from datetime import datetime
 
 class Review (models.Model):
     reviewId = models.AutoField(primary_key=True,null=False)

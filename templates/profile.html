@@ -178,15 +178,29 @@
                                           <div class="w-100 p-4 bg-danger text-white text-center" ><b>{{obj.rating}}</b></div>
                                         {% endif %}                                       
                                       </div>
-                                      <div class="p-2 pt-4"><h5>
+                                      <div class="p-2 pt-2"><h5>
                                         <a href="{% url 'showProduct' brand=obj.productId.brandId.brandName productName=obj.productId.productName %}" style="color: black; text-decoration: none;">
                                           {{ obj.productId.productName }}
                                         </a>
-                                      </h5>
-                                      <p>{{ obj.dtm_crt }}</p>
+                                        </h5>
+                                        <div class="d-flex flex-row">
+
+                                          <div class="p-1 pt-2"><p>{{ obj.dtm_crt }}</p></div>
+                                          <div class="p-1 pt-2">
+                                            {% if request.user.username == User.userName %}
+                                              <a href="{% url 'updateProduct' brand=obj.productId.brandId.brandName productName=obj.productId.productName user_select=User.userName action='profilePage'%}" style="color: black; text-decoration: none;">
+                                                <i class="fas fa-edit"></i>
+                                              </a>
+                                              <a href="{% url 'deleteReview' brand=obj.productId.brandId.brandName productName=obj.productId.productName user_select=User.userName action='profilePage'%}" style="color: black; text-decoration: none;">
+                                                <i class="fas fa-window-close"></i>
+                                              </a>
+                                            {% endif %}                                          
+                                          </div>
+                                        </div>
                                       </div>
 
                                   </div>
+                                  <h6 class="card-title pt-3">{{obj.title}}</h6>
                                   <p class="pt-1 text-justify"><span class="more">{{ obj.description }}</span></p>
                               </div>
                           </div>

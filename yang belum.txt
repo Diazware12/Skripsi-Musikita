@@ -35,6 +35,7 @@ yang done
     - edit add product pas kita back (done)
     - profile blm (done)
     - edit profile (done)
+    - edit & delete review (done)
 
 OPSIONAL
 - template email bagusin

@@ -114,6 +114,155 @@ def putReviewAvg(rating):
 
     return 'success'
 
+def updateReviewAvg(product):
+    average = 0
+    with connection.cursor() as cursor:
+        raw_sql =""" 
+                    with 
+                        avgUser as(
+                            select 
+                                FORMAT (avg(r.rating), 1) as user_avg,
+                                p.productId as productId
+                            from review_review as r
+                            join register_user as u on r.userID_id = u.userID
+                            join product_product as p on r.productId_id = p.productId
+                            where u.roleId like "%Reg_User%" and p.productId= """+str(product.productId)+"""),
+
+                        avgMusStore as(
+                        select 
+                            FORMAT (avg(r.rating), 1) as Mus_store_avg,
+                            p.productId as productId
+                        from review_review as r
+                        join register_user as u on r.userID_id = u.userID
+                        join product_product as p on r.productId_id = p.productId
+                        where u.roleId like "%Mus_Store%" and p.productId= """+str(product.productId)+""")
+                        
+                    select user_avg, Mus_store_avg, ((user_avg + Mus_store_avg)/2) as bothAvg 
+                    from avgUser join avgMusStore using (productId)
+                """            
+        cursor.execute(raw_sql)
+
+        for qux in cursor.fetchall():
+            average = float(qux[2])
+
+        avgUpdate = Product.objects.get(productId=product.productId)
+        if average != None:
+            avgUpdate.avgScore = average
+            avgUpdate.save()
+
+    return 'success'
+
+@login_required
+@allowed_users(allowed_roles=['Reg_User','Mus_Store'])
+def updateReview (request, productName, brand, user_select, action):
+    error = 0
+    try:
+        product = Product.objects.select_related('brandId').get(productName=productName,brandId__brandName=brand) #
+        userAuthName = request.user.username
+        user = User.objects.get(userName = userAuthName)
+
+        getReview = Review.objects.select_related('productId','userID').get(productId=product,userID=user)
+        if request.user.username != getReview.userID.userName:
+            return HttpResponse('You are not allowed to view this page')
+        if request.method != 'POST':
+            backButton = None
+            if action == 'ratingReview':
+                backButton = 'ratingReview'
+            else:
+                backButton = 'profilePage'
+
+            context = {
+                'review': getReview,
+                'brand': brand,
+                'productName': productName,
+                'User': user,
+                'backButton': backButton
+            }
+            return render(request,'scoreRatingEdit.html', context)
+        else :
+
+            rate = request.POST.get('rate')
+            reviewTitle = request.POST.get('reviewTitle')
+            reviewDescription = request.POST.get('reviewDescription')
+            error = 1
+            
+            if rate == None:
+                messages.success(request, 'you need to fill-in the rate')
+                return redirect ('reviewProduct', brand=brand, productName=productName)
+
+            if reviewTitle == '' or reviewDescription == '':
+                raise Exception("required field Empty")
+
+            if len(reviewDescription) < 75:
+                messages.success(request, 'review need to be equal or more than 75 character')
+                return redirect ('reviewProduct', brand=brand, productName=productName)
+
+            getReview.rating = rate    
+            getReview.title = reviewTitle
+            getReview.description = reviewDescription    
+            getReview.dtm_crt = datetime.now()
+
+            getReview.save()
+
+            putReviewAvg(getReview)
+
+            if action == 'ratingReview':
+                return redirect ('showProduct', brand=brand, productName=productName)
+            else:
+                return redirect ('profilePage', userName=user_select)
+            
+
+    except Exception as e:
+        print(e)
+        context = None
+        if error == 0:
+            context = {
+                'message': "Product \""+ productName +"\" from brand \""+ brand +"\" Not Found"
+            }
+        else:
+            context = {
+                'message': 'error'
+            }
+        return render(request,'error.html', context)
+
+@login_required
+@allowed_users(allowed_roles=['Reg_User','Mus_Store','Admin'])
+def deleteReview(request, productName, brand, user_select, action):
+    error = 0
+    try:
+        product = Product.objects.select_related('brandId').get(productName=productName,brandId__brandName=brand) #
+        userAuth = request.user
+        user = User.objects.get(userName = userAuth.username)
+
+        getReview = Review.objects.select_related('productId','userID').get(productId=product,userID=user)
+        if userAuth.groups.filter(name='Admin').exists():
+            pass
+        elif userAuth.username != user.userName:
+            return HttpResponse('You are not allowed to view this page')
+        
+        getReview.delete()
+
+        updateReviewAvg(product)
+
+        if action == 'ratingReview':
+            return redirect ('showProduct', brand=brand, productName=productName)
+        else:
+            return redirect ('profilePage', userName=user_select)
+
+    except Exception as e:
+        print(e)
+        context = None
+        if error == 0:
+            context = {
+                'message': 'error'
+            }
+        else:
+            context = {
+                'message': 'error'
+            }
+        return render(request,'error.html', context)
+    
+
 @login_required
 @allowed_users(allowed_roles=['Reg_User','Mus_Store'])
 def feedback (request, productName, brand, feedback, user):

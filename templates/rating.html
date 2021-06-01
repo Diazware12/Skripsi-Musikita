@@ -192,6 +192,17 @@
                                     <h5>{{mrev.userID.userName}}</h5>
                                   </a>
                                 </div>
+
+                                {% if request.user.username == mrev.userID.userName %}
+                                  <div class="p-2 pt-4">
+                                    <a href="{% url 'updateProduct' brand=obj.brandId.brandName productName=obj.productName user_select=mrev.userID.userName action='ratingReview' %}" style="color: black; text-decoration: none;">
+                                      <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=mrev.userID.userName action='ratingReview'%}" style="color: black; text-decoration: none;">
+                                      <i class="fas fa-window-close"></i>
+                                    </a>
+                                  </div>
+                                {% endif %}
                             </div>
                             <div class="pl-2">{{mrev.dtm_crt}}</div>
                         </div>
@@ -321,6 +332,16 @@
                                 <h5>{{urev.userID.userName}}</h5>
                               </a>                            
                             </div>
+                            {% if request.user.username == urev.userID.userName %}
+                              <div class="p-2 pt-4">
+                                <a href="{% url 'updateProduct' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview' %}" style="color: black; text-decoration: none;">
+                                  <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview'%}" style="color: black; text-decoration: none;">
+                                  <i class="fas fa-window-close"></i>
+                                </a>
+                              </div>
+                            {% endif %}
                         </div>
                           <div class="pl-2">{{urev.dtm_crt}}</div>
                     </div>
