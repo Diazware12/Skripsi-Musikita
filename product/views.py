@@ -412,6 +412,8 @@ def showProduct (request, productName, brand):
         getUser = request.user.username
         if getUser != '':
             username = request.user.username
+            obj.visitCount = obj.visitCount+1
+            obj.save()
             checkReview = Review.objects.select_related(
                             'userID','productId'
                         ).filter(userID__userName=username,productId__productName=productName)
@@ -459,8 +461,7 @@ def viewProductByCategory(request, categoryName):
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
         
-    productList = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName=categoryName)
-    
+    productList = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName=categoryName)[:12]
     getProductListByPage = None
     if productList:
         paginator = Paginator(productList,4)
@@ -481,6 +482,16 @@ def viewProductByCategory(request, categoryName):
         next_url = ''
         prev_url = ''
 
+    try:
+        Category.objects.get(categoryName=categoryName)
+    except:
+        context = {
+            'message': "There is no category \""+ categoryName +"\" available"
+        }
+
+        return render(request,'error.html', context)
+        
+
     context={
         'productList': getProductListByPage,
         'categoryName': categoryName,
@@ -492,8 +503,14 @@ def viewProductByCategory(request, categoryName):
 
 def viewProductBySubCategory(request, categoryName, subCategoryName):
     productList = Product.objects.order_by('-dtm_crt').select_related('subCategoryId','brandId').filter(subCategoryId__subCategoryName=subCategoryName,categoryId__categoryName=categoryName)[:12]
-    
-    
+    try:
+        SubCategory.objects.select_related('categoryId').get(subCategoryName=subCategoryName,categoryId__categoryName=categoryName)
+    except:
+        context = {
+            'message': "There is no category \""+ categoryName +"\" or subcategory \""+ subCategoryName +"\" available"
+        }
+
+        return render(request,'error.html', context)
     context={
         'productList': productList,
         'categoryName': categoryName,
