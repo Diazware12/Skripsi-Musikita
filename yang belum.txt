@@ -1,13 +1,11 @@
 DIAZ
 
 - footer: masih blm tau harus diisi apa 
-- searching blm bisa
-- halaman buat brand    
+- searching blm bisa    
 - halaman report review
 - halaman "about Musikita"
 - "see more musicstore/user review" di halaman review
 - add brand
-- paging setiap halaman
 - validasi error
 
 
@@ -37,6 +35,8 @@ yang done
     - edit profile (done)
     - edit & delete review (done)
     - new released item, visitnya blm ada score nya (done)
+    - halaman buat brand
+    - paging setiap halaman (done)
 
 OPSIONAL
 - template email bagusin

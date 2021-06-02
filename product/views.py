@@ -13,6 +13,7 @@ from django.db import connection
 import requests
 import os
 from Skripsi.views import loginAccount, countUserPending, forgotPassword, numIndicator
+from django.core.paginator import Paginator
 
 @login_required
 @allowed_users(allowed_roles=['Admin'])
@@ -34,7 +35,6 @@ def addProduct (request):
         subCategory = request.POST.get('subCategory')
         description = request.POST.get('description')
         videoUrl = request.POST.get('videoUrl')
-        web_direct = ''
 
         brand_Id = Brand.objects.get(brandName = brand)
 
@@ -45,7 +45,10 @@ def addProduct (request):
                             categoryId = category_Id
                         )
         
-        try: 
+        try:
+            if productName == '' or brand == '' or category == '' or subCategory == '' or description == '' or videoUrl == '':
+                raise Exception("required field Empty")
+
             if Product.objects.select_related('brandId').filter(productName=productName,brandId__brandName=brand_Id.brandName).first():
                 messages.success(request, 'Product is already exist')
                 return redirect ('addProduct')
@@ -83,49 +86,52 @@ def addProduct (request):
             }
             return render(request,'error.html', context)
 
-    return render(request,web_direct)
-
 @login_required
 @allowed_users(allowed_roles=['Admin'])
 def addEditProduct (request,context,productName,brand):
-    getProduct = Product.objects.select_related('brandId').get(
-        brandId__brandName=brand,
-        productName=productName)
+    error = 0
+    try:
+        getProduct = Product.objects.select_related('brandId').get(
+            brandId__brandName=brand,
+            productName=productName)
 
-    if request.method != 'POST':
-        ddCategory = Category.objects.all()
-        ddSubCategory = SubCategory.objects.all()
-        product = getProduct
-        form = ProductForm()
-        context = {
-            'form':form,
-            'product': product,
-            'category': ddCategory,
-            'subCategory': ddSubCategory,
-        }
-        return render(request,'addProductEdit.html', context)
-    else :
-        productName = request.POST.get('productName') 
-        brand = request.POST.get('productBrand') 
-        category = request.POST.get('category')
-        subCategory = request.POST.get('subCategory')
-        description = request.POST.get('description')
-        videoUrl = request.POST.get('videoUrl')
+        if request.method != 'POST':
+            ddCategory = Category.objects.all()
+            ddSubCategory = SubCategory.objects.all()
+            product = getProduct
+            form = ProductForm()
+            context = {
+                'form':form,
+                'product': product,
+                'category': ddCategory,
+                'subCategory': ddSubCategory,
+            }
+            return render(request,'addProductEdit.html', context)
+        else :
+            productName = request.POST.get('productName') 
+            brand = request.POST.get('productBrand') 
+            category = request.POST.get('category')
+            subCategory = request.POST.get('subCategory')
+            description = request.POST.get('description')
+            videoUrl = request.POST.get('videoUrl')
+            error = 1
 
-        brand_Id = Brand.objects.get(brandName = brand)
+            brand_Id = Brand.objects.get(brandName = brand)
 
-        category_Id = Category.objects.get(categoryName = category)
+            category_Id = Category.objects.get(categoryName = category)
 
-        subCategory_Id = SubCategory.objects.get(
-                            subCategoryName = subCategory, 
-                            categoryId = category_Id
-                        )
-        
-        try: 
+            subCategory_Id = SubCategory.objects.get(
+                                subCategoryName = subCategory, 
+                                categoryId = category_Id
+                            )
+
+            if productName == '' or brand == '' or category == '' or subCategory == '' or description == '' or videoUrl == '':
+                raise Exception("required field Empty")
+            
             if len(description) < 75:
                 messages.success(request, 'description need to be equal or more than 75 character')
                 return redirect ('editProduct',productName=productName,brand=brand)
-            
+                
             req = requests.head(videoUrl)
             if req.status_code == 404:
                 messages.success(request, 'video Url\'s not valid')
@@ -139,20 +145,28 @@ def addEditProduct (request,context,productName,brand):
             getProduct.videoUrl = videoUrl
             getProduct.minPrice = 0
             getProduct.maxPrice = 0
+            getProduct.dtm_upd = datetime.now()
             getProduct.save()
-            web_direct = 'success.html'
 
             if (context == "editAddProduct"):
                 return redirect ('addProductPicture', brand=brand_Id.brandName, productName=getProduct.productName)
 
-        except Exception as e:
-            print(e)
+    except Exception as e:
+        print(e)
+
+        context = None
+        if error == 0:            
+            context = {
+                'message': "product "+productName+" Not Found"
+            }
+        else:
             context = {
                 'message': 'error'
             }
-            return render(request,'error.html', context)
+        
+        return render(request,'error.html', context)
 
-    return render(request,web_direct)    
+   
 
 @login_required
 @allowed_users(allowed_roles=['Admin'])
@@ -411,6 +425,7 @@ def showProduct (request, productName, brand):
             review_available = "disabled" 
             messages = "You Need To Login First"
 
+        otherProduct = Product.objects.order_by('-avgScore')[:6]
 
         context = {
             'obj': obj,
@@ -422,7 +437,8 @@ def showProduct (request, productName, brand):
             'musStoreAvg': musStoreAvg,
             'reviewStatus': review_available,
             'messageModal': messages,
-            'userPending': countUserPending(request)
+            'userPending': countUserPending(request),
+            'otherProduct': otherProduct
         }
 
         return render(request,'rating.html', context)
@@ -443,16 +459,41 @@ def viewProductByCategory(request, categoryName):
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
         
-    productList = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName=categoryName)[:12]
+    productList = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName=categoryName)
+    
+    getProductListByPage = None
+    if productList:
+        paginator = Paginator(productList,4)
+        page_number = request.GET.get('page', 12)
+        getProductListByPage = paginator.get_page(page_number)
+
+        if getProductListByPage.has_next():
+            next_url = f'?page={getProductListByPage.next_page_number()}'
+        else:
+            next_url = ''
+
+        if getProductListByPage.has_previous():
+            prev_url = f'?page={getProductListByPage.previous_page_number()}'
+        else:
+            prev_url = ''
+    else: 
+        getProductListByPage = Product.objects.none()
+        next_url = ''
+        prev_url = ''
+
     context={
-        'productList': productList,
+        'productList': getProductListByPage,
         'categoryName': categoryName,
-        'userPending': countUserPending(request)
+        'userPending': countUserPending(request),
+        'next_page_url': next_url,
+        'prev_page_url': prev_url
     }
     return render(request,'productListByCategory.html', context)
 
 def viewProductBySubCategory(request, categoryName, subCategoryName):
     productList = Product.objects.order_by('-dtm_crt').select_related('subCategoryId','brandId').filter(subCategoryId__subCategoryName=subCategoryName,categoryId__categoryName=categoryName)[:12]
+    
+    
     context={
         'productList': productList,
         'categoryName': categoryName,

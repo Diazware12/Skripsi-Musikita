@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'register',
     'product',
     'review',
-    'profileUser'
+    'profileUser',
+    'profileBrand'
 ]
 
 MIDDLEWARE = [

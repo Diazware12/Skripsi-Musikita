@@ -1,0 +1,222 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile</title>
+    {% include "snippets/headImport.html" %}
+</head>
+<body>
+    {% include "snippets/navbar.html" %}
+      <div class="container">
+      <h3 class="pl-3 pt-3">{{brand.brandName}}</h3>
+        <div class="main-body">        
+              <div class="row gutters-sm">
+                <div class="col">
+                  <div class="card mb-3">
+                    {% if not brandData.0 == None %}
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            <div class="container text-center">
+                              <h6>Positive</h6>
+                              <h4 class="text-success">{{brandData.0.positive}}</h4>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="container text-center">
+                              <h6>Mixed</h6>
+                              <h4 class="text-warning">{{brandData.0.mixed}}</h4>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="container text-center">
+                              <h6>Negative</h6>
+                                <h4 class="text-danger">{{brandData.0.negative}}</h4>
+                            </div>
+                          </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                          <div class="col">
+                            <div class="container text-center">
+                              <h6>Latest High Score</h6>
+                              <div class="container d-flex justify-content-center">
+                                  <div class="p-3">
+                                    {% if brandData.0.highestRate <= 10 and brandData.0.highestRate >= 8 %}   
+                                      <div class="w-100 p-3 bg-success text-white text-center"><b>{{brandData.0.highestRate}}</b></div>
+                                    {% elif brandData.0.highestRate < 8 and brandData.0.highestRate >= 5 %}
+                                      <div class="w-100 p-3 bg-warning text-white text-center" ><b>{{brandData.0.highestRate}}</b></div>
+                                    {% elif brandData.0.highestRate < 5 and brandData.0.highestRate > 0 %}
+                                      <div class="w-100 p-3 bg-danger text-white text-center" ><b>{{brandData.0.highestRate}}</b></div>
+                                    {% else %}
+                                      <div class="w-100 p-3 text-white text-center" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                    {% endif %} 
+                                  </div>
+                              </div>
+                              {% if brandData.0.highestRateName != None %}
+                                <div class="p-4 pt-4"><h5>{{brandData.0.highestRateName}}</h5></div>
+                              {% endif %}
+                            </div>
+                          </div>
+                          <div class="col">
+                              <div class="container text-center">
+                                  <h6>Latest Low Score</h6>
+                                  <div class="container d-flex justify-content-center">
+                                      <div class="p-3">
+                                        {% if brandData.0.lowestRate <= 10 and brandData.0.lowestRate >= 8 %}   
+                                          <div class="w-100 p-3 bg-success text-white text-center"><b>{{userData.0.lowestRate}}</b></div>
+                                        {% elif brandData.0.lowestRate < 8 and brandData.0.lowestRate >= 5 %}
+                                          <div class="w-100 p-3 bg-warning text-white text-center" ><b>{{brandData.0.lowestRate}}</b></div>
+                                        {% elif brandData.0.lowestRate < 5 and brandData.0.lowestRate > 0 %}
+                                          <div class="w-100 p-3 bg-danger text-white text-center" ><b>{{brandData.0.lowestRate}}</b></div>
+                                        {% else %}
+                                          <div class="w-100 p-3 text-white text-center" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                        {% endif %} 
+                                      </div>
+                                  </div>
+                                  {% if brandData.0.lowestRateName != None %}
+                                    <div class="p-4 pt-4"><h5>{{brandData.0.lowestRateName}}</h5></div>
+                                  {% endif %}
+                                </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% else %}
+
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          <div class="container text-center">
+                            <h6>Positive</h6>
+                            <h4 class="text-success">0</h4>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="container text-center">
+                            <h6>Mixed</h6>
+                            <h4 class="text-warning">0</h4>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="container text-center">
+                            <h6>Negative</h6>
+                              <h4 class="text-danger">0</h4>
+                          </div>
+                        </div>
+                      </div>
+                      <hr>
+
+                      <div class="row">
+                        <div class="col">
+                          <div class="container text-center">
+                            <h6>Latest High Score</h6>
+                            <div class="container d-flex justify-content-center">
+                                <div class="p-3">
+                                  <div class="w-100 p-3 text-white text-center" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col">
+                            <div class="container text-center">
+                                <h6>Latest Low Score</h6>
+                                <div class="container d-flex justify-content-center">
+                                    <div class="p-3">
+                                      <div class="w-100 p-3 text-white text-center" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                    </div>
+                                </div>
+                              </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {% endif %}
+                  </div>
+
+
+
+                  <div class="card mb-3">
+                    <!-- review barangnya -->
+                    <div class="col-xs-12">
+                      <nav>
+                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                          {% for obj in categoryList %}
+                            {% if obj.category == sort %}
+                              <a class="nav-item nav-link active" href="{% url 'brandPage' brandName=brand.brandName sort=obj.category %}">{{obj.category}}</a>
+                            {% else %}
+                              <a class="nav-item nav-link" href="{% url 'brandPage' brandName=brand.brandName sort=obj.category %}">{{obj.category}}</a>
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                      </nav>
+                      <div class="container pt-4">
+                      {% if sortObj|length == 0 %}
+                        <div class="d-flex bd-highlight mb-3">                          
+                          <div class="p-2 bd-highlight"><p>Product Is Empty</p></div> 
+                        </div>                        
+                      {% else %} 
+                        {% for obj in sortObj %}
+                          <div class="d-flex bd-highlight mb-3">                          
+                            {% if obj.avgScore <= 10 and obj.avgScore >= 8 %}   
+                              <div class="pl-5 p-2 bd-highlight"><div class="w-100 p-2 bg-success text-white text-center" ><b>{{obj.avgScore}}</b></div></div>
+                            {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
+                              <div class="pl-5 p-2 bd-highlight"><div class="w-100 p-2 bg-warning text-white text-center" ><b>{{obj.avgScore}}</b></div></div>
+                            {% elif obj.avgScore < 5 and obj.avgScore > 0 %}
+                              <div class="pl-5 p-2 bd-highlight"><div class="w-100 p-2 bg-danger text-white text-center" ><b>{{obj.avgScore}}</b></div></div>
+                            {% else %}
+                              <div class="pl-5 p-2 bd-highlight"><div class="w-100 p-2 text-white text-center" style="background-color:rgba(135, 135, 135, 1);"><b class="pl-1">Tba</b></div></div>
+                            {% endif %} 
+                            <div class="p-2 bd-highlight">
+                              <h6>
+                                <a style="text-decoration: none; color:black;" href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}">{{obj.productName}}</a>
+                              </h6>
+                            </div>
+                            <div class="ml-auto p-2 pr-5 mr-5 bd-highlight">{{obj.dtm_crt}}</div> 
+                          </div>
+                        {% endfor %}
+                      {% endif %}                        
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                  <div class="d-flex flex-row-reverse">
+                      <div class="p-2">
+                            <nav aria-label="...">
+                              <ul class="pagination">
+                                <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{prev_page_url}}">Previous</a>
+                                </li>
+
+                                {% for n in sortObj.paginator.page_range %}
+                                  {% if sortObj.number == n %}
+                                    <li class="page-item active"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% elif n > sortObj.number|add:-3 and n < sortObj.number|add:3 %}
+                                    <li class="page-item"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% endif %}
+                                {% endfor %}
+                                <li class="page-item {% if not next_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{next_page_url}}">Next</a>
+                                </li>
+                              </ul>
+                            </nav>
+                      </div>
+                  </div>
+
+                </div>
+              </div>
+        </div>
+      </div>  
+
+    {% include "snippets/footerAndScripts.html" %}
+</body>
+
+
+
+</html>

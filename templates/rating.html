@@ -78,7 +78,7 @@
                                 <tbody>
                                   <tr>
                                     <th class="pl-0 w-25 pr-5" scope="row"><strong>Brand</strong></th>
-                                    <td>{{obj.brandId.brandName}}</td>
+                                    <td><a style="color: black;" href="{% url 'brandPage' brandName=obj.brandId.brandName sort="By Date" %}">{{obj.brandId.brandName}}</a></td>
                                   </tr>
                                   {% comment %} <tr>
                                     <th class="pl-0 w-25" scope="row"><strong>Type</strong></th>
@@ -404,30 +404,26 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <div class="d-flex flex-row">
-                  <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>88</b></div></div>
-                  <div class="p-2 pt-4"><h5><a href="#"> Yamaha CPX100</a></h5></div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="d-flex flex-row">
-                  <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>70</b></div></div>
-                  <div class="p-2 pt-4"><h5><a href="#">Taylor CMX12</a></h5></div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="d-flex flex-row">
-                  <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>61</b></div></div>
-                  <div class="p-2 pt-4"><h5><a href="#">Cort X12</a></h5></div>
-                </div>
-              </td>
-            </tr>
+          {% for oProd in otherProduct%}
+            {% if oProd.productName != obj.productName %}
+              <tr>
+                  <td>
+                    <div class="d-flex flex-row">
+                      {% if oProd.avgScore <= 10 and oProd.avgScore >= 8 %}   
+                        <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>{{oProd.avgScore}}</b></div></div>
+                      {% elif oProd.avgScore < 8 and oProd.avgScore >= 5 %}
+                        <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>{{oProd.avgScore}}</b></div></div>
+                      {% elif oProd.avgScore < 5 and oProd.avgScore > 0 %}
+                        <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>{{oProd.avgScore}}</b></div></div>
+                      {% else %}
+                        <div class="p-2"><div class="w-100 p-3 text-white text-center" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div></div>
+                      {% endif %}
+                      <div class="p-2 pt-4"><h5><a style="color: black;text-decoration: none;" href="{% url 'showProduct' brand=oProd.brandId.brandName productName=oProd.productName %}"><span class="moreProduct">{{ oProd.productName }}</span></a></h5></div>
+                    </div>
+                  </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
           </tbody>
         </table>
       </div>

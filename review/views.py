@@ -110,6 +110,7 @@ def putReviewAvg(rating):
         avgUpdate = Product.objects.get(productId=rating.productId.productId)
         if average != None:
             avgUpdate.avgScore = average
+            avgUpdate.dtm_upd = datetime.now()
             avgUpdate.save()
 
     return 'success'
@@ -148,6 +149,7 @@ def updateReviewAvg(product):
         avgUpdate = Product.objects.get(productId=product.productId)
         if average != None:
             avgUpdate.avgScore = average
+            avgUpdate.dtm_upd = datetime.now()
             avgUpdate.save()
 
     return 'success'

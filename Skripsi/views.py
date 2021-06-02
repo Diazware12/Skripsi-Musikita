@@ -1,3 +1,4 @@
+from django.db.models.fields import DecimalField
 from django.http import HttpResponse
 from django.shortcuts import render, redirect 
 from register.models import User,MusicStoreData
@@ -49,10 +50,6 @@ def dashboard (request):
 def user_logout (request):
     logout (request)
     return redirect ('dashboard')
-
-
-def profileMusicStore (request):
-    return render(request,'profileMusicStore.html')
 
 def productList (request):
     return render(request,'productList.html')  
@@ -229,17 +226,24 @@ def weakPassword (password):
 def numIndicator (number):
 
     finalNum = None
-    if number != None:
-        if isinstance(number, int):
-            finalNum = number
+    try:
+        if number != None or number != '':
+            if isinstance(number, int):
+                finalNum = number
+            elif isinstance(number, float):
+                finalNum = number
+            else:
+                num_array = number.split ('.')
+                if num_array[1] == "0" or num_array[1] == "00":
+                    finalNum = int(num_array[0])
+                else: 
+                    finalNum = float(number)
         else:
-            num_array = number.split ('.')
-            
-            if (num_array[1] == "0"):
-                finalNum = int(num_array[0])
-            else: 
-                finalNum = float(number)
-    else:
+            finalNum = None
+        
+        return finalNum
+        
+    except Exception as e:
         finalNum = None
 
-    return finalNum
+        return finalNum

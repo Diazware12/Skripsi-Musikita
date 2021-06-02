@@ -9,8 +9,9 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.models import User as auth_user
 from Skripsi.decorator import allowed_users
 import os
-# Create your views here.
+from django.core.paginator import Paginator
 
+# Create your views here.
 def profilePage(request,userName):
     isLogin = request.POST.get('isLogin')
     isForgotPass = request.POST.get('isForgotPassword')
@@ -111,12 +112,35 @@ def profilePage(request,userName):
                     "lowestRateName":qux[6]
                 })
 
-            context = {
-                'userData': userStatsData,
-                'obj':reviewList,
-                'User':getUser,
-                'userPending': countUserPending(request)
-            }
+        getReviewListByPage = None
+        if reviewList:
+            paginator = Paginator(reviewList,4)
+            page_number = request.GET.get('page', 1)
+            getReviewListByPage = paginator.get_page(page_number)
+
+            if getReviewListByPage.has_next():
+                next_url = f'?page={getReviewListByPage.next_page_number()}'
+            else:
+                next_url = ''
+
+            if getReviewListByPage.has_previous():
+                prev_url = f'?page={getReviewListByPage.previous_page_number()}'
+            else:
+                prev_url = ''
+        else:
+            getReviewListByPage = Review.objects.none()
+            next_url = ''
+            prev_url = ''
+
+
+        context = {
+            'userData': userStatsData,
+            'obj':getReviewListByPage,
+            'User':getUser,
+            'userPending': countUserPending(request),
+            'next_page_url': next_url,
+            'prev_page_url': prev_url
+        }
 
         return render(request,'profile.html', context)
     except Exception as e:

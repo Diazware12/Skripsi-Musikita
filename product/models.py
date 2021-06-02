@@ -1,6 +1,7 @@
 from django.db import models
 from embed_video.fields import EmbedVideoField
 from Skripsi import settings
+from datetime import datetime
 
 class Category (models.Model):
     categoryId = models.AutoField(primary_key=True,null=False)
@@ -31,6 +32,7 @@ class Product (models.Model):
     minPrice = models.BigIntegerField() #lowest
     maxPrice = models.BigIntegerField() #highest
     dtm_crt = models.DateTimeField(null=False)
+    dtm_upd = models.DateTimeField(default=datetime.now,null=False)
     productIMG = models.ImageField(upload_to=settings.MEDIA_ROOT+'/product',null=False, blank=False, default='none', max_length=255)
     visitCount = models.BigIntegerField(null=False,default=0)
     avgScore = models.DecimalField(max_digits=3, decimal_places=2,default='0')
