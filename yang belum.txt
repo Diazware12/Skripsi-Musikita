@@ -12,13 +12,11 @@ DIAZ
 
 
 CALVIN
-- productVisit
 - carousel blm ada gambar musiknya
     -> buat page add carousel
 - editor's choice masih dummy
 - filtering apagi, blm samsek
 - range price
-- validasi category subcategory
 
 yang done
     - music store, jadi 3 foto (done)
@@ -37,6 +35,8 @@ yang done
     - edit profile (done)
     - edit & delete review (done)
     - new released item, visitnya blm ada score nya (done)
+    - productVisit (done)
+    - validasi category subcategory (done)
 
 OPSIONAL
 - template email bagusin
