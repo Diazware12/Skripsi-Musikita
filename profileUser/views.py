@@ -22,7 +22,7 @@ def profilePage(request,userName):
 
     try:   
         getUser = User.objects.get(userName=userName)
-        reviewList = Review.objects.select_related('productId','userID').order_by('-dtm_crt').filter(userID__userName = getUser.userName)[:4]
+        reviewList = Review.objects.select_related('productId','userID').order_by('-dtm_crt').filter(userID__userName = getUser.userName)
 
         userStatsData = []
         with connection.cursor() as cursor:

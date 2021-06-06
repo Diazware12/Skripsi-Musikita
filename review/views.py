@@ -236,7 +236,9 @@ def deleteReview(request, productName, brand, user_select, action):
         userAuth = request.user
         user = User.objects.get(userName = userAuth.username)
 
-        getReview = Review.objects.select_related('productId','userID').get(productId=product,userID=user)
+        getUserReview = User.objects.get(userName = user_select)
+
+        getReview = Review.objects.select_related('productId','userID').get(productId=product,userID=getUserReview.userID)
         if userAuth.groups.filter(name='Admin').exists():
             pass
         elif userAuth.username != user.userName:

@@ -70,7 +70,7 @@ def verifyEmail (request, auth_token):
                 profile_obj.status = 'AdminPending'
                 webRender = 'verifiedMusicStore.html'
                 
-            profile_obj.verified_at = datetime.date.today()
+            profile_obj.verified_at = datetime.now()
             profile_obj.save()
         else:
             context = {

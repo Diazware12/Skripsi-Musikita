@@ -412,8 +412,12 @@ def showProduct (request, productName, brand):
         getUser = request.user.username
         if getUser != '':
             username = request.user.username
-            obj.visitCount = obj.visitCount+1
-            obj.save()
+            
+            adminRoleCheck = request.user.groups.filter(name='Admin').exists()
+            if adminRoleCheck == False:
+                obj.visitCount = obj.visitCount+1
+                obj.save()
+
             checkReview = Review.objects.select_related(
                             'userID','productId'
                         ).filter(userID__userName=username,productId__productName=productName)
@@ -491,7 +495,6 @@ def viewProductByCategory(request, categoryName):
 
         return render(request,'error.html', context)
         
-
     context={
         'productList': getProductListByPage,
         'categoryName': categoryName,
@@ -502,19 +505,28 @@ def viewProductByCategory(request, categoryName):
     return render(request,'productListByCategory.html', context)
 
 def viewProductBySubCategory(request, categoryName, subCategoryName):
-    productList = Product.objects.order_by('-dtm_crt').select_related('subCategoryId','brandId').filter(subCategoryId__subCategoryName=subCategoryName,categoryId__categoryName=categoryName)[:12]
+    error = 0
     try:
+        productList = Product.objects.order_by('-dtm_crt').select_related('subCategoryId','brandId').filter(subCategoryId__subCategoryName=subCategoryName,categoryId__categoryName=categoryName)[:12]
         SubCategory.objects.select_related('categoryId').get(subCategoryName=subCategoryName,categoryId__categoryName=categoryName)
-    except:
-        context = {
-            'message': "There is no category \""+ categoryName +"\" or subcategory \""+ subCategoryName +"\" available"
+        error = 1
+        context={
+            'productList': productList,
+            'categoryName': categoryName,
+            'subCategoryName': subCategoryName,
+            'userPending': countUserPending(request)
         }
+    except:
+        context = None
+        if error == 0:
+            context = {
+                'message': "There is no category \""+ categoryName +"\" or subcategory \""+ subCategoryName +"\" available"
+            }
+        else:
+            context = {
+                'message': 'error'
+            }
 
         return render(request,'error.html', context)
-    context={
-        'productList': productList,
-        'categoryName': categoryName,
-        'subCategoryName': subCategoryName,
-        'userPending': countUserPending(request)
-    }
+
     return render(request,'productListByCategory.html', context)
