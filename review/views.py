@@ -148,7 +148,11 @@ def updateReviewAvg(product):
 
         avgUpdate = Product.objects.get(productId=product.productId)
         if average != None:
-            avgUpdate.avgScore = average
+            if average == 0.00:
+                avgUpdate.avgScore = None
+            else:
+                avgUpdate.avgScore = average
+            
             avgUpdate.dtm_upd = datetime.now()
             avgUpdate.save()
 

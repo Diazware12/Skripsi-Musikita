@@ -194,6 +194,10 @@
                                               <a href="{% url 'deleteReview' brand=obj.productId.brandId.brandName productName=obj.productId.productName user_select=User.userName action='profilePage'%}" style="color: black; text-decoration: none;">
                                                 <i class="fas fa-window-close"></i>
                                               </a>
+                                            {% elif request.user.groups.all.0.name == 'Admin' %}
+                                              <a href="{% url 'deleteReview' brand=obj.productId.brandId.brandName productName=obj.productId.productName user_select=User.userName action='profilePage'%}" style="color: black; text-decoration: none;">
+                                                <i class="fas fa-window-close"></i>
+                                              </a>
                                             {% endif %}                                          
                                           </div>
                                         </div>
