@@ -194,14 +194,14 @@ def updateReview (request, productName, brand, user_select, action):
             
             if rate == None:
                 messages.success(request, 'you need to fill-in the rate')
-                return redirect ('reviewProduct', brand=brand, productName=productName)
+                return redirect ('updateReview', brand=brand, productName=productName, user_select=user_select, action='ratingReview')
 
             if reviewTitle == '' or reviewDescription == '':
                 raise Exception("required field Empty")
 
             if len(reviewDescription) < 75:
                 messages.success(request, 'review need to be equal or more than 75 character')
-                return redirect ('reviewProduct', brand=brand, productName=productName)
+                return redirect ('updateReview', brand=brand, productName=productName, user_select=user_select, action='ratingReview')
 
             getReview.rating = rate    
             getReview.title = reviewTitle

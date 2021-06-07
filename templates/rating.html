@@ -261,11 +261,11 @@
               {% endfor %}
             </tbody>
           </table>
-          {% if ms_review|length != 0 and ms_review|length > 5 %}
+          {% comment %} {% if ms_review|length != 0 and ms_review|length > 5 %} {% endcomment %}
             <a href="{% url 'showMoreReview' brand=obj.brandId.brandName productName=obj.productName showMore='Music Store' %}">
               <h3 class="text-center pb-3">See all Music Store Reviews..</h3>
             </a>
-          {% endif %}
+          {% comment %} {% endif %} {% endcomment %}
         </div>
         <div class="col">
           <table class="table">
@@ -409,11 +409,11 @@
           
             </tbody>
           </table>
-          {% if user_review|length != 0 and user_review|length > 5 %}
+          {% comment %} {% if user_review|length != 0 and user_review|length > 5 %} {% endcomment %}
             <a href="{% url 'showMoreReview' brand=obj.brandId.brandName productName=obj.productName showMore='User' %}">
               <h3 class="text-center pb-3">See all User Reviews..</h3>
             </a>
-          {% endif %}
+          {% comment %} {% endif %} {% endcomment %}
         </div>
 
       {% elif showMore == 'Music Store' %}
