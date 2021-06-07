@@ -12,6 +12,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from product.models import *
 from .forms import ForgotPasswordForm
 import re
+from PIL import Image
 
 def dashboard (request):
     isLogin = request.POST.get('isLogin')
@@ -247,3 +248,17 @@ def numIndicator (number):
         finalNum = None
 
         return finalNum
+
+def make_square(img):
+    fill_color=(255, 255, 255)
+
+    img.load() 
+
+    x, y = img.size
+    size = max(x,y)
+    new_img = Image.new('RGB', (size, size), fill_color)
+    if img.mode == 'RGBA':
+        new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)), mask=img.split()[3])
+    else :
+        new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
+    return new_img

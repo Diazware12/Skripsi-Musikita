@@ -120,7 +120,6 @@
         
     <div class="row">
       {% if showMore == '' %}
-
         <div class="col">
           <table class="table">
             <thead class="thead-dark">
@@ -261,11 +260,11 @@
               {% endfor %}
             </tbody>
           </table>
-          {% comment %} {% if ms_review|length != 0 and ms_review|length > 5 %} {% endcomment %}
+          {% if ms_review|length != 0 and ms_review|length > 5 %}
             <a href="{% url 'showMoreReview' brand=obj.brandId.brandName productName=obj.productName showMore='Music Store' %}">
               <h3 class="text-center pb-3">See all Music Store Reviews..</h3>
             </a>
-          {% comment %} {% endif %} {% endcomment %}
+          {% endif %}
         </div>
         <div class="col">
           <table class="table">
@@ -343,8 +342,7 @@
                                   <h5>{{urev.userID.userName}}</h5>
                                 </a>                            
                               </div>
-                              {% if user.is_authenticated %}
-                                
+                              {% if user.is_authenticated %}                               
                                   <div class="p-2 pt-4">
                                     {% if request.user.username == urev.userID.userName%}
                                       <a href="{% url 'updateReview' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview' %}" style="color: black; text-decoration: none;">
@@ -409,11 +407,11 @@
           
             </tbody>
           </table>
-          {% comment %} {% if user_review|length != 0 and user_review|length > 5 %} {% endcomment %}
+          {% if user_review|length != 0 and user_review|length > 5 %}
             <a href="{% url 'showMoreReview' brand=obj.brandId.brandName productName=obj.productName showMore='User' %}">
               <h3 class="text-center pb-3">See all User Reviews..</h3>
             </a>
-          {% comment %} {% endif %} {% endcomment %}
+          {% endif %}
         </div>
 
       {% elif showMore == 'Music Store' %}

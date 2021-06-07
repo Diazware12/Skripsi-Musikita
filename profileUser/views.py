@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect,render
-from register.models import User
+from register.models import MusicStoreData, User
 from django.contrib import messages
 from review.models import Review
 from django.db import connection
@@ -164,6 +164,8 @@ def profilePage(request,userName):
             next_url = ''
             prev_url = ''
 
+        if getUser.roleId == 'Mus_Store':
+            getUser = MusicStoreData.objects.select_related('userID').get(userID__userName=userName)
 
         context = {
             'userData': userStatsData,
@@ -234,39 +236,83 @@ def editUserData (request,userName):
     
     error = 0
     try:
+        context = None
         getUser = User.objects.get(userName=userName)
 
         if request.user.username != getUser.userName:
             return HttpResponse('You are not allowed to view this page')
-        elif request.method != 'POST':
+
+        if getUser.roleId == "Mus_Store":
+           getUser = MusicStoreData.objects.select_related('userID').get(userID__userName=userName)
+           context = 'music store'
+        else:
+           context = 'user data'
+
+        if request.method != 'POST':
             context = {
                 'User': getUser,
-                'context': 'userData'
+                'context': context
             }
             return render(request,'profileEdit.html', context)
         else:
-            name = request.POST.get('userName')
-            description = request.POST.get('description')
-            error = 1
-            if name == '':
-                raise Exception("Username Empty")
+            if context == 'user data':
+                name = request.POST.get('userName')
+                description = request.POST.get('description')
+                error = 1
+                if name == '':
+                    raise Exception("Username Empty")
 
-            if User.objects.filter(userName = name).first():
-                if (request.user.username == name):
-                    pass
-                else:
-                    messages.success(request, 'User Name is Taken')
-                    return redirect ('editUserData', userName = userName)
+                if User.objects.filter(userName = name).first():
+                    if (request.user.username == name):
+                        pass
+                    else:
+                        messages.success(request, 'User Name is Taken')
+                        return redirect ('editUserData', userName = userName)
 
-            getUser.userName = name
-            getUser.description = description
-            getUser.save()
+                getUser.userName = name
+                getUser.description = description
+                getUser.save()
 
-            getUserAuth = auth_user.objects.get(username=userName)
-            getUserAuth.username = name
-            getUserAuth.save()
+                getUserAuth = auth_user.objects.get(username=userName)
+                getUserAuth.username = name
+                getUserAuth.save()
 
-            return redirect ('profilePage', userName = getUserAuth.username)
+                return redirect ('profilePage', userName = getUserAuth.username)
+            else:
+                name = request.POST.get('userName')
+                address = request.POST.get('address')
+                contact = request.POST.get('contact')
+                description = request.POST.get('description')
+                error = 1
+
+                if name == '':
+                    raise Exception("Username Empty")
+                if address == '':
+                    raise Exception("Username Empty")
+                if contact == '':
+                    raise Exception("Username Empty")
+
+                if User.objects.filter(userName = name).first():
+                    if (request.user.username == name):
+                        pass
+                    else:
+                        messages.success(request, 'User Name is Taken')
+                        return redirect ('editUserData', userName = userName)
+                
+                getUser.address = address
+                getUser.contact = contact
+                getUser.save()
+                
+                getUserData = User.objects.get(userName = getUser.userID.userName)
+                getUserData.userName = name
+                getUserData.description = description
+                getUserData.save()
+
+                getUserAuth = auth_user.objects.get(username=userName)
+                getUserAuth.username = name
+                getUserAuth.save()
+
+                return redirect ('profilePage', userName = getUserAuth.username)
 
     except Exception as e:
         print(e)

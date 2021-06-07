@@ -14,8 +14,9 @@ from django.contrib.auth.models import User as auth_user
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import allowed_users
-from Skripsi.views import countUserPending, sendMailAfterRegis, weakPassword
-
+from Skripsi.views import countUserPending, sendMailAfterRegis, weakPassword, make_square
+from PIL import Image
+import os
 
 def registerMember (request):
     if request.method != 'POST':
@@ -33,6 +34,15 @@ def registerMember (request):
         web_direct = ''
 
         try: 
+            if username == '':
+                raise Exception("required field Empty")
+            if email == '':
+                raise Exception("required field Empty")
+            if password == '':
+                raise Exception("required field Empty")
+            if conf_pass == '':
+                raise Exception("required field Empty")
+
             if User.objects.filter(userName = username).first():
                 messages.success(request, 'Username is Taken')
                 return redirect ('regularUser')
@@ -93,6 +103,7 @@ def registerMusicStore (request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         conf_pass = request.POST.get('confirm_pass')
+        contact = request.POST.get('contact')
         msPicture = request.FILES['musicStorePicture']
         msPicture.name = musicStoreName+'.jpg'
         msPicture2 = request.FILES['musicStorePicture2']
@@ -104,6 +115,28 @@ def registerMusicStore (request):
         web_direct = ''
 
         try: 
+
+            if musicStoreName == '':
+                raise Exception("required field Empty")
+            if address == '':
+                raise Exception("required field Empty")
+            if email == '':
+                raise Exception("required field Empty")
+            if password == '':
+                raise Exception("required field Empty")
+            if conf_pass == '':
+                raise Exception("required field Empty")
+            if contact == '':
+                raise Exception("required field Empty")
+            if msPicture == '' or msPicture == None:
+                raise Exception("required field Empty")
+            if msPicture2 == '' or msPicture2 == None:
+                raise Exception("required field Empty")
+            if msPicture3 == '' or msPicture3 == None:
+                raise Exception("required field Empty")
+            if description == '':
+                raise Exception("required field Empty")
+
             if User.objects.filter(userName = musicStoreName).first():
                 messages.success(request, 'Music Store Name is Taken')
                 return redirect ('musicStore')
@@ -143,8 +176,21 @@ def registerMusicStore (request):
                 musicStorePicture = msPicture,
                 musicStorePicture2 = msPicture2,
                 musicStorePicture3 = msPicture3,
+                contact = contact
             ) 
             mStore_obj.save()
+
+            img1 = Image.open(mStore_obj.musicStorePicture.path)
+            img1 = make_square(img1)
+            img1.save(mStore_obj.musicStorePicture.path)
+
+            img2 = Image.open(mStore_obj.musicStorePicture2.path)
+            img2 = make_square(img2)
+            img2.save(mStore_obj.musicStorePicture2.path)
+
+            img3 = Image.open(mStore_obj.musicStorePicture3.path)
+            img3 = make_square(img3)
+            img3.save(mStore_obj.musicStorePicture3.path)
 
             regisUserAuth(profile_obj)
 
@@ -240,7 +286,16 @@ def reject (request,auth_token):
         try:
             profile_obj = User.objects.filter(auth_token = auth_token).first()
             if profile_obj:
-                
+
+                musicStore = MusicStoreData.objects.select_related('userID').get(userID__userName = profile_obj.userName)
+                if os.path.exists(musicStore.musicStorePicture.name) and os.path.exists(musicStore.musicStorePicture2.name) and os.path.exists(musicStore.musicStorePicture3.name):
+                    os.remove(musicStore.musicStorePicture.name)
+                    os.remove(musicStore.musicStorePicture2.name)
+                    os.remove(musicStore.musicStorePicture3.name)
+                else:
+                    pass
+
+
                 domain = get_current_site(request).domain
                 sendMailAfterRegis (domain, profile_obj, 'admin_reject',rejectionReason)
 

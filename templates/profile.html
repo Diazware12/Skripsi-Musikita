@@ -20,6 +20,8 @@
                   <div class="card">
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
+
+                      {% if User.roleId == 'Reg_User' %}
                         {% if User.profilePicture != '' %}
                           <img src="{{ User.profilePicture.url }}" alt="Admin" class="rounded-circle" width="150">
                         {% else %}
@@ -34,12 +36,40 @@
                             <div class="p-2 bd-highlight"><a class="greenbutton" href="{% url 'editUserData' userName=User.userName %}" style="text-decoration: none;">Edit Account Data</a></div>
                           {% endif %}
                         </div>
+                      {% else %}
+                        {% if User.userID.profilePicture != '' %}
+                          <img src="{{ User.userID.profilePicture.url }}" alt="Admin" class="rounded-circle" width="150">
+                        {% else %}
+                          <img src="{% static 'img/profPic.jpg' %}" alt="Admin" class="rounded-circle" width="150">
+                        {% endif %}
+
+                        <div class="mt-3">
+                         
+                          <h4>{{User.userID.userName}}</h4>
+                          <p><span class="moreDesc">{{User.userID.description}}</span></p>
+                          
+                          <p class="pt-3"><strong>Address</strong></p>
+                          <td><span class="more">{{User.address}}</span></td>    
+
+                          <p class="pt-3"><strong>Email</strong></p>
+                          <td>{{User.userID.email}}</td> 
+
+                          <p class="pt-3"><strong>Contact</strong></p>
+                          <td>{{User.contact}}</td>    
+                          
+                          {% if user.is_authenticated and request.user.username == User.userID.userName%}  
+                            <div class="p-2 bd-highlight"><a class="greenbutton" href="{% url 'editProfilePicture' userName=User.userID.userName %}" style="text-decoration: none;">Edit Profile Picture</a></div>
+                            <div class="p-2 bd-highlight"><a class="greenbutton" href="{% url 'editUserData' userName=User.userID.userName %}" style="text-decoration: none;">Edit Account Data</a></div>
+                          {% endif %}
+                        </div>
+                      {% endif %}
+
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-8">
-                  <div class="card mb-3">
+                <div class="card mb-3">
                     <h3 class="pl-3 pt-3">Review Summary</h3>
                     {% if userData.0 == None %}
                     <div class="card-body">
@@ -156,7 +186,83 @@
                       </div>
                     </div>
                     {% endif %}
+                </div>
+
+                {% if User.userID.roleId == 'Mus_Store' %}
+                  <div class="card mb-3">
+                    <h3 class="pt-3 pl-3">Music Store Pictures</h3>
+                    <div class="d-flex justify-content-center">
+                    
+                  
+                      <a style="text-decoration: none;" data-toggle="modal" data-target="#imageModal1" href="#">  
+                          <div class="container">
+                            <div class="card-body py-5">
+                              <img src="{{ User.musicStorePicture.url }}" class="img-thumbnail">
+                            </div>
+                          </div>
+                      </a>
+                      <div class="modal fade bd-example-modal-lg" id="imageModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <img width="100%" height="100%" src="{{ User.musicStorePicture.url }}">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <a style="text-decoration: none;" data-toggle="modal" data-target="#imageModal2" href="#">
+                          <div class="container">
+                            <div class="card-body py-5">
+                              <img src="{{ User.musicStorePicture2.url }}" class="img-thumbnail">
+                            </div>
+                          </div>
+                      </a>
+                      <div class="modal fade bd-example-modal-lg" id="imageModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <img width="100%" height="100%" src="{{ User.musicStorePicture2.url }}">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <a style="text-decoration: none;" data-toggle="modal" data-target="#imageModal3" href="#">
+                          <div class="container">
+                            <div class="card-body py-5">
+                              <img src="{{ User.musicStorePicture3.url }}" class="img-thumbnail">
+                            </div>
+                          </div>
+                      </a>
+                      <div class="modal fade bd-example-modal-lg" id="imageModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <img width="100%" height="100%" src="{{ User.musicStorePicture3.url }}">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
                   </div>
+                {% endif %}
 
 
 

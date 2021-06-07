@@ -82,6 +82,17 @@ class MusicStoreForm (forms.Form):
         )
     )
 
+    contact = forms.CharField(
+        required=True,
+        label='contact',
+        widget=forms.TextInput(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Music Store Phone Contact'
+            }
+        )
+    )
+
     password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(

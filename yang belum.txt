@@ -5,7 +5,7 @@ DIAZ
 - halaman report review
 - edit product -> brand
 - invitation brand
-- tampilin foto musicstore
+
 
 CALVIN
 - carousel blm ada gambar musiknya
@@ -39,6 +39,7 @@ yang done
     - validasi category subcategory (done)
     - validasi error (done)
     - "see more musicstore/user review" di halaman review (done)
+    - tampilin foto musicstore (done)
 
 Note:
     brand g bisa delete product (tapi bisa edit product), cuma admin aja

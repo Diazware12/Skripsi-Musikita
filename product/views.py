@@ -5,7 +5,6 @@ from .forms import ProductForm
 from django.conf import settings
 from product.models import Product, Category, SubCategory, Brand
 from datetime import datetime
-from PIL import Image
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import allowed_users
 from review.models import Review
@@ -46,7 +45,17 @@ def addProduct (request):
                         )
         
         try:
-            if productName == '' or brand == '' or category == '' or subCategory == '' or description == '' or videoUrl == '':
+            if productName == '':
+                raise Exception("required field Empty")
+            if brand == '':
+                raise Exception("required field Empty")
+            if category == '':
+                raise Exception("required field Empty")
+            if subCategory == '':
+                raise Exception("required field Empty")
+            if description == '':
+                raise Exception("required field Empty")
+            if videoUrl == '':
                 raise Exception("required field Empty")
 
             if Product.objects.select_related('brandId').filter(productName=productName,brandId__brandName=brand_Id.brandName).first():
@@ -252,23 +261,6 @@ def addEditPicture (request,productName,brand):
         web_direct = 'success.html'
         
     return render(request,web_direct)
-
-def make_square(img):
-    fill_color=(255, 255, 255)
-
-    img.load() # required for png.split()
-
-    #rbgimage = Image.new("RGB", img.size, fill_color)
-    #rbgimage.paste(img, mask=img.split()[3]) # 3 is the alpha channel
-
-    x, y = img.size
-    size = max(x,y)
-    new_img = Image.new('RGB', (size, size), fill_color)
-    if img.mode == 'RGBA':
-        new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)), mask=img.split()[3])
-    else :
-        new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
-    return new_img
 
 def showProduct (request, productName, brand):
     isLogin = request.POST.get('isLogin')
