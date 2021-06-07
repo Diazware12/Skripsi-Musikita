@@ -129,7 +129,9 @@
 
                                 </div>
                             </div>
-                            <div class="p-4 pt-4"><h5>{{userData.0.highestRateName}}</h5></div>
+                              <a style="color:black; text-decoration:none;" href="{% url 'showProduct' brand=userData.0.highRateBrand productName=userData.0.highestRateName %}">
+                                <div class="p-4 pt-4"><h5>{{userData.0.highestRateName}}</h5></div>
+                              </a>
                           </div>
                         </div>
                         <div class="col">
@@ -146,7 +148,9 @@
                                       {% endif %} 
                                     </div>
                                 </div>
-                                <div class="p-4 pt-4"><h5>{{userData.0.lowestRateName}}</h5></div>
+                                <a style="color:black; text-decoration:none;" href="{% url 'showProduct' brand=userData.0.lowestRateBrand productName=userData.0.lowestRateName %}">
+                                  <div class="p-4 pt-4"><h5>{{userData.0.lowestRateName}}</h5></div>
+                                </a>
                               </div>
                         </div>
                       </div>
@@ -188,7 +192,7 @@
                                           <div class="p-1 pt-2"><p>{{ obj.dtm_crt }}</p></div>
                                           <div class="p-1 pt-2">
                                             {% if request.user.username == User.userName %}
-                                              <a href="{% url 'updateProduct' brand=obj.productId.brandId.brandName productName=obj.productId.productName user_select=User.userName action='profilePage'%}" style="color: black; text-decoration: none;">
+                                              <a href="{% url 'updateReview' brand=obj.productId.brandId.brandName productName=obj.productId.productName user_select=User.userName action='profilePage'%}" style="color: black; text-decoration: none;">
                                                 <i class="fas fa-edit"></i>
                                               </a>
                                               <a href="{% url 'deleteReview' brand=obj.productId.brandId.brandName productName=obj.productId.productName user_select=User.userName action='profilePage'%}" style="color: black; text-decoration: none;">

@@ -119,159 +119,19 @@
         </div>   
         
     <div class="row">
-      <div class="col">
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">Music Store Reviews</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-              {% if ratingMusicStore.0.positive_music == None %}
-                <div class="da-expertise">
-                  <div class="col px-0 mb-4">
-                    <p>Positive 0%</p>
-                    <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                  <div class="col px-0 mb-4">
-                    <p>Mixed 0%</p>
-                    <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                  <div class="col px-0 mb-4">
-                    <p>Negative 0%</p>
-                    <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </div>              
-              {% else %}
-                <div class="da-expertise">
-                  <div class="col px-0 mb-4">
-                    <p>Positive {{ratingMusicStore.0.positive_music}}%</p>
-                    <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingMusicStore.0.positive_music}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                  <div class="col px-0 mb-4">
-                    <p>Mixed {{ratingMusicStore.0.mixed_music}}%</p>
-                    <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingMusicStore.0.mixed_music}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                  <div class="col px-0 mb-4">
-                    <p>Negative {{ratingMusicStore.0.negative_music}}%</p>
-                    <div class="progress" style="height: 5px;">
-                      <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingMusicStore.0.negative_music}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </div>
-              {% endif %}
-              </td>
-            </tr>
-            {% for mrev in ms_review %}
+      {% if showMore == '' %}
+
+        <div class="col">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Music Store Reviews</th>
+              </tr>
+            </thead>
+            <tbody>
               <tr>
                 <td>
-                    <div class="card w-100">
-                        <div class="card-header">
-                            <div class="d-flex flex-row">
-                                {% if mrev.rating <= 10 and mrev.rating >= 8 %}  
-                                  <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>{{mrev.rating}}</b></div></div>
-                                {% elif mrev.rating < 8 and mrev.rating >= 5 %}
-                                  <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>{{mrev.rating}}</b></div></div>
-                                {% else %}
-                                  <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>{{mrev.rating}}</b></div></div>
-                                {% endif %}
-                                <div class="p-2 pt-4">
-                                  <a href="{% url 'profilePage' userName=mrev.userID.userName %}" style="color: black; text-decoration: none;">
-                                    <h5>{{mrev.userID.userName}}</h5>
-                                  </a>
-                                </div>
-                                  {% if user.is_authenticated %}
-                                    
-                                      <div class="p-2 pt-4">
-                                      {% if request.user.username == mrev.userID.userName%}  
-                                        <a href="{% url 'updateReview' brand=obj.brandId.brandName productName=obj.productName user_select=mrev.userID.userName action='ratingReview' %}" style="color: black; text-decoration: none;">
-                                          <i class="fas fa-edit"></i>
-                                        </a>
-                                      {% endif %}  
-                                      {% if request.user.username == mrev.userID.userName or request.user.groups.all.0.name == 'Admin'%}
-                                        <a href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=mrev.userID.userName action='ratingReview'%}" style="color: black; text-decoration: none;">
-                                          <i class="fas fa-window-close"></i>
-                                        </a>
-                                      {% endif %} 
-                                      </div>
-                                    
-                                  {% endif %}
-                            </div>
-                            <div class="pl-2">{{mrev.dtm_crt}}</div>
-                        </div>
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col"><h5 class="card-title">{{mrev.title}}</h5></div>
-                            {% if user.is_authenticated %}
-                              {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
-                                {% if request.user.username != mrev.userID.userName %}
-                                  <div class="col-md-5"><a href="{% url 'reportReview' brand=obj.brandId.brandName productName=obj.productName user=mrev.userID.userName%}">Report As Abuse</a></div>
-                                {% endif %}
-                              {% endif %}
-                            {% endif %}
-                          </div>
-                          <p class="card-text"> <span class="more">{{ mrev.description }}</span></p>
-
-                          {% if user.is_authenticated %}
-                            {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
-                              <div class="row">
-                                {% if request.user.username != mrev.userID.userName %}
-                                  <div class="col-md-3 mt-2">
-                                    <p>Helpful?</p>
-                                  </div>
-                                  <div class="col">
-                                    <div class="d-flex flex-row">
-                                      <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='helpful' user=mrev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">Yes</a></div>
-                                      <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='notHelpful' user=mrev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">No</a></div>
-                                    </div>
-                                  </div>
-                                {% endif %}
-                                <div class="col mt-2">
-                                  {% if mrev.helpful == 0 and mrev.notHelpful == 0%}
-                                    <span></span>
-                                  {% else %}
-                                    {{mrev.helpful}} of {{mrev.helpful|add:mrev.notHelpful}} users found this helpful
-                                  {% endif %}                              
-                                </div>
-                              </div>
-                            {% endif %}
-                          {% endif %}
-                          
-
-                        </div>
-                      </div>
-
-                </td>
-
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        <a href="#"><h3 class="text-center pb-3">See all Music Store Reviews..</h3></a>
-      </div>
-      <div class="col">
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">User Reviews</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              {% if ratingUserScore.0.positive_user == None %}
-                <td>
+                {% if ratingMusicStore.0.positive_music == None %}
                   <div class="da-expertise">
                     <div class="col px-0 mb-4">
                       <p>Positive 0%</p>
@@ -291,120 +151,602 @@
                         <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
-                  </div>
-                </td>
-              {% else %}
-                <td>
+                  </div>              
+                {% else %}
                   <div class="da-expertise">
                     <div class="col px-0 mb-4">
-                      <p>Positive {{ratingUserScore.0.positive_user}}%</p>
+                      <p>Positive {{ratingMusicStore.0.positive_music}}%</p>
                       <div class="progress" style="height: 5px;">
-                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.positive_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingMusicStore.0.positive_music}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
                     <div class="col px-0 mb-4">
-                      <p>Mixed {{ratingUserScore.0.mixed_user}}%</p>
+                      <p>Mixed {{ratingMusicStore.0.mixed_music}}%</p>
                       <div class="progress" style="height: 5px;">
-                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.mixed_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingMusicStore.0.mixed_music}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
                     <div class="col px-0 mb-4">
-                      <p>Negative {{ratingUserScore.0.negative_user}}%</p>
+                      <p>Negative {{ratingMusicStore.0.negative_music}}%</p>
                       <div class="progress" style="height: 5px;">
-                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.negative_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingMusicStore.0.negative_music}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
                   </div>
+                {% endif %}
                 </td>
-              {% endif %}
-            </tr>
-            {% for urev in user_review %}
-              <tr>
-                <td>
-                  <div class="card w-100">
-                    <div class="card-header">
-                        <div class="d-flex flex-row">                        
-                            {% if urev.rating <= 10 and urev.rating >= 8 %}  
-                              <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>{{urev.rating}}</b></div></div>
-                            {% elif urev.rating < 8 and urev.rating >= 5 %}
-                              <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>{{urev.rating}}</b></div></div>
-                            {% else %}
-                              <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>{{urev.rating}}</b></div></div>
-                            {% endif %}
-
-                            <div class="p-2 pt-4">
-                              <a href="{% url 'profilePage' userName=urev.userID.userName %}" style="color: black; text-decoration: none;">
-                                <h5>{{urev.userID.userName}}</h5>
-                              </a>                            
-                            </div>
-                            {% if user.is_authenticated %}
-                              
-                                <div class="p-2 pt-4">
-                                  {% if request.user.username == urev.userID.userName%}
-                                    <a href="{% url 'updateReview' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview' %}" style="color: black; text-decoration: none;">
-                                      <i class="fas fa-edit"></i>
-                                    </a>
+              </tr>
+              {% for mrev in ms_review %}
+                <tr>
+                  <td>
+                      <div class="card w-100">
+                          <div class="card-header">
+                              <div class="d-flex flex-row">
+                                  {% if mrev.rating <= 10 and mrev.rating >= 8 %}  
+                                    <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>{{mrev.rating}}</b></div></div>
+                                  {% elif mrev.rating < 8 and mrev.rating >= 5 %}
+                                    <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>{{mrev.rating}}</b></div></div>
+                                  {% else %}
+                                    <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>{{mrev.rating}}</b></div></div>
                                   {% endif %}
-
-                                  {% if request.user.username == urev.userID.userName or request.user.groups.all.0.name == 'Admin' %}
-                                    <a href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview'%}" style="color: black; text-decoration: none;">
-                                      <i class="fas fa-window-close"></i>
+                                  <div class="p-2 pt-4">
+                                    <a href="{% url 'profilePage' userName=mrev.userID.userName %}" style="color: black; text-decoration: none;">
+                                      <h5>{{mrev.userID.userName}}</h5>
                                     </a>
+                                  </div>
+                                    {% if user.is_authenticated %}
+                                      
+                                        <div class="p-2 pt-4">
+                                        {% if request.user.username == mrev.userID.userName%}  
+                                          <a href="{% url 'updateReview' brand=obj.brandId.brandName productName=obj.productName user_select=mrev.userID.userName action='ratingReview' %}" style="color: black; text-decoration: none;">
+                                            <i class="fas fa-edit"></i>
+                                          </a>
+                                        {% endif %}  
+                                        {% if request.user.username == mrev.userID.userName or request.user.groups.all.0.name == 'Admin'%}
+                                          <a href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=mrev.userID.userName action='ratingReview'%}" style="color: black; text-decoration: none;">
+                                            <i class="fas fa-window-close"></i>
+                                          </a>
+                                        {% endif %} 
+                                        </div>
+                                      
+                                    {% endif %}
+                              </div>
+                              <div class="pl-2">{{mrev.dtm_crt}}</div>
+                          </div>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col"><h5 class="card-title">{{mrev.title}}</h5></div>
+                              {% if user.is_authenticated %}
+                                {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
+                                  {% if request.user.username != mrev.userID.userName %}
+                                    <div class="col-md-5"><a href="{% url 'reportReview' brand=obj.brandId.brandName productName=obj.productName user=mrev.userID.userName%}">Report As Abuse</a></div>
                                   {% endif %}
-                                
-                                </div>
-                              
-                            {% endif %}
-                        </div>
-                          <div class="pl-2">{{urev.dtm_crt}}</div>
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col"><h5 class="card-title">{{urev.title}}</h5></div>
-                            {% if user.is_authenticated %}
-                              {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
-                                {% if request.user.username != urev.userID.userName %}
-                                  <div class="col-md-5"><a href="{% url 'reportReview' brand=obj.brandId.brandName productName=obj.productName user=urev.userID.userName%}">Report As Abuse</a></div>
                                 {% endif %}
                               {% endif %}
-                            {% endif %}
-                      </div>
-                      <p class="card-text"> <span class="more">{{ urev.description }}</span></p>
-
-                      {% if user.is_authenticated %}
-                        {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
-                          <div class="row">
-                            {% if request.user.username != urev.userID.userName %}
-                              <div class="col-md-3 mt-2">
-                                <p>Helpful?</p>
-                              </div>
-                              <div class="col">
-                                <div class="d-flex flex-row">
-                                  <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='helpful' user=urev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">Yes</a></div>
-                                  <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='notHelpful' user=urev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">No</a></div>
-                                </div>
-                              </div>
-                            {% endif %}
-                            <div class="col mt-2">
-                              {% if urev.helpful == 0 and urev.notHelpful == 0%}
-                                <span></span>
-                              {% else %}
-                                {{urev.helpful}} of {{urev.helpful|add:urev.notHelpful}} users found this helpful
-                              {% endif %}
                             </div>
+                            <p class="card-text"> <span class="more">{{ mrev.description }}</span></p>
+
+                            {% if user.is_authenticated %}
+                              {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
+                                <div class="row">
+                                  {% if request.user.username != mrev.userID.userName %}
+                                    <div class="col-md-3 mt-2">
+                                      <p>Helpful?</p>
+                                    </div>
+                                    <div class="col">
+                                      <div class="d-flex flex-row">
+                                        <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='helpful' user=mrev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">Yes</a></div>
+                                        <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='notHelpful' user=mrev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">No</a></div>
+                                      </div>
+                                    </div>
+                                  {% endif %}
+                                  <div class="col mt-2">
+                                    {% if mrev.helpful == 0 and mrev.notHelpful == 0%}
+                                      <span></span>
+                                    {% else %}
+                                      {{mrev.helpful}} of {{mrev.helpful|add:mrev.notHelpful}} users found this helpful
+                                    {% endif %}                              
+                                  </div>
+                                </div>
+                              {% endif %}
+                            {% endif %}
+                            
+
                           </div>
+                        </div>
+
+                  </td>
+
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% if ms_review|length != 0 and ms_review|length > 5 %}
+            <a href="{% url 'showMoreReview' brand=obj.brandId.brandName productName=obj.productName showMore='Music Store' %}">
+              <h3 class="text-center pb-3">See all Music Store Reviews..</h3>
+            </a>
+          {% endif %}
+        </div>
+        <div class="col">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">User Reviews</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% if ratingUserScore.0.positive_user == None %}
+                  <td>
+                    <div class="da-expertise">
+                      <div class="col px-0 mb-4">
+                        <p>Positive 0%</p>
+                        <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="col px-0 mb-4">
+                        <p>Mixed 0%</p>
+                        <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="col px-0 mb-4">
+                        <p>Negative 0%</p>
+                        <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                {% else %}
+                  <td>
+                    <div class="da-expertise">
+                      <div class="col px-0 mb-4">
+                        <p>Positive {{ratingUserScore.0.positive_user}}%</p>
+                        <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.positive_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="col px-0 mb-4">
+                        <p>Mixed {{ratingUserScore.0.mixed_user}}%</p>
+                        <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.mixed_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="col px-0 mb-4">
+                        <p>Negative {{ratingUserScore.0.negative_user}}%</p>
+                        <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.negative_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                {% endif %}
+              </tr>
+              {% for urev in user_review %}
+                <tr>
+                  <td>
+                    <div class="card w-100">
+                      <div class="card-header">
+                          <div class="d-flex flex-row">                        
+                              {% if urev.rating <= 10 and urev.rating >= 8 %}  
+                                <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>{{urev.rating}}</b></div></div>
+                              {% elif urev.rating < 8 and urev.rating >= 5 %}
+                                <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>{{urev.rating}}</b></div></div>
+                              {% else %}
+                                <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>{{urev.rating}}</b></div></div>
+                              {% endif %}
+
+                              <div class="p-2 pt-4">
+                                <a href="{% url 'profilePage' userName=urev.userID.userName %}" style="color: black; text-decoration: none;">
+                                  <h5>{{urev.userID.userName}}</h5>
+                                </a>                            
+                              </div>
+                              {% if user.is_authenticated %}
+                                
+                                  <div class="p-2 pt-4">
+                                    {% if request.user.username == urev.userID.userName%}
+                                      <a href="{% url 'updateReview' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview' %}" style="color: black; text-decoration: none;">
+                                        <i class="fas fa-edit"></i>
+                                      </a>
+                                    {% endif %}
+
+                                    {% if request.user.username == urev.userID.userName or request.user.groups.all.0.name == 'Admin' %}
+                                      <a href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview'%}" style="color: black; text-decoration: none;">
+                                        <i class="fas fa-window-close"></i>
+                                      </a>
+                                    {% endif %}
+                                  
+                                  </div>
+                                
+                              {% endif %}
+                          </div>
+                            <div class="pl-2">{{urev.dtm_crt}}</div>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col"><h5 class="card-title">{{urev.title}}</h5></div>
+                              {% if user.is_authenticated %}
+                                {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
+                                  {% if request.user.username != urev.userID.userName %}
+                                    <div class="col-md-5"><a href="{% url 'reportReview' brand=obj.brandId.brandName productName=obj.productName user=urev.userID.userName%}">Report As Abuse</a></div>
+                                  {% endif %}
+                                {% endif %}
+                              {% endif %}
+                        </div>
+                        <p class="card-text"> <span class="more">{{ urev.description }}</span></p>
+
+                        {% if user.is_authenticated %}
+                          {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
+                            <div class="row">
+                              {% if request.user.username != urev.userID.userName %}
+                                <div class="col-md-3 mt-2">
+                                  <p>Helpful?</p>
+                                </div>
+                                <div class="col">
+                                  <div class="d-flex flex-row">
+                                    <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='helpful' user=urev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">Yes</a></div>
+                                    <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='notHelpful' user=urev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">No</a></div>
+                                  </div>
+                                </div>
+                              {% endif %}
+                              <div class="col mt-2">
+                                {% if urev.helpful == 0 and urev.notHelpful == 0%}
+                                  <span></span>
+                                {% else %}
+                                  {{urev.helpful}} of {{urev.helpful|add:urev.notHelpful}} users found this helpful
+                                {% endif %}
+                              </div>
+                            </div>
+                          {% endif %}
                         {% endif %}
-                      {% endif %}
+                      </div>
+                    </div>
+                  </td>
+                </tr> 
+              {% endfor %}
+          
+            </tbody>
+          </table>
+          {% if user_review|length != 0 and user_review|length > 5 %}
+            <a href="{% url 'showMoreReview' brand=obj.brandId.brandName productName=obj.productName showMore='User' %}">
+              <h3 class="text-center pb-3">See all User Reviews..</h3>
+            </a>
+          {% endif %}
+        </div>
+
+      {% elif showMore == 'Music Store' %}
+
+        <div class="col">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Music Store Reviews</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                {% if ratingMusicStore.0.positive_music == None %}
+                  <div class="da-expertise">
+                    <div class="col px-0 mb-4">
+                      <p>Positive 0%</p>
+                      <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <div class="col px-0 mb-4">
+                      <p>Mixed 0%</p>
+                      <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <div class="col px-0 mb-4">
+                      <p>Negative 0%</p>
+                      <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                  </div>              
+                {% else %}
+                  <div class="da-expertise">
+                    <div class="col px-0 mb-4">
+                      <p>Positive {{ratingMusicStore.0.positive_music}}%</p>
+                      <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingMusicStore.0.positive_music}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <div class="col px-0 mb-4">
+                      <p>Mixed {{ratingMusicStore.0.mixed_music}}%</p>
+                      <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingMusicStore.0.mixed_music}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <div class="col px-0 mb-4">
+                      <p>Negative {{ratingMusicStore.0.negative_music}}%</p>
+                      <div class="progress" style="height: 5px;">
+                        <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingMusicStore.0.negative_music}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
                     </div>
                   </div>
+                {% endif %}
                 </td>
-              </tr> 
-            {% endfor %}
-         
-          </tbody>
-        </table>
-        <a href="#"><h3 class="text-center pb-3">See all Music Store Reviews..</h3></a>
-      </div>
+              </tr>
+              {% for mrev in review %}
+                <tr>
+                  <td>
+                      <div class="card w-100">
+                          <div class="card-header">
+                              <div class="d-flex flex-row">
+                                  {% if mrev.rating <= 10 and mrev.rating >= 8 %}  
+                                    <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>{{mrev.rating}}</b></div></div>
+                                  {% elif mrev.rating < 8 and mrev.rating >= 5 %}
+                                    <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>{{mrev.rating}}</b></div></div>
+                                  {% else %}
+                                    <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>{{mrev.rating}}</b></div></div>
+                                  {% endif %}
+                                  <div class="p-2 pt-4">
+                                    <a href="{% url 'profilePage' userName=mrev.userID.userName %}" style="color: black; text-decoration: none;">
+                                      <h5>{{mrev.userID.userName}}</h5>
+                                    </a>
+                                  </div>
+                                    {% if user.is_authenticated %}
+                                      
+                                        <div class="p-2 pt-4">
+                                        {% if request.user.username == mrev.userID.userName%}  
+                                          <a href="{% url 'updateReview' brand=obj.brandId.brandName productName=obj.productName user_select=mrev.userID.userName action='ratingReview' %}" style="color: black; text-decoration: none;">
+                                            <i class="fas fa-edit"></i>
+                                          </a>
+                                        {% endif %}  
+                                        {% if request.user.username == mrev.userID.userName or request.user.groups.all.0.name == 'Admin'%}
+                                          <a href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=mrev.userID.userName action='ratingReview'%}" style="color: black; text-decoration: none;">
+                                            <i class="fas fa-window-close"></i>
+                                          </a>
+                                        {% endif %} 
+                                        </div>
+                                      
+                                    {% endif %}
+                              </div>
+                              <div class="pl-2">{{mrev.dtm_crt}}</div>
+                          </div>
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col"><h5 class="card-title">{{mrev.title}}</h5></div>
+                              {% if user.is_authenticated %}
+                                {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
+                                  {% if request.user.username != mrev.userID.userName %}
+                                    <div class="col-md-5"><a href="{% url 'reportReview' brand=obj.brandId.brandName productName=obj.productName user=mrev.userID.userName%}">Report As Abuse</a></div>
+                                  {% endif %}
+                                {% endif %}
+                              {% endif %}
+                            </div>
+                            <p class="card-text"> <span class="more">{{ mrev.description }}</span></p>
+
+                            {% if user.is_authenticated %}
+                              {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
+                                <div class="row">
+                                  {% if request.user.username != mrev.userID.userName %}
+                                    <div class="col-md-3 mt-2">
+                                      <p>Helpful?</p>
+                                    </div>
+                                    <div class="col">
+                                      <div class="d-flex flex-row">
+                                        <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='helpful' user=mrev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">Yes</a></div>
+                                        <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='notHelpful' user=mrev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">No</a></div>
+                                      </div>
+                                    </div>
+                                  {% endif %}
+                                  <div class="col mt-2">
+                                    {% if mrev.helpful == 0 and mrev.notHelpful == 0%}
+                                      <span></span>
+                                    {% else %}
+                                      {{mrev.helpful}} of {{mrev.helpful|add:mrev.notHelpful}} users found this helpful
+                                    {% endif %}                              
+                                  </div>
+                                </div>
+                              {% endif %}
+                            {% endif %}
+                          </div>
+                        </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+                  <div class="d-flex flex-row-reverse">
+                      <div class="p-2">
+                            <nav aria-label="...">
+                              <ul class="pagination">
+                                <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{prev_page_url}}">Previous</a>
+                                </li>
+
+                                {% for n in review.paginator.page_range %}
+                                  {% if review.number == n %}
+                                    <li class="page-item active"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% elif n > review.number|add:-3 and n < review.number|add:3 %}
+                                    <li class="page-item"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% endif %}
+                                {% endfor %}
+                                <li class="page-item {% if not next_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{next_page_url}}">Next</a>
+                                </li>
+                              </ul>
+                            </nav>
+                      </div>
+                  </div>
+        </div>
+      
+      {% else %}
+        <div class="col">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">User Reviews</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% if ratingUserScore.0.positive_user == None %}
+                  <td>
+                    <div class="da-expertise">
+                      <div class="col px-0 mb-4">
+                        <p>Positive 0%</p>
+                        <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="col px-0 mb-4">
+                        <p>Mixed 0%</p>
+                        <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="col px-0 mb-4">
+                        <p>Negative 0%</p>
+                        <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                {% else %}
+                  <td>
+                    <div class="da-expertise">
+                      <div class="col px-0 mb-4">
+                        <p>Positive {{ratingUserScore.0.positive_user}}%</p>
+                        <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.positive_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="col px-0 mb-4">
+                        <p>Mixed {{ratingUserScore.0.mixed_user}}%</p>
+                        <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.mixed_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="col px-0 mb-4">
+                        <p>Negative {{ratingUserScore.0.negative_user}}%</p>
+                        <div class="progress" style="height: 5px;">
+                          <div class="progress-bar" data-aos="progress-full" data-aos-offset="10" data-aos-duration="2000" role="progressbar" style="width: {{ratingUserScore.0.negative_user}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                {% endif %}
+              </tr>
+              {% for urev in review %}
+                <tr>
+                  <td>
+                    <div class="card w-100">
+                      <div class="card-header">
+                          <div class="d-flex flex-row">                        
+                              {% if urev.rating <= 10 and urev.rating >= 8 %}  
+                                <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>{{urev.rating}}</b></div></div>
+                              {% elif urev.rating < 8 and urev.rating >= 5 %}
+                                <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>{{urev.rating}}</b></div></div>
+                              {% else %}
+                                <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>{{urev.rating}}</b></div></div>
+                              {% endif %}
+
+                              <div class="p-2 pt-4">
+                                <a href="{% url 'profilePage' userName=urev.userID.userName %}" style="color: black; text-decoration: none;">
+                                  <h5>{{urev.userID.userName}}</h5>
+                                </a>                            
+                              </div>
+                              {% if user.is_authenticated %}
+                                
+                                  <div class="p-2 pt-4">
+                                    {% if request.user.username == urev.userID.userName%}
+                                      <a href="{% url 'updateReview' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview' %}" style="color: black; text-decoration: none;">
+                                        <i class="fas fa-edit"></i>
+                                      </a>
+                                    {% endif %}
+
+                                    {% if request.user.username == urev.userID.userName or request.user.groups.all.0.name == 'Admin' %}
+                                      <a href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview'%}" style="color: black; text-decoration: none;">
+                                        <i class="fas fa-window-close"></i>
+                                      </a>
+                                    {% endif %}
+                                  
+                                  </div>
+                                
+                              {% endif %}
+                          </div>
+                            <div class="pl-2">{{urev.dtm_crt}}</div>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col"><h5 class="card-title">{{urev.title}}</h5></div>
+                              {% if user.is_authenticated %}
+                                {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
+                                  {% if request.user.username != urev.userID.userName %}
+                                    <div class="col-md-5"><a href="{% url 'reportReview' brand=obj.brandId.brandName productName=obj.productName user=urev.userID.userName%}">Report As Abuse</a></div>
+                                  {% endif %}
+                                {% endif %}
+                              {% endif %}
+                        </div>
+                        <p class="card-text"> <span class="more">{{ urev.description }}</span></p>
+
+                        {% if user.is_authenticated %}
+                          {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
+                            <div class="row">
+                              {% if request.user.username != urev.userID.userName %}
+                                <div class="col-md-3 mt-2">
+                                  <p>Helpful?</p>
+                                </div>
+                                <div class="col">
+                                  <div class="d-flex flex-row">
+                                    <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='helpful' user=urev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">Yes</a></div>
+                                    <div class="p-2"><a href="{% url 'feedback' brand=obj.brandId.brandName productName=obj.productName feedback='notHelpful' user=urev.userID.userName%}" type="button" class="btn btn-secondary" style="text-decoration: none;">No</a></div>
+                                  </div>
+                                </div>
+                              {% endif %}
+                              <div class="col mt-2">
+                                {% if urev.helpful == 0 and urev.notHelpful == 0%}
+                                  <span></span>
+                                {% else %}
+                                  {{urev.helpful}} of {{urev.helpful|add:urev.notHelpful}} users found this helpful
+                                {% endif %}
+                              </div>
+                            </div>
+                          {% endif %}
+                        {% endif %}
+                      </div>
+                    </div>
+                  </td>
+                </tr> 
+              {% endfor %}
+            </tbody>
+          </table>
+                  <div class="d-flex flex-row-reverse">
+                      <div class="p-2">
+                            <nav aria-label="...">
+                              <ul class="pagination">
+                                <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{prev_page_url}}">Previous</a>
+                                </li>
+
+                                {% for n in review.paginator.page_range %}
+                                  {% if review.number == n %}
+                                    <li class="page-item active"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% elif n > review.number|add:-3 and n < review.number|add:3 %}
+                                    <li class="page-item"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% endif %}
+                                {% endfor %}
+                                <li class="page-item {% if not next_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{next_page_url}}">Next</a>
+                                </li>
+                              </ul>
+                            </nav>
+                      </div>
+                  </div>
+
+        </div>
+      {% endif %}
+
+
     </div>
   </div>
   </div>

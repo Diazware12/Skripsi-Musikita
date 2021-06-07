@@ -59,7 +59,9 @@
                                   </div>
                               </div>
                               {% if brandData.0.highestRateName != None %}
-                                <div class="p-4 pt-4"><h5>{{brandData.0.highestRateName}}</h5></div>
+                                <a style="color:black; text-decoration:none;" href="{% url 'showProduct' brand=brand.brandName productName=brandData.0.highestRateName %}">
+                                  <div class="p-4 pt-4"><h5>{{brandData.0.highestRateName}}</h5></div>
+                                </a>            
                               {% endif %}
                             </div>
                           </div>
@@ -80,7 +82,9 @@
                                       </div>
                                   </div>
                                   {% if brandData.0.lowestRateName != None %}
-                                    <div class="p-4 pt-4"><h5>{{brandData.0.lowestRateName}}</h5></div>
+                                    <a style="color:black; text-decoration:none;" href="{% url 'showProduct' brand=brand.brandName productName=brandData.0.lowestRateName %}">
+                                      <div class="p-4 pt-4"><h5>{{brandData.0.lowestRateName}}</h5></div>
+                                    </a>  
                                   {% endif %}
                                 </div>
                           </div>

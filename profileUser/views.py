@@ -57,6 +57,21 @@ def profilePage(request,userName):
                                     order by r.dtm_crt desc) as highRate,
                                     
                                     (
+                                        select b.brandName from review_review as r
+                                        join register_user as u on u.userID = r.userID_id
+                                        join product_product as p on p.productId = r.productId_id
+                                        join product_brand as b on p.brandId_id = b.brandId
+                                        where r.rating = (
+                                            select max(r.rating) from review_review as r
+                                            join register_user as u on u.userID = r.userID_id
+                                            join product_product as p on p.productId = r.productId_id
+                                            where u.userID = """+str(getUser.userID)+"""
+                                        ) and u.userID = """+str(getUser.userID)+"""
+                                        order by r.dtm_crt desc
+                                        limit 1
+                                    ) as highRateBrand,
+                                    
+                                    (
                                         select p.productName from review_review as r
                                         join register_user as u on u.userID = r.userID_id
                                         join product_product as p on p.productId = r.productId_id
@@ -70,11 +85,27 @@ def profilePage(request,userName):
                                         limit 1
                                     ) as highRateName,
                                     
-                                    (select min(r.rating) from review_review as r
+                                    (
+                                    select min(r.rating) from review_review as r
                                     join register_user as u on u.userID = r.userID_id
                                     join product_product as p on p.productId = r.productId_id
                                     where u.userID = """+str(getUser.userID)+"""
                                     order by r.dtm_crt desc) as minRate,
+                                    
+									(
+                                        select b.brandName from review_review as r
+                                        join register_user as u on u.userID = r.userID_id
+                                        join product_product as p on p.productId = r.productId_id
+                                        join product_brand as b on p.brandId_id = b.brandId
+                                        where r.rating = (
+                                            select min(r.rating) from review_review as r
+                                            join register_user as u on u.userID = r.userID_id
+                                            join product_product as p on p.productId = r.productId_id
+                                            where u.userID = """+str(getUser.userID)+"""
+                                        ) and u.userID = """+str(getUser.userID)+"""
+                                        order by r.dtm_crt desc
+                                        limit 1
+                                    ) as minRateBrand,
                                     
                                     (
                                         select p.productName from review_review as r
@@ -88,7 +119,6 @@ def profilePage(request,userName):
                                         ) and u.userID = """+str(getUser.userID)+"""
                                         order by r.dtm_crt desc
                                         limit 1
-                                    
                                     ) as minRateName,
                                     
                                     u.userID as UserID
@@ -96,7 +126,7 @@ def profilePage(request,userName):
                                     join register_user as u on r.userID_id = u.userID
                                     where u.userID = """+str(getUser.userID)+"""
                                 )
-                                select distinct (positive), mixed, negative, highRate, highRateName, minRate, minRateName
+                                select distinct (positive), mixed, negative, highRate, highRateBrand, highRateName, minRate, minRateBrand, minRateName
                                 from stats join maxMin using (UserID)
                         """            
             cursor.execute(raw_sql)
@@ -107,9 +137,11 @@ def profilePage(request,userName):
                     "mixed": qux[1],
                     "negative": qux[2],
                     "highestRate":numIndicator (qux[3]),
-                    "highestRateName":qux[4],
-                    "lowestRate":numIndicator (qux[5]),
-                    "lowestRateName":qux[6]
+                    "highRateBrand":qux[4],
+                    "highestRateName":qux[5],
+                    "lowestRate":numIndicator (qux[6]),
+                    "lowestRateBrand":qux[7],
+                    "lowestRateName":qux[8]
                 })
 
         getReviewListByPage = None

@@ -4,7 +4,6 @@ DIAZ
 - searching blm bisa    
 - halaman report review
 - edit product -> brand
-- "see more musicstore/user review" di halaman review
 - invitation brand
 - tampilin foto musicstore
 
@@ -39,6 +38,7 @@ yang done
     - productVisit (done)
     - validasi category subcategory (done)
     - validasi error (done)
+    - "see more musicstore/user review" di halaman review (done)
 
 Note:
     brand g bisa delete product (tapi bisa edit product), cuma admin aja
