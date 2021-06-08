@@ -10,7 +10,9 @@ from django.contrib.auth import authenticate, login, logout
 import datetime
 from django.contrib.sites.shortcuts import get_current_site
 from product.models import *
+from review.models import Report
 from .forms import ForgotPasswordForm
+from django.db.models import Count
 import re
 from PIL import Image
 
@@ -44,7 +46,8 @@ def dashboard (request):
         'newReleaseSoundSystem': newReleaseSoundSystem,
         'newReleaseAccessories': newReleaseAccessories,
         'newReleaseDAW': newReleaseDAW,
-        'userPending': countUserPending(request)
+        'userPending': countUserPending(request),
+        'reportUser': countReport(request)
     }
     return render(request,'dashboard.html', context)
 
@@ -117,6 +120,8 @@ def loginAccount (request):
 def sendMailAfterRegis (domain, user, context, additional_msg):
     subject = ''
     messages = ''
+    
+    nameList = None
     if (context == 'verification'):
         subject = 'Your Account Need To Be Verified'
         activate_url = 'http://' + domain + '/verify/' + user.auth_token
@@ -131,9 +136,20 @@ def sendMailAfterRegis (domain, user, context, additional_msg):
         subject = 'Reset Your Password' 
         activate_url = 'http://' + domain + '/forgot_Pass/' + user.auth_token              
         messages = 'hi ' + user.userName + ',\n\n' + 'Please click the link down below to reset your password\n\n' + activate_url
+    elif (context == 'approve_report'):
+        subject = 'Your Review has been reported'              
+        messages = additional_msg
+    elif (context == 'reject_report'):
+        nameList = user
+        subject = 'Your Report has been rejected by admin'              
+        messages = additional_msg
+
 
     email_from = settings.EMAIL_HOST_USER
-    receipent_list = [user.email]
+    if nameList == None:
+        receipent_list = [user.email]
+    else:
+        receipent_list = nameList
     email = EmailMessage(
         subject,
         messages,
@@ -206,6 +222,13 @@ def countUserPending(request):
     obj = MusicStoreData.objects.select_related('userID').filter(
             userID__status='AdminPending',
             userID__roleId='Mus_Store').count()
+    return obj
+
+def countReport(request):
+    obj = Report.objects.values(
+          'reviewId').annotate(dcount=Count('reviewId'
+          )).order_by().count()
+
     return obj
 
 def weakPassword (password):

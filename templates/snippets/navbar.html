@@ -31,7 +31,8 @@
           {% if user.is_authenticated %}
       
             {% if request.user.groups.all.0.name == 'Admin' %}
-              <li><a style="text-decoration: none;" href="{% url 'userApproveList' %}">User Pending ({{userPending}})</a></li> 
+              <li><a style="text-decoration: none;" href="{% url 'reportList' %}">Report List ({{reportUser}})</a></li>  
+              <li><a style="text-decoration: none;" href="{% url 'userApproveList' %}">User Pending ({{userPending}})</a></li>
             {% else %} 
               <li><a href="#">About Musikita</a></li>
             {% endif %}

@@ -17,6 +17,7 @@ from Skripsi.decorator import allowed_users
 from Skripsi.views import countUserPending, sendMailAfterRegis, weakPassword, make_square
 from PIL import Image
 import os
+from django.core.paginator import Paginator
 
 def registerMember (request):
     if request.method != 'POST':
@@ -225,11 +226,32 @@ def regisUserAuth(userRegis):
 @allowed_users(allowed_roles=['Admin'])
 def musicStorePendingList (request):
 
-    qux = MusicStoreData.objects.select_related('userID').filter(userID__status="AdminPending", userID__verified_at__isnull= False)[:8]
+    pendingList = MusicStoreData.objects.select_related('userID').filter(userID__status="AdminPending", userID__verified_at__isnull= False)[:8]
+
+    if pendingList:
+        paginator = Paginator(pendingList,8)
+        page_number = request.GET.get('page', 1)
+        getReviewListByPage = paginator.get_page(page_number)
+
+        if getReviewListByPage.has_next():
+            next_url = f'?page={getReviewListByPage.next_page_number()}'
+        else:
+            next_url = ''
+
+        if getReviewListByPage.has_previous():
+            prev_url = f'?page={getReviewListByPage.previous_page_number()}'
+        else:
+            prev_url = ''
+    else:
+        getReviewListByPage = pendingList.none()
+        next_url = ''
+        prev_url = ''
 
     context = {
-        'obj': qux,
-        'userPending': countUserPending(request)
+        'obj': getReviewListByPage,
+        'userPending': countUserPending(request),
+        'next_page_url': next_url,
+        'prev_page_url': prev_url
     }
     return render(request,'userApproveList.html', context)    
 
@@ -278,7 +300,6 @@ def reject (request,auth_token):
         context = {
             'form': rejectionForm,
             'userPending': countUserPending(request)
-
         }
         return render(request,'rejectionReason.html', context)
     else :

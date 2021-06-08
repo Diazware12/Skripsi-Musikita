@@ -273,7 +273,6 @@ def deleteReview(request, productName, brand, user_select, action):
             }
         return render(request,'error.html', context)
     
-
 @login_required
 @allowed_users(allowed_roles=['Reg_User','Mus_Store'])
 def feedback (request, productName, brand, feedback, user):
@@ -338,7 +337,15 @@ def reportReview (request, productName, brand, user):
                     productId = getProduct.productId,
                     userID__userName = user
                 )
-        web_direct = None
+        
+        getCurrUser = User.objects.get(userName = request.user.username)
+
+        getReportData = Report.objects.filter(reviewId=obj.reviewId,userID=getCurrUser.userID)
+        if getReportData:
+            messages.success(request, 'You Already Submit Your Report for This Review Before')
+            return redirect ('showProduct', brand=brand, productName=productName)        
+
+
         if request.method != 'POST':
             form = ReportForm()
             context = {

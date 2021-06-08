@@ -19,11 +19,11 @@ def profilePage(request,userName):
         loginAccount (request)
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
-
+    error = 0
     try:   
         getUser = User.objects.get(userName=userName)
         reviewList = Review.objects.select_related('productId','userID').order_by('-dtm_crt').filter(userID__userName = getUser.userName)
-
+        error = 1
         userStatsData = []
         with connection.cursor() as cursor:
             raw_sql =""" 
@@ -160,7 +160,7 @@ def profilePage(request,userName):
             else:
                 prev_url = ''
         else:
-            getReviewListByPage = Review.objects.none()
+            getReviewListByPage = Review.none()
             next_url = ''
             prev_url = ''
 
@@ -179,9 +179,15 @@ def profilePage(request,userName):
         return render(request,'profile.html', context)
     except Exception as e:
         print(e)
-        context = {
-            'message': "User "+ userName +" Not Found"
-        }
+        context = None
+        if error == 0:
+            context = {
+                'message': "User "+ userName +" Not Found"
+            }
+        else:
+            context = {
+                'message': 'error'
+            }
         return render(request,'error.html', context)
 
 @login_required

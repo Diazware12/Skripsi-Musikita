@@ -12,7 +12,6 @@ CALVIN
     -> buat page add carousel
 - editor's choice masih dummy
 - filtering apagi, blm samsek (belakangan)
-- range price
 - add brand
 - halaman "about Musikita"
 
