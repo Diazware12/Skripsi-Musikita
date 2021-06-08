@@ -29,8 +29,6 @@ class Product (models.Model):
     productName = models.CharField(max_length = 50)
     description = models.TextField()
     videoUrl = EmbedVideoField()
-    minPrice = models.BigIntegerField() #lowest
-    maxPrice = models.BigIntegerField() #highest
     dtm_crt = models.DateTimeField(null=False)
     dtm_upd = models.DateTimeField(default=datetime.now,null=False)
     productIMG = models.ImageField(upload_to=settings.MEDIA_ROOT+'/product',null=False, blank=False, default='none', max_length=255)
