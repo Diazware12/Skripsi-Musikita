@@ -34,6 +34,7 @@ class Product (models.Model):
     productIMG = models.ImageField(upload_to=settings.MEDIA_ROOT+'/product',null=False, blank=False, default='none', max_length=255)
     visitCount = models.BigIntegerField(null=False,default=0)
     avgScore = models.DecimalField(max_digits=3, decimal_places=2, null=True)
+    editorChoice = models.BooleanField(default=False)
     
 
 
