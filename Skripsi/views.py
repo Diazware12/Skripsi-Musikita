@@ -1,3 +1,4 @@
+from carousel.models import CarouselImage
 from django.db.models.fields import DecimalField
 from django.http import HttpResponse
 from django.shortcuts import render, redirect 
@@ -24,6 +25,8 @@ def dashboard (request):
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
     
+    #carousel
+    carousels = CarouselImage.objects.filter(status=True)
 
     #hot item
     hotItems = Product.objects.select_related('brandId').order_by('-visitCount')[:8]
@@ -37,6 +40,7 @@ def dashboard (request):
     newReleaseDAW = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName="DAW & Plugins")[:6]
 
     context = {
+        'carousels':carousels,
         'hotItems': hotItems,
         'newReleaseAcoustic': newReleaseAcoustic,
         'newReleaseElectric': newReleaseElectric,

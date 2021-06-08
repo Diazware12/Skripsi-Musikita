@@ -37,9 +37,13 @@ def manageCarousel(request):
 @login_required
 @allowed_users(allowed_roles=['Admin'])
 def addCarousel(request):
-    carouselForm = [CarouselForm(initial={'imageActive':var.status}) for var in carousels]
-
-    context = {
-        'carouselForm': carouselForm
-    }
-    return render(request,'manageCarousel.html',context)
+    if request.method != 'POST':
+        return render(request,'addCarousel.html')
+    else:
+        carouselPicture = request.FILES['carouselPicture']
+        carousel_obj = CarouselImage.objects.create(
+            carouselIMG=carouselPicture,
+            status=False
+        )
+        carousel_obj.save()
+        return redirect('managecarousel')
