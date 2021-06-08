@@ -1,6 +1,6 @@
 from product.models import Category, Product, Brand
 from django.shortcuts import render
-from Skripsi.views import loginAccount, countUserPending, forgotPassword, numIndicator
+from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator
 from django.db import connection
 from django.core.paginator import Paginator
 
@@ -154,6 +154,7 @@ def brandPage (request,brandName,sort):
             'brandData': brandStatsData,
             'brand':getBrand,
             'userPending': countUserPending(request),
+            'reportUser': countReport(request),
             'sortObj':getProductByPage,
             'categoryList': categoryList,
             'sort':sort,

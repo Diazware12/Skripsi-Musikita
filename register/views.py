@@ -14,7 +14,7 @@ from django.contrib.auth.models import User as auth_user
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import allowed_users
-from Skripsi.views import countUserPending, sendMailAfterRegis, weakPassword, make_square
+from Skripsi.views import countReport, countUserPending, sendMailAfterRegis, weakPassword, make_square
 from PIL import Image
 import os
 from django.core.paginator import Paginator
@@ -250,8 +250,9 @@ def musicStorePendingList (request):
     context = {
         'obj': getReviewListByPage,
         'userPending': countUserPending(request),
+        'reportUser': countReport(request),
         'next_page_url': next_url,
-        'prev_page_url': prev_url
+        'prev_page_url': prev_url,
     }
     return render(request,'userApproveList.html', context)    
 

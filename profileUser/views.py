@@ -4,7 +4,7 @@ from register.models import MusicStoreData, User
 from django.contrib import messages
 from review.models import Review
 from django.db import connection
-from Skripsi.views import loginAccount, countUserPending, forgotPassword, numIndicator
+from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.models import User as auth_user
 from Skripsi.decorator import allowed_users
@@ -172,6 +172,7 @@ def profilePage(request,userName):
             'obj':getReviewListByPage,
             'User':getUser,
             'userPending': countUserPending(request),
+            'reportUser': countReport(request),
             'next_page_url': next_url,
             'prev_page_url': prev_url
         }

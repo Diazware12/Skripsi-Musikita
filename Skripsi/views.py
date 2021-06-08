@@ -58,7 +58,6 @@ def user_logout (request):
 def productList (request):
     return render(request,'productList.html')  
 
-
 def token (request):
     return render(request,'token-send.html')  
 

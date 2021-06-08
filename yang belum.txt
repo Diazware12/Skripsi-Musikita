@@ -2,8 +2,9 @@ DIAZ
 
 - footer: masih blm tau harus diisi apa 
 - searching blm bisa    
-- edit product -> brand
+- edit product -> brand/admin
 - invitation brand
+- tanda untuk "sell this product" untuk musicStore
 
 
 CALVIN

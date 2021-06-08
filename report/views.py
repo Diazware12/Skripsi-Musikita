@@ -5,7 +5,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from product.models import Product
 from Skripsi.decorator import allowed_users
 from django.contrib.auth.decorators import login_required
-from Skripsi.views import countUserPending, sendMailAfterRegis
+from Skripsi.views import countReport, countUserPending, sendMailAfterRegis
 from django.db.models.query import QuerySet
 from django.shortcuts import redirect, render
 from review.models import Report, Review
@@ -60,6 +60,7 @@ def reportList (request):
     context = {
         'obj':getReportListByPage,
         'userPending': countUserPending(request),
+        'reportUser': countReport(request),
         'next_page_url': next_url,
         'prev_page_url': prev_url
     }
@@ -92,7 +93,9 @@ def reportListView (request, user_select, brand, productName):
             'brand': brand,
             'productName': productName,
             'reportReasonList': getReportReason,
-            'reportData':getReportData
+            'reportData':getReportData,
+            'reportUser': countReport(request),
+            'userPending': countUserPending(request)
         }   
 
         return render(request,'reportListView.html', context)
@@ -135,8 +138,9 @@ def approveReport (request, user_select, brand, productName):
         message =""" 
                     hi """+user_select+""",
                     we like to inform you about your review with a title \" """+obj.title+""" \"
-                    in """+getProduct.productName+""", has been reported due to: 
+                    in """+getProduct.productName+""", has been reported due to: \n
                     """+reason+"""
+                    \n
                     thank you
                     http://"""+domain+"""
                 """    
@@ -190,7 +194,7 @@ def rejectReport (request, user_select, brand, productName):
             message =""" 
                         Hello Users!!,
                         Unfortunately your review report about \" """+obj.title+""" \" from """+user_select+"""
-                        in """+getProduct.productName+""", has been rejected by admin because:\n 
+                        in """+getProduct.productName+""", has been rejected by admin because:\n\n
                         """+rejectionReason+"""
                         \n\n
                         thank you

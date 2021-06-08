@@ -11,7 +11,7 @@ from review.models import Review
 from django.db import connection
 import requests
 import os
-from Skripsi.views import loginAccount, countUserPending, forgotPassword, numIndicator
+from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator
 from django.core.paginator import Paginator
 
 @login_required
@@ -434,6 +434,7 @@ def showProduct (request, productName, brand):
             'reviewStatus': review_available,
             'messageModal': messages,
             'userPending': countUserPending(request),
+            'reportUser': countReport(request),
             'otherProduct': otherProduct,
             'showMore': ''
         }
@@ -701,6 +702,7 @@ def viewProductByCategory(request, categoryName):
         'productList': getProductListByPage,
         'categoryName': categoryName,
         'userPending': countUserPending(request),
+        'reportUser': countReport(request),
         'next_page_url': next_url,
         'prev_page_url': prev_url
     }
@@ -716,7 +718,8 @@ def viewProductBySubCategory(request, categoryName, subCategoryName):
             'productList': productList,
             'categoryName': categoryName,
             'subCategoryName': subCategoryName,
-            'userPending': countUserPending(request)
+            'userPending': countUserPending(request),
+            'reportUser': countReport(request)
         }
     except:
         context = None
