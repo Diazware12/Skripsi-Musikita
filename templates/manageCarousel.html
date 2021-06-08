@@ -14,6 +14,10 @@
     <div class="container">
 
         <h1 class="pb-5 pt-5">Carousel List</h1>
+        <div class="d-flex flex-row bd-highlight pt-3">
+          <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;" class="greenbutton" href="{% url 'addcarousel' %}">Add Carousel</a></div>
+        </div>
+        
         <form method='POST'>
           {% csrf_token %}
           
@@ -23,16 +27,8 @@
                 <div class="col-sm-6 pb-3">
                     <div class="card">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <img src="{{obj.0.carouselIMG.url}}" width="150" alt="image">
-                                    {{ obj.1.imageActive }}
-                                </div>
-                                <div class="col">
-                                    <!-- <a href="#" style="color: black;text-decoration: none;"><h5 class="card-title">{{obj.userID.userName}}</h5></a> -->
-                                  
-                                </div>
-                            </div>
+                          <img src="{{obj.0.carouselIMG.url}}" width="100%" alt="image">
+                          {{ obj.1.imageActive }}
                         </div>
                     </div>
                 </div>
