@@ -5,14 +5,13 @@ from .forms import ProductForm
 from django.conf import settings
 from product.models import Product, Category, SubCategory, Brand
 from datetime import datetime
-from PIL import Image
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import allowed_users
 from review.models import Review
 from django.db import connection
 import requests
 import os
-from Skripsi.views import loginAccount, countUserPending, forgotPassword, numIndicator
+from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator
 from django.core.paginator import Paginator
 
 @login_required
@@ -46,7 +45,17 @@ def addProduct (request):
                         )
         
         try:
-            if productName == '' or brand == '' or category == '' or subCategory == '' or description == '' or videoUrl == '':
+            if productName == '':
+                raise Exception("required field Empty")
+            if brand == '':
+                raise Exception("required field Empty")
+            if category == '':
+                raise Exception("required field Empty")
+            if subCategory == '':
+                raise Exception("required field Empty")
+            if description == '':
+                raise Exception("required field Empty")
+            if videoUrl == '':
                 raise Exception("required field Empty")
 
             if Product.objects.select_related('brandId').filter(productName=productName,brandId__brandName=brand_Id.brandName).first():
@@ -166,8 +175,6 @@ def addEditProduct (request,context,productName,brand):
         
         return render(request,'error.html', context)
 
-   
-
 @login_required
 @allowed_users(allowed_roles=['Admin'])
 def getJsonCategoryData (request):
@@ -254,23 +261,6 @@ def addEditPicture (request,productName,brand):
         web_direct = 'success.html'
         
     return render(request,web_direct)
-
-def make_square(img):
-    fill_color=(255, 255, 255)
-
-    img.load() # required for png.split()
-
-    #rbgimage = Image.new("RGB", img.size, fill_color)
-    #rbgimage.paste(img, mask=img.split()[3]) # 3 is the alpha channel
-
-    x, y = img.size
-    size = max(x,y)
-    new_img = Image.new('RGB', (size, size), fill_color)
-    if img.mode == 'RGBA':
-        new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)), mask=img.split()[3])
-    else :
-        new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
-    return new_img
 
 def showProduct (request, productName, brand):
     isLogin = request.POST.get('isLogin')
@@ -412,8 +402,12 @@ def showProduct (request, productName, brand):
         getUser = request.user.username
         if getUser != '':
             username = request.user.username
-            obj.visitCount = obj.visitCount+1
-            obj.save()
+            
+            adminRoleCheck = request.user.groups.filter(name='Admin').exists()
+            if adminRoleCheck == False:
+                obj.visitCount = obj.visitCount+1
+                obj.save()
+
             checkReview = Review.objects.select_related(
                             'userID','productId'
                         ).filter(userID__userName=username,productId__productName=productName)
@@ -440,7 +434,220 @@ def showProduct (request, productName, brand):
             'reviewStatus': review_available,
             'messageModal': messages,
             'userPending': countUserPending(request),
-            'otherProduct': otherProduct
+            'reportUser': countReport(request),
+            'otherProduct': otherProduct,
+            'showMore': ''
+        }
+
+        return render(request,'rating.html', context)
+    except Exception as e:
+        print(e)
+        context = None
+        context = {
+            'message': "Product \""+ productName +"\" from brand \""+ brand +"\" Not Found"
+        }
+
+        return render(request,'error.html', context)
+
+def showMoreReview (request, productName, brand, showMore):
+    isLogin = request.POST.get('isLogin')
+    isForgotPass = request.POST.get('isForgotPassword')
+    if request.method == 'POST' and isLogin == "1":
+        loginAccount (request)
+    elif request.method == 'POST' and isForgotPass == "1":
+        forgotPassword (request)
+
+    try:
+
+        obj = Product.objects.select_related('brandId').get(productName = productName, brandId__brandName=brand)
+
+        ratingUserScore = []
+        ratingMusicStore = []
+        userAvg = None
+        musStoreAvg = None
+        with connection.cursor() as cursor:
+            raw_sql =""" 
+                        with                         
+                            statsUser as (
+                                select 
+                                FORMAT((
+                                    (select count(*) from review_review as r
+                                    join register_user as u on r.userID_id = u.userID
+                                    where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating <= 10 and r.rating >=8)
+                                    /(count(u.userID))
+                                    *100
+                                ),0) as positive_user,
+                                FORMAT((
+                                    (select count(*) from review_review as r
+                                    join register_user as u on r.userID_id = u.userID
+                                    where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating < 8 and r.rating >=5)
+                                    /(count(u.userID))
+                                    *100
+                                ),0) as mixed_user,
+                                FORMAT((
+                                    (select count(*) from review_review as r
+                                    join register_user as u on r.userID_id = u.userID
+                                    where u.roleId like "%Reg_User%" and productId_id = """+str(obj.productId)+""" and r.rating < 5 and r.rating >=0)
+                                    /(count(u.userID))
+                                    *100
+                                ),0) as negative_user,
+                                p.productId as productId
+                                from review_review as r
+                                join register_user as u on r.userID_id = u.userID
+                                join product_product as p on r.productId_id = p.productId
+                                where u.roleId like "%Reg_User%" and p.productId = """+str(obj.productId)+"""
+                            )
+                        select positive_user, mixed_user, negative_user
+                        from statsUser  
+                    """            
+            cursor.execute(raw_sql)
+
+            for qux in cursor.fetchall():
+                ratingUserScore.append({
+                    "positive_user": qux[0],
+                    "mixed_user": qux[1],
+                    "negative_user": qux[2]
+                })
+
+        with connection.cursor() as cursor:
+            raw_sql =""" 
+                        with                         
+                            statsMusStore as (
+                                select 
+                                    FORMAT((
+                                        (select count(*) from review_review as r
+                                        join register_user as u on r.userID_id = u.userID
+                                        where u.roleId like "%Mus_Store%" and productId_id = """+str(obj.productId)+""" and r.rating <= 10 and r.rating >=8)
+                                        /(count(u.userID))
+                                        *100
+                                    ),0) as positive_ms,
+                                    FORMAT((
+                                        (select count(*) from review_review as r
+                                        join register_user as u on r.userID_id = u.userID
+                                        where u.roleId like "%Mus_Store%" and productId_id = """+str(obj.productId)+""" and r.rating < 8 and r.rating >=5)
+                                        /(count(u.userID))
+                                        *100
+                                    ),0) as mixed_ms,
+                                    FORMAT((
+                                        (select count(*) from review_review as r
+                                        join register_user as u on r.userID_id = u.userID
+                                        where u.roleId like "%Mus_Store%" and productId_id = """+str(obj.productId)+""" and r.rating < 5 and r.rating >=0)
+                                        /(count(u.userID))
+                                        *100
+                                    ),0) as negative_ms,
+                                    p.productId as productId
+                                    from review_review as r
+                                    join register_user as u on r.userID_id = u.userID
+                                    join product_product as p on r.productId_id = p.productId
+                                    where u.roleId like "%Mus_Store%" and p.productId = """+str(obj.productId)+"""
+                            )    
+                            
+                        select positive_ms, mixed_ms, negative_ms
+                        from statsMusStore 
+                    """            
+            cursor.execute(raw_sql)
+
+            for qux in cursor.fetchall():
+                ratingMusicStore.append({
+                    "positive_music": qux[0],
+                    "mixed_music": qux[1],
+                    "negative_music": qux[2]
+                })
+
+        with connection.cursor() as cursor:
+            raw_sql ="""            
+                        select 
+                            FORMAT (avg(r.rating), 1) as user_avg
+                        from review_review as r
+                        join register_user as u on r.userID_id = u.userID
+                        join product_product as p on r.productId_id = p.productId
+                        where u.roleId like "%Reg_User%" and p.productId="""+str(obj.productId)+"""
+                    """            
+            cursor.execute(raw_sql)
+
+            for qux in cursor.fetchall():
+                userAvg = numIndicator (qux[0])
+            
+        with connection.cursor() as cursor:
+            raw_sql ="""            
+                        select 
+                            FORMAT (avg(r.rating), 1) as Mus_store_avg
+                        from review_review as r
+                        join register_user as u on r.userID_id = u.userID
+                        join product_product as p on r.productId_id = p.productId
+                        where u.roleId like "%Mus_Store%" and p.productId="""+str(obj.productId)+"""
+                    """            
+            cursor.execute(raw_sql)
+
+            for qux in cursor.fetchall():
+                musStoreAvg = numIndicator (qux[0]) 
+
+        username = None
+        review_available = None
+        messages = None
+        getUser = request.user.username
+        if getUser != '':
+            username = request.user.username
+            
+            adminRoleCheck = request.user.groups.filter(name='Admin').exists()
+            if adminRoleCheck == False:
+                obj.visitCount = obj.visitCount+1
+                obj.save()
+
+            checkReview = Review.objects.select_related(
+                            'userID','productId'
+                        ).filter(userID__userName=username,productId__productName=productName)
+            if not checkReview:
+                review_available = "enabled"
+            else:
+                review_available = "disabled"
+                messages = "You cannot submit another review again"
+
+        else:
+            review_available = "disabled" 
+            messages = "You Need To Login First"
+        otherProduct = Product.objects.order_by('-avgScore')[:6]
+
+        reviewList = None
+        if showMore == 'Music Store':
+            reviewList = Review.objects.select_related('userID','productId').filter(userID__roleId="Mus_Store",productId__productName=productName) 
+        else:
+            reviewList = Review.objects.select_related('userID','productId').filter(userID__roleId="Reg_User",productId__productName=productName)
+        
+        if reviewList:
+            paginator = Paginator(reviewList,6)
+            page_number = request.GET.get('page', 1)
+            getReviewListByPage = paginator.get_page(page_number)
+
+            if getReviewListByPage.has_next():
+                next_url = f'?page={getReviewListByPage.next_page_number()}'
+            else:
+                next_url = ''
+
+            if getReviewListByPage.has_previous():
+                prev_url = f'?page={getReviewListByPage.previous_page_number()}'
+            else:
+                prev_url = ''
+        else:
+            getReviewListByPage = Review.objects.none()
+            next_url = ''
+            prev_url = ''
+
+        
+        context = {
+            'obj': obj,
+            'review': getReviewListByPage,
+            'ratingUserScore': ratingUserScore,
+            'ratingMusicStore': ratingMusicStore,
+            'userAvg': userAvg,
+            'musStoreAvg': musStoreAvg,
+            'reviewStatus': review_available,
+            'messageModal': messages,
+            'userPending': countUserPending(request),
+            'otherProduct': otherProduct,
+            'showMore': showMore,
+            'next_page_url': next_url,
+            'prev_page_url': prev_url
         }
 
         return render(request,'rating.html', context)
@@ -491,30 +698,40 @@ def viewProductByCategory(request, categoryName):
 
         return render(request,'error.html', context)
         
-
     context={
         'productList': getProductListByPage,
         'categoryName': categoryName,
         'userPending': countUserPending(request),
+        'reportUser': countReport(request),
         'next_page_url': next_url,
         'prev_page_url': prev_url
     }
     return render(request,'productListByCategory.html', context)
 
 def viewProductBySubCategory(request, categoryName, subCategoryName):
-    productList = Product.objects.order_by('-dtm_crt').select_related('subCategoryId','brandId').filter(subCategoryId__subCategoryName=subCategoryName,categoryId__categoryName=categoryName)[:12]
+    error = 0
     try:
+        productList = Product.objects.order_by('-dtm_crt').select_related('subCategoryId','brandId').filter(subCategoryId__subCategoryName=subCategoryName,categoryId__categoryName=categoryName)[:12]
         SubCategory.objects.select_related('categoryId').get(subCategoryName=subCategoryName,categoryId__categoryName=categoryName)
-    except:
-        context = {
-            'message': "There is no category \""+ categoryName +"\" or subcategory \""+ subCategoryName +"\" available"
+        error = 1
+        context={
+            'productList': productList,
+            'categoryName': categoryName,
+            'subCategoryName': subCategoryName,
+            'userPending': countUserPending(request),
+            'reportUser': countReport(request)
         }
+    except:
+        context = None
+        if error == 0:
+            context = {
+                'message': "There is no category \""+ categoryName +"\" or subcategory \""+ subCategoryName +"\" available"
+            }
+        else:
+            context = {
+                'message': 'error'
+            }
 
         return render(request,'error.html', context)
-    context={
-        'productList': productList,
-        'categoryName': categoryName,
-        'subCategoryName': subCategoryName,
-        'userPending': countUserPending(request)
-    }
+
     return render(request,'productListByCategory.html', context)

@@ -49,9 +49,9 @@ ddownInput.addEventListener('change', e=>{
                 ddownSub.appendChild(option)
             })
         },
-            error: function (error) {
-        console.log(error);
-    }
+        error: function (error) {
+            console.log(error);
+        }
     })
 
 })

@@ -1,10 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect,render
-from register.models import User
+from register.models import MusicStoreData, User
 from django.contrib import messages
 from review.models import Review
 from django.db import connection
-from Skripsi.views import loginAccount, countUserPending, forgotPassword, numIndicator
+from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.models import User as auth_user
 from Skripsi.decorator import allowed_users
@@ -19,11 +19,11 @@ def profilePage(request,userName):
         loginAccount (request)
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
-
+    error = 0
     try:   
         getUser = User.objects.get(userName=userName)
-        reviewList = Review.objects.select_related('productId','userID').order_by('-dtm_crt').filter(userID__userName = getUser.userName)[:4]
-
+        reviewList = Review.objects.select_related('productId','userID').order_by('-dtm_crt').filter(userID__userName = getUser.userName)
+        error = 1
         userStatsData = []
         with connection.cursor() as cursor:
             raw_sql =""" 
@@ -57,6 +57,21 @@ def profilePage(request,userName):
                                     order by r.dtm_crt desc) as highRate,
                                     
                                     (
+                                        select b.brandName from review_review as r
+                                        join register_user as u on u.userID = r.userID_id
+                                        join product_product as p on p.productId = r.productId_id
+                                        join product_brand as b on p.brandId_id = b.brandId
+                                        where r.rating = (
+                                            select max(r.rating) from review_review as r
+                                            join register_user as u on u.userID = r.userID_id
+                                            join product_product as p on p.productId = r.productId_id
+                                            where u.userID = """+str(getUser.userID)+"""
+                                        ) and u.userID = """+str(getUser.userID)+"""
+                                        order by r.dtm_crt desc
+                                        limit 1
+                                    ) as highRateBrand,
+                                    
+                                    (
                                         select p.productName from review_review as r
                                         join register_user as u on u.userID = r.userID_id
                                         join product_product as p on p.productId = r.productId_id
@@ -70,11 +85,27 @@ def profilePage(request,userName):
                                         limit 1
                                     ) as highRateName,
                                     
-                                    (select min(r.rating) from review_review as r
+                                    (
+                                    select min(r.rating) from review_review as r
                                     join register_user as u on u.userID = r.userID_id
                                     join product_product as p on p.productId = r.productId_id
                                     where u.userID = """+str(getUser.userID)+"""
                                     order by r.dtm_crt desc) as minRate,
+                                    
+									(
+                                        select b.brandName from review_review as r
+                                        join register_user as u on u.userID = r.userID_id
+                                        join product_product as p on p.productId = r.productId_id
+                                        join product_brand as b on p.brandId_id = b.brandId
+                                        where r.rating = (
+                                            select min(r.rating) from review_review as r
+                                            join register_user as u on u.userID = r.userID_id
+                                            join product_product as p on p.productId = r.productId_id
+                                            where u.userID = """+str(getUser.userID)+"""
+                                        ) and u.userID = """+str(getUser.userID)+"""
+                                        order by r.dtm_crt desc
+                                        limit 1
+                                    ) as minRateBrand,
                                     
                                     (
                                         select p.productName from review_review as r
@@ -88,7 +119,6 @@ def profilePage(request,userName):
                                         ) and u.userID = """+str(getUser.userID)+"""
                                         order by r.dtm_crt desc
                                         limit 1
-                                    
                                     ) as minRateName,
                                     
                                     u.userID as UserID
@@ -96,7 +126,7 @@ def profilePage(request,userName):
                                     join register_user as u on r.userID_id = u.userID
                                     where u.userID = """+str(getUser.userID)+"""
                                 )
-                                select distinct (positive), mixed, negative, highRate, highRateName, minRate, minRateName
+                                select distinct (positive), mixed, negative, highRate, highRateBrand, highRateName, minRate, minRateBrand, minRateName
                                 from stats join maxMin using (UserID)
                         """            
             cursor.execute(raw_sql)
@@ -107,9 +137,11 @@ def profilePage(request,userName):
                     "mixed": qux[1],
                     "negative": qux[2],
                     "highestRate":numIndicator (qux[3]),
-                    "highestRateName":qux[4],
-                    "lowestRate":numIndicator (qux[5]),
-                    "lowestRateName":qux[6]
+                    "highRateBrand":qux[4],
+                    "highestRateName":qux[5],
+                    "lowestRate":numIndicator (qux[6]),
+                    "lowestRateBrand":qux[7],
+                    "lowestRateName":qux[8]
                 })
 
         getReviewListByPage = None
@@ -128,16 +160,19 @@ def profilePage(request,userName):
             else:
                 prev_url = ''
         else:
-            getReviewListByPage = Review.objects.none()
+            getReviewListByPage = Review.none()
             next_url = ''
             prev_url = ''
 
+        if getUser.roleId == 'Mus_Store':
+            getUser = MusicStoreData.objects.select_related('userID').get(userID__userName=userName)
 
         context = {
             'userData': userStatsData,
             'obj':getReviewListByPage,
             'User':getUser,
             'userPending': countUserPending(request),
+            'reportUser': countReport(request),
             'next_page_url': next_url,
             'prev_page_url': prev_url
         }
@@ -145,9 +180,15 @@ def profilePage(request,userName):
         return render(request,'profile.html', context)
     except Exception as e:
         print(e)
-        context = {
-            'message': "User "+ userName +" Not Found"
-        }
+        context = None
+        if error == 0:
+            context = {
+                'message': "User "+ userName +" Not Found"
+            }
+        else:
+            context = {
+                'message': 'error'
+            }
         return render(request,'error.html', context)
 
 @login_required
@@ -202,39 +243,83 @@ def editUserData (request,userName):
     
     error = 0
     try:
+        context = None
         getUser = User.objects.get(userName=userName)
 
         if request.user.username != getUser.userName:
             return HttpResponse('You are not allowed to view this page')
-        elif request.method != 'POST':
+
+        if getUser.roleId == "Mus_Store":
+           getUser = MusicStoreData.objects.select_related('userID').get(userID__userName=userName)
+           context = 'music store'
+        else:
+           context = 'user data'
+
+        if request.method != 'POST':
             context = {
                 'User': getUser,
-                'context': 'userData'
+                'context': context
             }
             return render(request,'profileEdit.html', context)
         else:
-            name = request.POST.get('userName')
-            description = request.POST.get('description')
-            error = 1
-            if name == '':
-                raise Exception("Username Empty")
+            if context == 'user data':
+                name = request.POST.get('userName')
+                description = request.POST.get('description')
+                error = 1
+                if name == '':
+                    raise Exception("Username Empty")
 
-            if User.objects.filter(userName = name).first():
-                if (request.user.username == name):
-                    pass
-                else:
-                    messages.success(request, 'User Name is Taken')
-                    return redirect ('editUserData', userName = userName)
+                if User.objects.filter(userName = name).first():
+                    if (request.user.username == name):
+                        pass
+                    else:
+                        messages.success(request, 'User Name is Taken')
+                        return redirect ('editUserData', userName = userName)
 
-            getUser.userName = name
-            getUser.description = description
-            getUser.save()
+                getUser.userName = name
+                getUser.description = description
+                getUser.save()
 
-            getUserAuth = auth_user.objects.get(username=userName)
-            getUserAuth.username = name
-            getUserAuth.save()
+                getUserAuth = auth_user.objects.get(username=userName)
+                getUserAuth.username = name
+                getUserAuth.save()
 
-            return redirect ('profilePage', userName = getUserAuth.username)
+                return redirect ('profilePage', userName = getUserAuth.username)
+            else:
+                name = request.POST.get('userName')
+                address = request.POST.get('address')
+                contact = request.POST.get('contact')
+                description = request.POST.get('description')
+                error = 1
+
+                if name == '':
+                    raise Exception("Username Empty")
+                if address == '':
+                    raise Exception("Username Empty")
+                if contact == '':
+                    raise Exception("Username Empty")
+
+                if User.objects.filter(userName = name).first():
+                    if (request.user.username == name):
+                        pass
+                    else:
+                        messages.success(request, 'User Name is Taken')
+                        return redirect ('editUserData', userName = userName)
+                
+                getUser.address = address
+                getUser.contact = contact
+                getUser.save()
+                
+                getUserData = User.objects.get(userName = getUser.userID.userName)
+                getUserData.userName = name
+                getUserData.description = description
+                getUserData.save()
+
+                getUserAuth = auth_user.objects.get(username=userName)
+                getUserAuth.username = name
+                getUserAuth.save()
+
+                return redirect ('profilePage', userName = getUserAuth.username)
 
     except Exception as e:
         print(e)

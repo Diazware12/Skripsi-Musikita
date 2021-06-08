@@ -52,29 +52,72 @@
               <div class="p-2 bd-highlight"><a type="submit" class="greenbutton" href="{% url 'profilePage' userName=User.userName %}"style="text-decoration: none;">back</a></div>
             </div>
         {% else %}
-
-            <form method='POST'>
             
-                {% csrf_token %}
+            {% if context == 'user data' %}
 
-                <h5 class="pt-3">User Name</h5>
+                <form method='POST'>
+                
+                    {% csrf_token %}
 
-                <div class="pt-3">
-                    <textarea name="userName" class="form-control" id="exampleFormControlTextarea1" rows="1" required>{{User.userName}}</textarea>
-                </div>
+                    <h5 class="pt-3">User Name</h5>
 
-                <h5 class="pt-3">Description</h5>
+                    <div class="pt-3">
+                        <textarea name="userName" class="form-control" id="exampleFormControlTextarea1" rows="1" required>{{User.userName}}</textarea>
+                    </div>
 
-                <div class="pt-3">
-                    <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3">{{User.description}}</textarea>
-                </div>
+                    <h5 class="pt-3">Description</h5>
 
-                <div class="d-flex flex-row-reverse bd-highlight pt-3">
-                    <div class="p-2 bd-highlight"><button type="submit" class="greenbutton">Add</button></div>
-                    <div class="p-2 bd-highlight"><a type="submit" class="greenbutton" href="{% url 'profilePage' userName=User.userName %}"style="text-decoration: none;">back</a></div>
-                </div>
+                    <div class="pt-3">
+                        <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3">{{User.description}}</textarea>
+                    </div>
 
-            </form>
+                    <div class="d-flex flex-row-reverse bd-highlight pt-3">
+                        <div class="p-2 bd-highlight"><button type="submit" class="greenbutton">Add</button></div>
+                        <div class="p-2 bd-highlight"><a type="submit" class="greenbutton" href="{% url 'profilePage' userName=User.userName %}"style="text-decoration: none;">back</a></div>
+                    </div>
+
+                </form>
+
+            {% else %}
+
+                <form method='POST'>
+                
+                    {% csrf_token %}
+
+                    <h5 class="pt-3">Music Store Name</h5>
+
+                    <div class="pt-3">
+                        <textarea name="userName" class="form-control" id="exampleFormControlTextarea1" rows="1" required>{{User.userID.userName}}</textarea>
+                    </div>
+
+                    <h5 class="pt-3">Music Store Address</h5>
+
+                    <div class="pt-3">
+                        <textarea name="address" class="form-control" id="exampleFormControlTextarea1" rows="1" required>{{User.address}}</textarea>
+                    </div>
+
+                    <h5 class="pt-3">Music Store Phone Contact</h5>
+
+                    <div class="pt-3">
+                        <textarea name="contact" class="form-control" id="exampleFormControlTextarea1" rows="1" required>{{User.contact}}</textarea>
+                    </div>
+
+                    <h5 class="pt-3">Description</h5>
+
+                    <div class="pt-3">
+                        <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3">{{User.userID.description}}</textarea>
+                    </div>
+
+                    <div class="d-flex flex-row-reverse bd-highlight pt-3">
+                        <div class="p-2 bd-highlight"><button type="submit" class="greenbutton">Add</button></div>
+                        <div class="p-2 bd-highlight"><a type="submit" class="greenbutton" href="{% url 'profilePage' userName=User.userID.userName %}"style="text-decoration: none;">back</a></div>
+                    </div>
+
+                </form>
+
+            {% endif %}
+
+
 
         {% endif %}
             

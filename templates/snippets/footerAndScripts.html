@@ -60,11 +60,20 @@
             <div class="pt-3">
                 <div class="mr-auto"><h6>Password</h6></div>
 
-                {% comment %} {{form.userPassword}} {% endcomment %}
-                <input type="password" name="userPassword" class="form-control" required="" id="id_userPassword" required>
+                <div class="input-group" id="show_hide_password">
+                  <input type="password" name="userPassword" class="form-control" required="" id="id_userPassword" required>
+                  <div class="input-group-addon pt-1 pl-1">
+                    <a href="" style="color:black;"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+                
+                
                 <small>
                   <a id="forgotPass" href="#forgotPasswordModal" data-toggle="modal" data-target="#forgotPasswordModal" style="color: #38a100;">Forgot Your Password?</a>
                 </small>
+
+
+
             </div>
             <div class="d-flex flex-row-reverse bd-highlight pt-3">
               <div class="p-2 bd-highlight"><button type="submit" class="greenbutton">Login</button></div>
@@ -154,8 +163,7 @@
       <div class="row">
         <div class="col-md-5">
           <div class="h2 mb-4">MusiKita.com</div>
-          <p class="mb-3">info@MusiKita.com</p>
-          <p>+1 502-257-1157</p>
+          <p class="mb-3">musikita726@gmail.com</p>
         </div>
         <div class="col-md-4">
           <div class="h6 pb-2">Follow Us</div>
@@ -183,3 +191,4 @@
 <script src="{% static 'vendor2/scripts/seeMoreScript.js'%}"></script>
 <script src="{% static 'vendor2/scripts/custom.js'%}"></script>
 <script src="{% static 'vendor2/scripts/rating.js'%}"></script>
+<script src="{% static 'vendor2/scripts/tooglePassword.js'%}"></script>

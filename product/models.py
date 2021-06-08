@@ -35,7 +35,7 @@ class Product (models.Model):
     dtm_upd = models.DateTimeField(default=datetime.now,null=False)
     productIMG = models.ImageField(upload_to=settings.MEDIA_ROOT+'/product',null=False, blank=False, default='none', max_length=255)
     visitCount = models.BigIntegerField(null=False,default=0)
-    avgScore = models.DecimalField(max_digits=3, decimal_places=2,default='0')
+    avgScore = models.DecimalField(max_digits=3, decimal_places=2, null=True)
     
 
 

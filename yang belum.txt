@@ -2,19 +2,18 @@ DIAZ
 
 - footer: masih blm tau harus diisi apa 
 - searching blm bisa    
-- halaman report review
-- halaman "about Musikita"
-- "see more musicstore/user review" di halaman review
-- add brand
-- validasi error
+- edit product -> brand/admin
+- invitation brand
+- tanda untuk "sell this product" untuk musicStore
 
 
 CALVIN
 - carousel blm ada gambar musiknya
     -> buat page add carousel
 - editor's choice masih dummy
-- filtering apagi, blm samsek
-- range price
+- filtering apagi, blm samsek (belakangan)
+- add brand
+- halaman "about Musikita"
 
 yang done
     - music store, jadi 3 foto (done)
@@ -33,10 +32,17 @@ yang done
     - edit profile (done)
     - edit & delete review (done)
     - new released item, visitnya blm ada score nya (done)
-    - halaman buat brand
+    - halaman buat brand (dons)
     - paging setiap halaman (done)
     - productVisit (done)
     - validasi category subcategory (done)
+    - validasi error (done)
+    - "see more musicstore/user review" di halaman review (done)
+    - tampilin foto musicstore (done)
+    - halaman report review (done)
+
+Note:
+    brand g bisa delete product (tapi bisa edit product), cuma admin aja
 
 OPSIONAL
 - template email bagusin

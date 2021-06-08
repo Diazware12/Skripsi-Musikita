@@ -109,7 +109,10 @@ def putReviewAvg(rating):
 
         avgUpdate = Product.objects.get(productId=rating.productId.productId)
         if average != None:
-            avgUpdate.avgScore = average
+            if average == 0.00:
+                avgUpdate.avgScore = None
+            else:
+                avgUpdate.avgScore = average
             avgUpdate.dtm_upd = datetime.now()
             avgUpdate.save()
 
@@ -148,7 +151,11 @@ def updateReviewAvg(product):
 
         avgUpdate = Product.objects.get(productId=product.productId)
         if average != None:
-            avgUpdate.avgScore = average
+            if average == 0.00:
+                avgUpdate.avgScore = None
+            else:
+                avgUpdate.avgScore = average
+            
             avgUpdate.dtm_upd = datetime.now()
             avgUpdate.save()
 
@@ -190,14 +197,14 @@ def updateReview (request, productName, brand, user_select, action):
             
             if rate == None:
                 messages.success(request, 'you need to fill-in the rate')
-                return redirect ('reviewProduct', brand=brand, productName=productName)
+                return redirect ('updateReview', brand=brand, productName=productName, user_select=user_select, action='ratingReview')
 
             if reviewTitle == '' or reviewDescription == '':
                 raise Exception("required field Empty")
 
             if len(reviewDescription) < 75:
                 messages.success(request, 'review need to be equal or more than 75 character')
-                return redirect ('reviewProduct', brand=brand, productName=productName)
+                return redirect ('updateReview', brand=brand, productName=productName, user_select=user_select, action='ratingReview')
 
             getReview.rating = rate    
             getReview.title = reviewTitle
@@ -236,7 +243,9 @@ def deleteReview(request, productName, brand, user_select, action):
         userAuth = request.user
         user = User.objects.get(userName = userAuth.username)
 
-        getReview = Review.objects.select_related('productId','userID').get(productId=product,userID=user)
+        getUserReview = User.objects.get(userName = user_select)
+
+        getReview = Review.objects.select_related('productId','userID').get(productId=product,userID=getUserReview.userID)
         if userAuth.groups.filter(name='Admin').exists():
             pass
         elif userAuth.username != user.userName:
@@ -264,7 +273,6 @@ def deleteReview(request, productName, brand, user_select, action):
             }
         return render(request,'error.html', context)
     
-
 @login_required
 @allowed_users(allowed_roles=['Reg_User','Mus_Store'])
 def feedback (request, productName, brand, feedback, user):
@@ -329,7 +337,15 @@ def reportReview (request, productName, brand, user):
                     productId = getProduct.productId,
                     userID__userName = user
                 )
-        web_direct = None
+        
+        getCurrUser = User.objects.get(userName = request.user.username)
+
+        getReportData = Report.objects.filter(reviewId=obj.reviewId,userID=getCurrUser.userID)
+        if getReportData:
+            messages.success(request, 'You Already Submit Your Report for This Review Before')
+            return redirect ('showProduct', brand=brand, productName=productName)        
+
+
         if request.method != 'POST':
             form = ReportForm()
             context = {

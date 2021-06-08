@@ -10,8 +10,11 @@ from django.contrib.auth import authenticate, login, logout
 import datetime
 from django.contrib.sites.shortcuts import get_current_site
 from product.models import *
+from review.models import Report
 from .forms import ForgotPasswordForm
+from django.db.models import Count
 import re
+from PIL import Image
 
 def dashboard (request):
     isLogin = request.POST.get('isLogin')
@@ -43,7 +46,8 @@ def dashboard (request):
         'newReleaseSoundSystem': newReleaseSoundSystem,
         'newReleaseAccessories': newReleaseAccessories,
         'newReleaseDAW': newReleaseDAW,
-        'userPending': countUserPending(request)
+        'userPending': countUserPending(request),
+        'reportUser': countReport(request)
     }
     return render(request,'dashboard.html', context)
 
@@ -53,7 +57,6 @@ def user_logout (request):
 
 def productList (request):
     return render(request,'productList.html')  
-
 
 def token (request):
     return render(request,'token-send.html')  
@@ -70,7 +73,7 @@ def verifyEmail (request, auth_token):
                 profile_obj.status = 'AdminPending'
                 webRender = 'verifiedMusicStore.html'
                 
-            profile_obj.verified_at = datetime.date.today()
+            profile_obj.verified_at = datetime.now()
             profile_obj.save()
         else:
             context = {
@@ -116,6 +119,8 @@ def loginAccount (request):
 def sendMailAfterRegis (domain, user, context, additional_msg):
     subject = ''
     messages = ''
+    
+    nameList = None
     if (context == 'verification'):
         subject = 'Your Account Need To Be Verified'
         activate_url = 'http://' + domain + '/verify/' + user.auth_token
@@ -130,9 +135,20 @@ def sendMailAfterRegis (domain, user, context, additional_msg):
         subject = 'Reset Your Password' 
         activate_url = 'http://' + domain + '/forgot_Pass/' + user.auth_token              
         messages = 'hi ' + user.userName + ',\n\n' + 'Please click the link down below to reset your password\n\n' + activate_url
+    elif (context == 'approve_report'):
+        subject = 'Your Review has been reported'              
+        messages = additional_msg
+    elif (context == 'reject_report'):
+        nameList = user
+        subject = 'Your Report has been rejected by admin'              
+        messages = additional_msg
+
 
     email_from = settings.EMAIL_HOST_USER
-    receipent_list = [user.email]
+    if nameList == None:
+        receipent_list = [user.email]
+    else:
+        receipent_list = nameList
     email = EmailMessage(
         subject,
         messages,
@@ -207,6 +223,13 @@ def countUserPending(request):
             userID__roleId='Mus_Store').count()
     return obj
 
+def countReport(request):
+    obj = Report.objects.values(
+          'reviewId').annotate(dcount=Count('reviewId'
+          )).order_by().count()
+
+    return obj
+
 def weakPassword (password):
     if (password == "\n" or password == " "):
         return "Password cannot be a newline or space!"
@@ -247,3 +270,17 @@ def numIndicator (number):
         finalNum = None
 
         return finalNum
+
+def make_square(img):
+    fill_color=(255, 255, 255)
+
+    img.load() 
+
+    x, y = img.size
+    size = max(x,y)
+    new_img = Image.new('RGB', (size, size), fill_color)
+    if img.mode == 'RGBA':
+        new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)), mask=img.split()[3])
+    else :
+        new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
+    return new_img

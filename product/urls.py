@@ -18,6 +18,8 @@ urlpatterns = [
    path('category/<categoryName>/<subCategoryName>/',views.viewProductBySubCategory,name="subcategory"),
    path('<brand>/<productName>/',views.showProduct,name="showProduct"),
    path('<brand>/<productName>/review',include('review.urls')),
+   path('<brand>/<productName>/<showMore>',views.showMoreReview,name="showMoreReview"),
+   
 
 
 ]

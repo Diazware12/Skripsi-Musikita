@@ -29,8 +29,6 @@
                 {% endfor %}
             
             {% endif %}
-
-
             <div class="pt-3">
                 {{ form.username }}
             </div>
@@ -41,10 +39,23 @@
                 {{ form.email }}
             </div>
             <div class="pt-3">
-                {{ form.password }}
+                {{ form.contact }}
             </div>
             <div class="pt-3">
-                {{ form.confirm_pass }}
+                <div class="input-group" id="show_hide_password">
+                  {{ form.password }}
+                  <div class="input-group-addon pt-1 pl-1">
+                    <a href="" style="color:black;"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                  </div>
+                </div>
+            </div>
+            <div class="pt-3">
+                <div class="input-group" id="show_hide_password_confirm">
+                  {{ form.confirm_pass }}
+                  <div class="input-group-addon pt-1 pl-1">
+                    <a href="" style="color:black;"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                  </div>
+                </div>
             </div>
 
             <h5 class="pt-3">Your Music Store Picture</h5>

@@ -1,0 +1,98 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    {% include "snippets/headImport.html" %}
+</head>
+<body>
+    {% include "snippets/navbar.html" %}
+    <div class="container">
+
+        <h1 class="pb-5 pt-5">Report Review List</h1>
+        
+        <div class="row">
+        {% if obj == None %}
+            <div class="col-sm-6 pb-3">
+                Belum ada User yang berstatus "Report"
+            </div>
+        {% else %}
+            {% for obj in obj %}
+                <div class="col-sm-6 pb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex flex-row">    
+                                {% if obj.ratingReview <= 10 and obj.ratingReview >= 8 %}  
+                                    <div class="p-2"><div class="w-100 p-3 bg-success text-white text-center" ><b>{{obj.ratingReview}}</b></div></div>
+                                {% elif obj.ratingReview < 8 and obj.ratingReview >= 5 %}
+                                    <div class="p-2"><div class="w-100 p-3 bg-warning text-white text-center" ><b>{{obj.ratingReview}}</b></div></div>
+                                {% else %}
+                                    <div class="p-2"><div class="w-100 p-3 bg-danger text-white text-center" ><b>{{obj.ratingReview}}</b></div></div>
+                                {% endif %}
+                                            
+                                <div class="p-2 pt-4"><a style="text-decoration: none; color:black;" href="{% url 'reportListView' user_select=obj.userName brand=obj.productBrand productName=obj.productName %}"><h5>{{obj.userName}}</h5></a></div>
+                            </div>
+                            <div class="pl-2">{{obj.dtm_crt}}</div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-sm table-borderless mb-0 mr-3">
+                                <tbody>
+                                  <tr>
+                                    <th class="pl-0 w-17" scope="row"><strong>Review Title</strong></th>
+                                    <td>{{obj.reviewTitle}}</td>
+                                  </tr>
+                                  <tr>
+                                    <th class="pl-0 w-17" scope="row"><strong>Product Name</strong></th>
+                                    <td>{{obj.productName}}</td>
+                                  </tr>
+                                  <tr>
+                                    <th class="pl-0 w-17" scope="row"><strong>Brand</strong></th>
+                                    <td>{{obj.productBrand}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+
+
+                </div>
+            {% endfor %}
+        {% endif %}
+        </div>
+        <div class="d-flex flex-row-reverse">
+            <div class="p-2">
+                            <nav aria-label="...">
+                              <ul class="pagination">
+                                <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{prev_page_url}}">Previous</a>
+                                </li>
+
+                                {% for n in obj.paginator.page_range %}
+                                  {% if obj.number == n %}
+                                    <li class="page-item active"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% elif n > obj.number|add:-3 and n < obj.number|add:3 %}
+                                    <li class="page-item"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% endif %}
+                                {% endfor %}
+                                <li class="page-item {% if not next_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{next_page_url}}">Next</a>
+                                </li>
+                              </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+        </div>
+    </div>
+
+    {% include "snippets/footerAndScripts.html" %}
+    
+</body>
+
+
+
+</html>

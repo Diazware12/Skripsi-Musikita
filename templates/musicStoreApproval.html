@@ -52,7 +52,7 @@
 
             <div class="d-flex flex-row-reverse bd-highlight pt-3">
               <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;" class="greenbutton" href="{% url 'approve' auth_token=obj.userID.auth_token %}">Approve</a></div>
-              <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;" class="redbutton" href="{% url 'reject' auth_token=obj.userID.auth_token %}">Delete</a></div>
+              <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;" class="redbutton" href="{% url 'reject' auth_token=obj.userID.auth_token context='rejection_user_reason' %}">Delete</a></div>
             </div>
 
         

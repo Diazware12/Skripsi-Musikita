@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'review',
     'profileUser',
     'profileBrand',
-    'carousel'
+    'carousel',
+    'report'
 ]
 
 MIDDLEWARE = [
