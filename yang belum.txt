@@ -2,7 +2,6 @@ DIAZ
 
 - footer: masih blm tau harus diisi apa 
 - searching blm bisa    
-- halaman report review
 - edit product -> brand
 - invitation brand
 
@@ -39,6 +38,7 @@ yang done
     - validasi error (done)
     - "see more musicstore/user review" di halaman review (done)
     - tampilin foto musicstore (done)
+    - halaman report review (done)
 
 Note:
     brand g bisa delete product (tapi bisa edit product), cuma admin aja
