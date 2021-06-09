@@ -135,6 +135,7 @@ def sendMailAfterRegis (domain, user, context, additional_msg):
     
     nameList = None
     nameReceipent = []
+    
     if (context == 'verification'):
         subject = 'Your Account Need To Be Verified'
         activate_url = 'http://' + domain + '/verify/' + user.auth_token

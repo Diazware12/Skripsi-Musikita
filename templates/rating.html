@@ -99,7 +99,7 @@
                                   Submit Your Review
                                 </a>
                               {% endif %}
-                            {% elif request.user.groups.all.0.name == 'Admin' and obj.brandId.status != 'Verified' %}
+                            {% elif request.user.groups.all.0.name == 'Admin' %}
                                 <a class="btn btn-primary" href="{% url 'editProduct' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
                                   Edit Product Data
                                 </a> 
