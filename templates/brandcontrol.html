@@ -1,0 +1,96 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Control</title>
+    {% include "snippets/headImport.html" %}
+</head>
+<body>
+    {% include "snippets/navbar.html" %}
+    <div class="container">
+
+        <h1 class="pb-3 pt-5">Brand List</h1>
+        <div class="d-flex flex-row bd-highlight">
+          <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;" class="greenbutton" href="{% url 'addBrand' %}">Add Brand</a></div>
+          <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;" class="greenbutton" href="{% url 'inviteBrand' %}">Invite Brand</a></div>
+        </div>
+
+                  <div class="card mb-3">
+                    <!-- review barangnya -->
+                    <div class="col-xs-12">
+
+                      <div class="container pt-4">
+                      {% if obj|length == 0 %}
+                        <div class="d-flex bd-highlight mb-3">                          
+                          <div class="p-2 bd-highlight"><p>Product Is Empty</p></div> 
+                        </div>                        
+                      {% else %} 
+                        <table class="table">
+                          <thead class="thead-dark">
+                            <tr class="text-center">
+                              <th scope="col">Brand</th>
+                              <th scope="col">Status</th>
+                              <th scope="col">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for obj in obj %}
+                              <tr>
+                                <td class="text-center">
+                                  {{obj.brandName}}
+                                </td>
+                                <td class="text-center">
+                                  {{obj.status}}
+                                </td>
+                                <td class="text-center">
+                                  <a href="#" style="color: black; text-decoration: none;" class="pl-1 pr-1">
+                                    <i class="fas fa-user"></i>
+                                  </a>
+                                  <a href="#" style="color: black; text-decoration: none;">
+                                    <i class="fas fa-window-close"></i>
+                                  </a>
+                                </td>
+                              </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      {% endif %}   
+                  <div class="d-flex flex-row-reverse">
+                      <div class="p-2">
+                            <nav aria-label="...">
+                              <ul class="pagination">
+                                <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{prev_page_url}}">Previous</a>
+                                </li>
+
+                                {% for n in obj.paginator.page_range %}
+                                  {% if obj.number == n %}
+                                    <li class="page-item active"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% elif n > obj.number|add:-3 and n < obj.number|add:3 %}
+                                    <li class="page-item"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% endif %}
+                                {% endfor %}
+                                <li class="page-item {% if not next_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{next_page_url}}">Next</a>
+                                </li>
+                              </ul>
+                            </nav>
+                      </div>
+                  </div>                       
+                      </div>
+
+                    </div>
+                  </div>
+    </div>
+
+    {% include "snippets/footerAndScripts.html" %}
+    
+</body>
+
+
+
+</html>

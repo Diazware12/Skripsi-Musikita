@@ -91,29 +91,40 @@ def loginAccount (request):
         email = request.POST.get('userEmail')
         password = request.POST.get('userPassword')
 
-        username = User.objects.filter(email = email).values_list(
-            'userName', flat=True
+        username = auth_user.objects.filter(email = email).values_list(
+            'username', flat=True
             ).first()
-
-        user_data = User.objects.filter(userName = username).values() # buat nembak 1 data
 
             # test = user_data.values_list('userName', flat=True).first() -------->buat ngambil salah satu data di user_data 
 
         user = authenticate(request, username = username, password=password)
         
         if user is not None:
-            
-            if user_data.values_list('status', flat=True).first() == 'Pending':
-               messages.error(request, 'please verify your account first')
-               return redirect ('dashboard')
-            
-            elif user_data.values_list('status', flat=True).first() == 'AdminPending':
-               messages.error(request, 'Please wait for admin to approve your account')
-               return redirect ('dashboard')
 
+            checkUser = auth_user.objects.get(username = username)
+
+            if checkUser.groups.filter(name='Brand').exists():
+                getBrand = Brand.objects.get (brandName = username)
+                if getBrand.status != 'Verified':
+                    messages.error(request, 'you need to register your account brand first')
+                    return redirect ('dashboard')
+
+                else:
+                    login (request,user)
+                    return redirect ('dashboard') 
             else:
-               login (request,user)
-               return redirect ('dashboard') 
+                user_data = User.objects.filter(userName = username).values() # buat nembak 1 data
+                if user_data.values_list('status', flat=True).first() == 'Pending':
+                    messages.error(request, 'please verify your account first')
+                    return redirect ('dashboard')
+                
+                elif user_data.values_list('status', flat=True).first() == 'AdminPending':
+                    messages.error(request, 'Please wait for admin to approve your account')
+                    return redirect ('dashboard')
+
+                else:
+                    login (request,user)
+                    return redirect ('dashboard') 
 
         else:
             messages.error(request, 'We cannot find an account with that email address or that password')
@@ -123,6 +134,7 @@ def sendMailAfterRegis (domain, user, context, additional_msg):
     messages = ''
     
     nameList = None
+    nameReceipent = []
     if (context == 'verification'):
         subject = 'Your Account Need To Be Verified'
         activate_url = 'http://' + domain + '/verify/' + user.auth_token
@@ -147,10 +159,17 @@ def sendMailAfterRegis (domain, user, context, additional_msg):
         nameList = user
         subject = 'Your Report has been rejected by admin'              
         messages = additional_msg
+    elif (context == 'brand_invitation'):
+        register_url = 'http://' + domain + '/brand/registerBrand/' + user[1]
+        subject = 'You invited to Our Community'
+        nameReceipent.append(user[0])
+        messages = additional_msg +"\n\n"+register_url
 
 
     email_from = settings.EMAIL_HOST_USER
-    if nameList == None:
+    if nameReceipent:
+        receipent_list = nameReceipent
+    elif nameList == None:
         receipent_list = [user.email]
     else:
         receipent_list = nameList

@@ -39,9 +39,14 @@
 
             <h5 class="pt-3">Product Brand</h5>
 
-            <div class="pt-3">
-                {{ form.productBrand }}
-            </div>
+            {% if request.user.groups.all.0.name == 'Brand' %}
+                <input type="text" class="form-control" name="productBrand" value="{{ request.user.username }}" readonly><br>
+            {% else %}
+                <div class="pt-3">
+                    {{ form.productBrand }}
+                </div>
+            {% endif %}
+
 
             <h5 class="pt-3">Product Category</h5>
             

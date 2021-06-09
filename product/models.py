@@ -18,8 +18,8 @@ class Brand (models.Model):
     brandURL = models.URLField(max_length=200,null=True)
     description = models.CharField(max_length = 255,null=True)
     brandEmail = models.CharField(max_length=60,default='',null=True)
-    password = models.CharField(max_length=255,null=True)
-    status = models.CharField(max_length=15,null=True)
+    status = models.CharField(max_length=15,blank=False,null=False,default='No_User')
+    auth_token = models.CharField(max_length=100,null=True)
 
 class Product (models.Model):
     productId = models.AutoField(primary_key=True,null=False)

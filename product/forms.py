@@ -24,6 +24,7 @@ class ProductForm (forms.Form):
 
     productBrand = forms.ModelChoiceField(
         queryset=Brand.objects.values_list('brandName', flat=True),
+        required=True,
         label="brandName",
         widget=forms.Select(
             attrs={

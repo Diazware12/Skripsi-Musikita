@@ -206,7 +206,7 @@
                             <div class="ml-auto p-2 pr-5 mr-5 bd-highlight">
                               {{obj.dtm_crt}}
                               {% if user.is_authenticated %}
-                                {% if request.user.groups.all.0.name == 'Admin' %}
+                                {% if request.user.groups.all.0.name == 'Brand' or request.user.groups.all.0.name == 'Admin' %}
                                   <a href="{% url 'editProduct' context='editProductBrand' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black; text-decoration: none;">
                                     <i class="fas fa-edit"></i>
                                   </a>

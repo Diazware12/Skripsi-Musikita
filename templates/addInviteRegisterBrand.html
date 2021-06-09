@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {% include "snippets/headImport.html" %}
+
+</head>
+<body>
+
+    <div class="container">
+
+        <h1 class="pb-5 pt-5">{{context}}</h1>
+
+        <form method='POST' enctype="multipart/form-data">
+        
+            {% csrf_token %}
+
+            {% if messages %}
+            
+                {% for message in messages %}
+                    <div class="alert alert-info"> 
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            
+            {% endif %}
+
+
+            {% if context == 'Add Brand' %}
+                <div class="pt-3">
+                    {{ form.brandName }}
+                </div>
+            {% elif context == 'Invite Brand' %}
+                <div class="pt-3">
+                    {{ form.brandName }}
+                </div>
+                <div class="pt-3">
+                    {{ form.email }}
+                </div>
+                <div class="pt-3">
+                    {{ form.message }}
+                </div>
+            {% else %}
+                <div class="pt-3">
+                    {{ form.email }}
+                </div>
+                <div class="pt-3">
+                    <div class="input-group" id="show_hide_password">
+                    {{ form.password }}
+                    <div class="input-group-addon pt-1 pl-1">
+                        <a href="" style="color:black;"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                    </div>
+                    </div>
+                </div>
+                
+                <div class="pt-3">
+                    <div class="input-group" id="show_hide_password_confirm">
+                    {{ form.confirm_pass }}
+                    <div class="input-group-addon pt-1 pl-1">
+                        <a href="" style="color:black;"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                    </div>
+                    </div>
+                </div>
+                <div class="pt-3">
+                    {{ form.brandWebsiteUrl }}
+                </div>
+                <div class="pt-3">
+                    {{ form.description }}
+                </div>
+            {% endif %}
+            
+            <div class="d-flex flex-row-reverse bd-highlight pb-5">
+                <div class="p-2 bd-highlight">
+                    <button type="submit" class="greenbutton">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="{% static 'vendor2/scripts/dropdown.js'%}"></script>
+    {% include "snippets/scripts.html" %}
+    
+</body>
+
+
+
+</html>

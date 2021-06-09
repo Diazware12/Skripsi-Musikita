@@ -15,7 +15,7 @@ from Skripsi.views import countReport, loginAccount, countUserPending, forgotPas
 from django.core.paginator import Paginator
 
 @login_required
-@allowed_users(allowed_roles=['Admin'])
+@allowed_users(allowed_roles=['Admin','Brand'])
 def addProduct (request):
     if request.method != 'POST':
         ddCategory = Category.objects.all()
@@ -34,17 +34,17 @@ def addProduct (request):
         subCategory = request.POST.get('subCategory')
         description = request.POST.get('description')
         videoUrl = request.POST.get('videoUrl')
-
-        brand_Id = Brand.objects.get(brandName = brand)
-
-        category_Id = Category.objects.get(categoryName = category)
-
-        subCategory_Id = SubCategory.objects.get(
-                            subCategoryName = subCategory, 
-                            categoryId = category_Id
-                        )
         
         try:
+            brand_Id = Brand.objects.get(brandName = brand)
+
+            category_Id = Category.objects.get(categoryName = category)
+
+            subCategory_Id = SubCategory.objects.get(
+                                subCategoryName = subCategory, 
+                                categoryId = category_Id
+                            )
+
             if productName == '':
                 raise Exception("required field Empty")
             if brand == '':
@@ -57,6 +57,13 @@ def addProduct (request):
                 raise Exception("required field Empty")
             if videoUrl == '':
                 raise Exception("required field Empty")
+
+            checkUsr = request.user
+            if checkUsr.groups.filter(name='Brand').exists():
+                if brand != checkUsr.username:
+                    raise Exception("forbidden")
+            else:
+                pass
 
             if Product.objects.select_related('brandId').filter(productName=productName,brandId__brandName=brand_Id.brandName).first():
                 messages.success(request, 'Product is already exist')
@@ -94,7 +101,7 @@ def addProduct (request):
             return render(request,'error.html', context)
 
 @login_required
-@allowed_users(allowed_roles=['Admin'])
+@allowed_users(allowed_roles=['Admin','Brand'])
 def addEditProduct (request,context,productName,brand):
     error = 0
     try:
@@ -177,7 +184,7 @@ def addEditProduct (request,context,productName,brand):
         return render(request,'error.html', context)
 
 @login_required
-@allowed_users(allowed_roles=['Admin'])
+@allowed_users(allowed_roles=['Admin','Brand'])
 def getJsonCategoryData (request):
     catValue = list(Category.objects.values())
     return JsonResponse ({
@@ -185,7 +192,7 @@ def getJsonCategoryData (request):
     })
 
 @login_required
-@allowed_users(allowed_roles=['Admin'])
+@allowed_users(allowed_roles=['Admin','Brand'])
 def getJsonCategoryDataEdit (request,context,brand,productName):
     catValue = list(Category.objects.values())
     return JsonResponse ({
@@ -193,7 +200,7 @@ def getJsonCategoryDataEdit (request,context,brand,productName):
     })
 
 @login_required
-@allowed_users(allowed_roles=['Admin'])
+@allowed_users(allowed_roles=['Admin','Brand'])
 def getJsonSubCategoryDataEdit (request,context,brand,productName, *args, **kwargs):
     selected_category = kwargs.get('cat')
 
@@ -213,7 +220,7 @@ def getJsonSubCategoryDataEdit (request,context,brand,productName, *args, **kwar
     })
 
 @login_required
-@allowed_users(allowed_roles=['Admin'])
+@allowed_users(allowed_roles=['Admin','Brand'])
 def getJsonSubCategoryData (request, *args, **kwargs):
     selected_category = kwargs.get('cat')
 
@@ -233,7 +240,7 @@ def getJsonSubCategoryData (request, *args, **kwargs):
     }) 
 
 @login_required
-@allowed_users(allowed_roles=['Admin'])
+@allowed_users(allowed_roles=['Admin','Brand'])
 def addEditPicture (request,productName,brand):
     web_direct = ''
     if request.method != 'POST':
@@ -266,7 +273,7 @@ def addEditPicture (request,productName,brand):
     return render(request,web_direct)
 
 @login_required
-@allowed_users(allowed_roles=['Admin'])
+@allowed_users(allowed_roles=['Admin','Brand'])
 def addEditPictureContext (request,productName,brand,context):
     web_direct = ''
     if request.method != 'POST':
@@ -299,7 +306,7 @@ def addEditPictureContext (request,productName,brand,context):
     return render(request,web_direct)
 
 @login_required
-@allowed_users(allowed_roles=['Admin'])
+@allowed_users(allowed_roles=['Admin','Brand'])
 def deleteProduct (request,productName,brand,context):
     error = 0
     try:

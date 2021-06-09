@@ -1,8 +1,18 @@
+from register.models import User
+from django.contrib import messages
+from django.contrib.auth.hashers import make_password
+from django.contrib.sites.shortcuts import get_current_site
+from profileBrand.forms import AddBrandForm, InviteBrandForm, registerBrandForm
+from Skripsi.decorator import allowed_users
+from django.contrib.auth.decorators import login_required
 from product.models import Category, Product, Brand
-from django.shortcuts import render
-from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator
+from django.shortcuts import redirect, render
+from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator, sendMailAfterRegis, weakPassword
 from django.db import connection
 from django.core.paginator import Paginator
+from django.contrib.auth.models import Group, User as auth_user
+import requests
+import uuid
 
 # Create your views here.
 
@@ -175,4 +185,184 @@ def brandPage (request,brandName,sort):
             context = {
                 'message': 'error'
             }
+        return render(request,'error.html', context)
+
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def brandControl (request):
+    getAllBrand = Brand.objects.all()
+    getAllBrandByPage = None
+    if getAllBrand:
+        paginator = Paginator(getAllBrand,4)
+        page_number = request.GET.get('page', 1)
+        getAllBrandByPage = paginator.get_page(page_number)
+
+        if getAllBrandByPage.has_next():
+            next_url = f'?page={getAllBrandByPage.next_page_number()}'
+        else:
+            next_url = ''
+
+        if getAllBrandByPage.has_previous():
+            prev_url = f'?page={getAllBrandByPage.previous_page_number()}'
+        else:
+            prev_url = ''
+    else:
+        getAllUsersByPage = Brand.objects.none()
+        next_url = ''
+        prev_url = ''
+
+    context = {
+        'obj':getAllBrandByPage,
+        'userPending': countUserPending(request),
+        'reportUser': countReport(request),
+        'next_page_url': next_url,
+        'prev_page_url': prev_url
+    }
+
+    return render(request,'brandcontrol.html', context)
+
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def addBrand (request):
+    if request.method != 'POST':
+        regis_form = AddBrandForm()
+        context = {
+            'form': regis_form,
+            'context': 'Add Brand'
+        }
+        return render(request,'addInviteRegisterBrand.html', context)
+    else:
+        brandName = request.POST.get('brandName')
+        try:
+            if brandName == '':
+                raise Exception("required field Empty")
+            if Brand.objects.filter(brandName = brandName).first():
+                messages.success(request, 'Username is Taken')
+                return redirect ('addBrand')
+            
+            brand_obj = Brand.objects.create(
+                brandName = brandName,
+            )
+            brand_obj.save()
+
+            return redirect ('brandControl')
+        except Exception as e:
+            context = {
+                'message': 'error'
+            }
+            return render(request,'error.html', context)
+
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def inviteBrand (request):
+    if request.method != 'POST':
+        inviteForm = InviteBrandForm()
+        context = {
+            'form': inviteForm,
+            'context': 'Invite Brand'
+        }
+        return render(request,'addInviteRegisterBrand.html', context)
+    else:
+        brandName = request.POST.get('brandName')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        brandData = []
+        try:
+            if brandName == '':
+                raise Exception("required field Empty")
+            if email == '':
+                raise Exception("required field Empty")
+            if message == '':
+                raise Exception("required field Empty")
+
+            brand_obj = Brand.objects.get(brandName = brandName)
+            if brand_obj.status != 'No_User':
+                messages.success(request, 'Brand is Already receive email / have account ')
+                return redirect ('inviteBrand')
+            
+            token = str (uuid.uuid4())
+            brandData.append(email)
+            brandData.append(token)
+
+            domain = get_current_site(request).domain
+            sendMailAfterRegis (domain, brandData, 'brand_invitation',message)
+
+            brand_obj.status = 'user_verif'
+            brand_obj.auth_token = token
+            brand_obj.save()
+            
+
+            return redirect ('brandControl')
+        except Exception as e:
+            context = {
+                'message': 'error'
+            }
+            return render(request,'error.html', context)
+
+
+def registerBrand (request,auth_token):
+    try:
+        getBrand = Brand.objects.get(auth_token = auth_token)
+        if request.method != 'POST':
+            registerForm = registerBrandForm()
+            context = {
+                'form': registerForm,
+                'context': "Register Brand :"+getBrand.brandName+""
+            }
+            return render(request,'addInviteRegisterBrand.html', context)
+        else:
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+            confirm_pass = request.POST.get('confirm_pass')
+            brandWebsiteUrl = request.POST.get('brandWebsiteUrl')
+            description = request.POST.get('description')
+
+            if email == '':
+                raise Exception("required field Empty")
+            if password == '':
+                raise Exception("required field Empty")
+            if confirm_pass == '':
+                raise Exception("required field Empty")
+
+            if User.objects.filter(email = email).first():
+                messages.success(request, 'email is Taken')
+                return redirect ('registerBrand', auth_token=auth_token)
+            check_pass = weakPassword (password)
+            if check_pass != 'True':
+                messages.success(request, check_pass)
+                return redirect ('registerBrand', auth_token=auth_token)
+
+            if (confirm_pass != password):
+                messages.success(request, 'confirm password should be same as password')
+                return redirect ('registerBrand', auth_token=auth_token)
+
+            req = requests.head(brandWebsiteUrl)
+            if req.status_code == 404:
+                messages.success(request, 'Url\'s not valid')
+                return redirect ('registerBrand', auth_token=auth_token)
+
+            getBrand.brandURL = brandWebsiteUrl
+            getBrand.description = description
+            getBrand.brandEmail = email
+            getBrand.status = 'Verified'
+            getBrand.save()
+
+            userAuth = auth_user.objects.create(
+                username = getBrand.brandName,
+                email = getBrand.brandEmail,
+                password = make_password(password) 
+            )
+            
+            userAuth.save()
+
+            getgroupId = Group.objects.get(name = 'Brand')
+
+            userAuth.groups.add(getgroupId)
+
+            return redirect ('dashboard')
+
+    except Exception as e:
+        context = {
+            'message': 'error'
+        }
         return render(request,'error.html', context)

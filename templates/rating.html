@@ -113,6 +113,20 @@
                                 <a class="btn btn-primary" href="{% url 'deleteProduct' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
                                   Delete Product
                                 </a>
+                            {% elif request.user.groups.all.0.name == 'Brand' and request.user.username == obj.brandId.brandName %}
+                                <a class="btn btn-primary" href="{% url 'editProduct' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
+                                  Edit Product Data
+                                </a> 
+                                <br>
+                                <br>
+                                <a class="btn btn-primary" href="{% url 'editPicture' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
+                                  Edit Product Picture
+                                </a>
+                                <br>
+                                <br>
+                                <a class="btn btn-primary" href="{% url 'deleteProduct' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
+                                  Delete Product
+                                </a>
                             {% endif %}
                         </div>
                     </div>

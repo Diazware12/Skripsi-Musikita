@@ -46,7 +46,10 @@
                     <a class="dropdown-item" href="{% url 'addProduct' %}">Add Product</a>
                     <a class="dropdown-item" href="{% url 'managecarousel' %}">Manage Carousel</a>
                     <a class="dropdown-item" href="{% url 'usercontrol' %}">User Control</a>
-                  {% else %}
+                 {% elif request.user.groups.all.0.name == 'Brand' %}
+                    <a class="dropdown-item" href="{% url 'addProduct' %}">Add Product</a>
+                    <a class="dropdown-item" href="{% url 'brandPage' brandName=request.user.username sort="By Date" %}">Brand Page</a>
+                 {% else %}
                     <a class="dropdown-item" href="{% url 'profilePage' userName=request.user.username %}">profile</a>
                  {% endif %}
                 <a class="dropdown-item" href="{% url 'logoutUser' %}">Logout</a>
