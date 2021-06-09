@@ -17,11 +17,19 @@
           <tbody>
             <tr>
               <th class="pl-0 w-17 pl-3" scope="row"><strong>Website</strong></th>
-              <td><a href="{{brand.brandURL}}">{{brand.brandURL}}</a></td>
+              {% if brand.brandURL != None %}
+                <td><a href="{{brand.brandURL}}">{{brand.brandURL}}</a></td>
+              {% else %}
+                <td>-</td>
+              {% endif %}
             </tr>
             <tr>
               <th class="pl-0 w-17 pl-3" scope="row"><strong>Description</strong></th>
-              <td><span class="more">{{brand.description}}</span></td>
+              {% if brand.description != None %}
+                <td><span class="more">{{brand.description}}</span></td>
+              {% else %}
+                <td>-</td>
+              {% endif %}
             </tr>
           </tbody>
         </table>

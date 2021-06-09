@@ -4,11 +4,11 @@ DIAZ
 - searching blm bisa    
 - edit product -> brand/admin
 - invitation brand
+- add brand
 
 CALVIN
 - editor's choice masih dummy
 - filtering apagi, blm samsek (belakangan)
-- add brand
 - halaman "about Musikita"
 
 yang done
