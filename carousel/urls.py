@@ -6,4 +6,5 @@ from . import views
 urlpatterns = [
    path('manage/',views.manageCarousel,name="managecarousel"),
    path('add/',views.addCarousel,name="addcarousel"),
+   path('delete/<carouselObject>/',views.deleteCarousel,name="deleteCarousel"),
 ]

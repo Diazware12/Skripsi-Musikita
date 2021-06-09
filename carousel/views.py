@@ -5,6 +5,7 @@ from carousel.models import CarouselImage
 from Skripsi.decorator import allowed_users
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+import os
 
 @login_required
 @allowed_users(allowed_roles=['Admin'])
@@ -50,3 +51,12 @@ def addCarousel(request):
         )
         carousel_obj.save()
         return redirect('managecarousel')
+
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def deleteCarousel(request,carouselObject):
+    carousel = CarouselImage.objects.get(carouselId=int(carouselObject))
+    if os.path.exists(carousel.carouselIMG.name):
+        os.remove(carousel.carouselIMG.name)
+    carousel.delete()
+    return redirect('managecarousel')
