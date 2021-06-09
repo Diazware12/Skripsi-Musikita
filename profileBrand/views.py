@@ -237,15 +237,16 @@ def addBrand (request):
             if brandName == '':
                 raise Exception("required field Empty")
             if Brand.objects.filter(brandName = brandName).first():
-                messages.success(request, 'Username is Taken')
+                messages.success(request, 'Brand Name is Taken')
                 return redirect ('addBrand')
             
             brand_obj = Brand.objects.create(
                 brandName = brandName,
+                status = 'No_User'
             )
             brand_obj.save()
 
-            return redirect ('brandControl')
+            return redirect ('brandcontrol')
         except Exception as e:
             context = {
                 'message': 'error'
@@ -292,7 +293,7 @@ def inviteBrand (request):
             brand_obj.save()
             
 
-            return redirect ('brandControl')
+            return redirect ('brandcontrol')
         except Exception as e:
             context = {
                 'message': 'error'

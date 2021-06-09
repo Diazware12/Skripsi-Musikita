@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('brandcontrol',views.brandControl,name="brandControl"),
+    path('brandcontrol',views.brandControl,name="brandcontrol"),
     path('brandcontrol/add',views.addBrand,name="addBrand"),
     path('brandcontrol/invite',views.inviteBrand,name="inviteBrand"),
     path('registerBrand/<auth_token>',views.registerBrand,name="registerBrand"),

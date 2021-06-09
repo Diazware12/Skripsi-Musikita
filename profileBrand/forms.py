@@ -8,15 +8,14 @@ class AddBrandForm (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'class':'form-control',
-                'placeholder':'brandName'
+                'placeholder':'Brand Name'
             }
         )
     )
 
 class InviteBrandForm (forms.Form):
-
     brandName = forms.ModelChoiceField(
-        queryset=Brand.objects.values_list('brandName', flat=True),
+        queryset= Brand.objects.filter(status = 'No_User').values_list('brandName', flat=True),
         required=True,
         label="brandName",
         widget=forms.Select(
@@ -25,7 +24,7 @@ class InviteBrandForm (forms.Form):
             }
         )
     )
-    
+
     email = forms.EmailField(
         required=True,
         label='Email',

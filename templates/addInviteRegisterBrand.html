@@ -76,9 +76,15 @@
             {% endif %}
             
             <div class="d-flex flex-row-reverse bd-highlight pb-5">
+
                 <div class="p-2 bd-highlight">
                     <button type="submit" class="greenbutton">Add</button>
                 </div>
+                {% if user.is_authenticated and request.user.groups.all.0.name == 'Admin' %}
+                    <div class="p-2 bd-highlight">
+                        <a type="submit" class="greenbutton" href="{% url 'brandcontrol' %}"style="text-decoration: none;">Back</a>
+                    </div>                        
+                {% endif %}
             </div>
         </form>
     </div>
