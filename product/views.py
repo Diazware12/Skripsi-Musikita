@@ -78,8 +78,6 @@ def addProduct (request):
                 productName = productName,
                 description = description,
                 videoUrl = videoUrl,
-                minPrice = 0,
-                maxPrice = 0,
                 dtm_crt = datetime.now()
             )
 
@@ -114,6 +112,7 @@ def addEditProduct (request,context,productName,brand):
                 'product': product,
                 'category': ddCategory,
                 'subCategory': ddSubCategory,
+                'context': context
             }
             return render(request,'addProductEdit.html', context)
         else :
@@ -139,12 +138,12 @@ def addEditProduct (request,context,productName,brand):
             
             if len(description) < 75:
                 messages.success(request, 'description need to be equal or more than 75 character')
-                return redirect ('editProduct',productName=productName,brand=brand)
+                return redirect ('editProduct',context=context,productName=productName,brand=brand)
                 
             req = requests.head(videoUrl)
             if req.status_code == 404:
                 messages.success(request, 'video Url\'s not valid')
-                return redirect ('editProduct',productName=productName,brand=brand)
+                return redirect ('editProduct',context=context,productName=productName,brand=brand)
 
             getProduct.categoryId=category_Id
             getProduct.subCategoryId = subCategory_Id
@@ -152,14 +151,16 @@ def addEditProduct (request,context,productName,brand):
             getProduct.productName = productName
             getProduct.description = description
             getProduct.videoUrl = videoUrl
-            getProduct.minPrice = 0
-            getProduct.maxPrice = 0
             getProduct.dtm_upd = datetime.now()
             getProduct.save()
 
             if (context == "editAddProduct"):
                 return redirect ('addProductPicture', brand=brand_Id.brandName, productName=getProduct.productName)
-
+            elif (context == "editProductRating"):
+                return redirect ('showProduct', brand=brand_Id.brandName, productName=getProduct.productName)
+            elif (context == "editProductBrand"):
+                return redirect ('brandPage', brandName=brand_Id.brandName, sort="By Date")
+            
     except Exception as e:
         print(e)
 
@@ -239,6 +240,8 @@ def addEditPicture (request,productName,brand):
         context = {
             'brand': brand,
             'productName': productName,
+            'context':'',
+            'title': 'Add Product Picture'
         }
         return render(request,'addProductPicture.html',context)
     else:
@@ -261,6 +264,70 @@ def addEditPicture (request,productName,brand):
         web_direct = 'success.html'
         
     return render(request,web_direct)
+
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def addEditPictureContext (request,productName,brand,context):
+    web_direct = ''
+    if request.method != 'POST':
+        context = {
+            'brand': brand,
+            'productName': productName,
+            'context':context,
+            'title': 'Edit Product Picture: ' + productName
+        }
+        return render(request,'addProductPicture.html',context)
+    else:
+        productPicture = request.FILES['productPicture']
+        productPicture.name = productName+'.jpg'    
+        
+        getProduct = Product.objects.select_related(
+                            'brandId').get(
+                            productName = productName,
+                            brandId__brandName = brand)
+
+        if os.path.exists(str(getProduct.productIMG)):
+            os.remove(str(getProduct.productIMG))
+        else:
+            pass
+
+        getProduct.productIMG = productPicture
+        getProduct.save()
+
+        web_direct = 'success.html'
+        
+    return render(request,web_direct)
+
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def deleteProduct (request,productName,brand,context):
+    error = 0
+    try:
+        product = Product.objects.select_related('brandId').get(productName=productName,brandId__brandName=brand) #
+        userAuth = request.user
+        
+        if userAuth.groups.filter(name='Admin').exists():
+            pass
+        
+        product.delete()
+
+        if (context == "editProductRating"):
+            return redirect ('dashboard')
+        elif (context == "editProductBrand"):
+            return redirect ('brandPage', brandName=brand, sort="By Date")
+
+    except Exception as e:
+        print(e)
+        context = None
+        if error == 0:
+            context = {
+                'message': 'error'
+            }
+        else:
+            context = {
+                'message': 'error'
+            }
+        return render(request,'error.html', context)
 
 def showProduct (request, productName, brand):
     isLogin = request.POST.get('isLogin')

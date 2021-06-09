@@ -34,6 +34,8 @@ class ReviewForm (forms.Form):
         )
     )
 
+    sellStatus = forms.BooleanField(required=False)
+
 class ReportForm (forms.Form):
     reportReason = forms.ChoiceField(
         choices=RADIO_REPORT,

@@ -5,6 +5,24 @@ const imageBox = document.getElementById('image-box')
 const imageForm = document.getElementById('image-form')
 const confirmBtn = document.getElementById('confirm-btn')
 const input = document.getElementById('id_file')
+const context = document.getElementById('context').innerHTML
+var redirect = '';
+var redirect_success = '';
+console.log(brand);
+console.log(productName);
+
+if (context == ''){
+    redirect = `/product/addProduct/${brand}/${productName}/addPicture`;
+    redirect_success = "/"
+} else if (context == 'editProductRating'){
+    redirect = `/product/addEditProduct/${context}/${brand}/${productName}/editPicture`;
+    redirect_success = "/product/"+brand+"/"+productName+"/"
+} else if (context == 'editProductBrand'){
+    redirect = `/product/addEditProduct/${context}/${brand}/${productName}/editPicture`;
+    redirect_success = "/brand/"+brand+"/By%20Date"
+} 
+
+
 
 const csrf = document.getElementsByName('csrfmiddlewaretoken')
 
@@ -42,11 +60,11 @@ const csrf = document.getElementsByName('csrfmiddlewaretoken')
 
                     $.ajax({
                         type:'POST',
-                        url: `/product/addProduct/${brand}/${productName}/addPicture`,
+                        url: redirect,
                         enctype: 'multipart/form-data',
                         data: fd,
                         success: function(response){
-                            window.location.href = "/";
+                            window.location.href = redirect_success;
                         },
                         error: function(error){
                             // console.log('error', error)

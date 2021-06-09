@@ -77,6 +77,13 @@
                 <div class="p-2 bd-highlight">
                     <button type="submit" class="greenbutton">Add</button>
                 </div>
+                <div class="p-2 bd-highlight">
+                    {% if context == 'editProductRating' %}
+                        <a type="submit" class="greenbutton" href="{% url 'showProduct' brand=product.brandId.brandName productName=product.productName %}"style="text-decoration: none;">Back</a>
+                    {% elif context == 'editProductBrand' %}
+                        <a type="submit" class="greenbutton" href="{% url 'brandPage' brandName=product.brandId.brandName sort='By Date' %}"style="text-decoration: none;">Back</a>
+                    {% endif %}
+                </div>
             </div>
         </form>
     </div>

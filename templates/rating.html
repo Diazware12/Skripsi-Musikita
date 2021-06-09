@@ -99,7 +99,20 @@
                                   Submit Your Review
                                 </a>
                               {% endif %}
-
+                            {% elif request.user.groups.all.0.name == 'Admin' %}
+                                <a class="btn btn-primary" href="{% url 'editProduct' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
+                                  Edit Product Data
+                                </a> 
+                                <br>
+                                <br>
+                                <a class="btn btn-primary" href="{% url 'editPicture' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
+                                  Edit Product Picture
+                                </a>
+                                <br>
+                                <br>
+                                <a class="btn btn-primary" href="{% url 'deleteProduct' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
+                                  Delete Product
+                                </a>
                             {% endif %}
                         </div>
                     </div>
@@ -219,7 +232,13 @@
                                 {% endif %}
                               {% endif %}
                             </div>
-                            <p class="card-text"> <span class="more">{{ mrev.description }}</span></p>
+                            <p class="card-text"> 
+                              {% if mrev.sellStatus == True%}
+                                <strong style="font-size: 15px;">I Sell This Product On My Store</strong>
+                                <br>
+                              {% endif %}
+                              <span class="more">{{ mrev.description }}</span>
+                            </p>
 
                             {% if user.is_authenticated %}
                               {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}

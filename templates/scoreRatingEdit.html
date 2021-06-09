@@ -74,6 +74,23 @@
                 <h5>Description</h5>
                 <textarea name="reviewDescription" class="form-control" id="exampleFormControlTextarea1" rows="4" required>{{review.description}}</textarea>
             </div>
+            
+
+            {% if request.user.groups.all.0.name == 'Mus_Store' %}
+                <div class="pt-5 mt-5 pb-5 mb-5">
+                    <div class="form-check">
+                        {% if review.sellStatus == True %}
+                            <input type="checkbox" name="sellStatus" id="id_sellStatus" checked>
+                        {% else %}
+                            <input type="checkbox" name="sellStatus" id="id_sellStatus">
+                        {% endif %}
+                        <label class="form-check-label" for="flexCheckDefault">
+                            <h5>Are you selling this product in your Music Store?</h5>
+                        </label>
+                    </div>
+                </div>
+            {% endif %}
+
 
             <div class="d-flex flex-row-reverse bd-highlight pb-5">
                 <div class="p-2 bd-highlight"><button type="Submit" class="greenbutton">Submit Review</button></div>

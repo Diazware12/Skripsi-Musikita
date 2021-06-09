@@ -4,12 +4,8 @@ DIAZ
 - searching blm bisa    
 - edit product -> brand/admin
 - invitation brand
-- tanda untuk "sell this product" untuk musicStore
-
 
 CALVIN
-- carousel blm ada gambar musiknya
-    -> buat page add carousel
 - editor's choice masih dummy
 - filtering apagi, blm samsek (belakangan)
 - add brand
@@ -40,6 +36,9 @@ yang done
     - "see more musicstore/user review" di halaman review (done)
     - tampilin foto musicstore (done)
     - halaman report review (done)
+    - tanda untuk "sell this product" untuk musicStore (done)
+    - carousel blm ada gambar musiknya (done)
+        -> buat page add carousel (done)
 
 Note:
     brand g bisa delete product (tapi bisa edit product), cuma admin aja

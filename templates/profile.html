@@ -325,7 +325,13 @@
 
                                   </div>
                                   <h6 class="card-title pt-3">{{obj.title}}</h6>
-                                  <p class="pt-1 text-justify"><span class="more">{{ obj.description }}</span></p>
+                                  <p class="pt-1 text-justify">
+                                    {% if obj.sellStatus == True%}
+                                      <strong style="font-size: 15px;">I Sell This Product On My Store</strong>
+                                      <br>
+                                    {% endif %}
+                                    <span class="more">{{ obj.description }}</span>
+                                  </p>
                               </div>
                           </div>
                     </div>

@@ -36,8 +36,9 @@ def reviewProduct (request, productName, brand):
             rate = request.POST.get('rate')
             reviewTitle = request.POST.get('reviewTitle')
             reviewDescription = request.POST.get('reviewDescription')
+            sellStatus = False
             error = 1
-            
+
             if rate == None:
                 messages.success(request, 'you need to fill-in the rate')
                 return redirect ('reviewProduct', brand=brand, productName=productName)
@@ -48,6 +49,14 @@ def reviewProduct (request, productName, brand):
             if len(reviewDescription) < 75:
                 messages.success(request, 'review need to be equal or more than 75 character')
                 return redirect ('reviewProduct', brand=brand, productName=productName)
+
+            userAuth = request.user
+            if userAuth.groups.filter(name='Mus_Store').exists():
+                getSellStatus = request.POST.get('sellStatus')
+                if getSellStatus == 'on':
+                    sellStatus = True
+                else:
+                    sellStatus = False
                 
             rating_obj = Review.objects.create(
                 productId = product,
@@ -55,7 +64,8 @@ def reviewProduct (request, productName, brand):
                 dtm_crt = datetime.now(),
                 title = reviewTitle,
                 description = reviewDescription,
-                rating = rate
+                rating = rate,
+                sellStatus = sellStatus
             )
             rating_obj.save()
 
@@ -193,6 +203,7 @@ def updateReview (request, productName, brand, user_select, action):
             rate = request.POST.get('rate')
             reviewTitle = request.POST.get('reviewTitle')
             reviewDescription = request.POST.get('reviewDescription')
+            sellStatus = False
             error = 1
             
             if rate == None:
@@ -206,10 +217,19 @@ def updateReview (request, productName, brand, user_select, action):
                 messages.success(request, 'review need to be equal or more than 75 character')
                 return redirect ('updateReview', brand=brand, productName=productName, user_select=user_select, action='ratingReview')
 
+            userAuth = request.user
+            if userAuth.groups.filter(name='Mus_Store').exists():
+                getSellStatus = request.POST.get('sellStatus')
+                if getSellStatus == 'on':
+                    sellStatus = True
+                else:
+                    sellStatus = False
+
             getReview.rating = rate    
             getReview.title = reviewTitle
             getReview.description = reviewDescription    
             getReview.dtm_crt = datetime.now()
+            getReview.sellStatus = sellStatus
 
             getReview.save()
 

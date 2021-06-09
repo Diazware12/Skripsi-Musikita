@@ -180,7 +180,22 @@
                                 <a style="text-decoration: none; color:black;" href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}">{{obj.productName}}</a>
                               </h6>
                             </div>
-                            <div class="ml-auto p-2 pr-5 mr-5 bd-highlight">{{obj.dtm_crt}}</div> 
+                            <div class="ml-auto p-2 pr-5 mr-5 bd-highlight">
+                              {{obj.dtm_crt}}
+                              {% if user.is_authenticated %}
+                                {% if request.user.groups.all.0.name == 'Admin' %}
+                                  <a href="{% url 'editProduct' context='editProductBrand' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black; text-decoration: none;">
+                                    <i class="fas fa-edit"></i>
+                                  </a>
+                                  <a href="{% url 'editPicture' context='editProductBrand' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black; text-decoration: none;">
+                                    <i class="fas fa-image"></i>
+                                  </a>
+                                  <a href="{% url 'deleteProduct' context='editProductBrand' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black; text-decoration: none;">
+                                    <i class="fas fa-window-close"></i>
+                                  </a>
+                                {% endif %}
+                              {% endif %}  
+                            </div>
                           </div>
                         {% endfor %}
                       {% endif %}                        

@@ -14,7 +14,7 @@
 
       <div class="da-section pt-3" id="services">
         <div class="da-services pl-5 pr-5">
-          <div class="separator pb-2"><div class="h3 text-center" data-aos="fade-up" data-aos-duration="500" >Search Result for 'Taylor'</div></div>
+          <div class="separator pb-2"><div class="h3 text-center" data-aos="fade-up" data-aos-duration="500" >Search Result for '{{keyword}}'</div></div>
              <div class="d-flex flex-row-reverse">
               <div class="p-2">
                 <div class="dropdown pl-5 ml-5">
@@ -265,198 +265,34 @@
             </div>
             <div class="col">
               <div class="row">
+              {% for obj in obj %}
                 <div class="col-lg-3 col-md-6">
                   <div class="card mb-3">
-                    <a href="#" style="color: black;">
+                    <a href="#" style="color: black; text-decoration: none;">
                       <div class="container">
                         <div class="card-body py-5" >
                           <div class="text-primary">
-                            <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
+                            <img class="card-img-top" src="{{obj.productIMG.url}}" alt="image"/>
                           </div>
-                          <div class="w-auto p-3 bg-success text-white">80</div>
-                          <div class="h5 pt-2">Pamela Lopez</div>
-                          <p>Lorem ipsum dolor sit amet consectetur</p>
+
+                          {% if obj.avgScore == None %}
+                            <div class="w-auto p-3 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                          {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
+                            <div class="w-auto p-3 bg-success text-white">{{ obj.avgScore }}</div>
+                          {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
+                            <div class="w-auto p-3 bg-warning text-white"><b>{{ obj.avgScore }}</b></div>
+                          {% else %}
+                            <div class="w-auto p-3 bg-danger text-white"><b>{{ obj.avgScore }}</b></div>
+                          {% endif %} 
+                          
+                          <div class="h5 pt-2">{{ obj.productName }}</div>
                         </div>
                       </div>
                     </a>
                   </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                  <div class="card mb-3">
-                    <a href="#" style="color: black;">
-                      <div class="container">
-                        <div class="card-body py-5" >
-                          <div class="text-primary">
-                            <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                          </div>
-                          <div class="w-auto p-3 bg-success text-white">80</div>
-                          <div class="h5 pt-2">Pamela Lopez</div>
-                          <p>Lorem ipsum dolor sit amet consectetur</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <div class="card mb-3">
-                    <a href="#" style="color: black;">
-                      <div class="container">
-                        <div class="card-body py-5" >
-                          <div class="text-primary">
-                            <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                          </div>
-                          <div class="w-auto p-3 bg-success text-white">80</div>
-                          <div class="h5 pt-2">Pamela Lopez</div>
-                          <p>Lorem ipsum dolor sit amet consectetur</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <div class="card mb-3">
-                    <a href="#" style="color: black;">
-                      <div class="container">
-                        <div class="card-body py-5" >
-                          <div class="text-primary">
-                            <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                          </div>
-                          <div class="w-auto p-3 bg-success text-white">80</div>
-                          <div class="h5 pt-2">Pamela Lopez</div>
-                          <p>Lorem ipsum dolor sit amet consectetur</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <div class="card mb-3">
-                    <a href="#" style="color: black;">
-                      <div class="container">
-                        <div class="card-body py-5" >
-                          <div class="text-primary">
-                            <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                          </div>
-                          <div class="w-auto p-3 bg-success text-white">80</div>
-                          <div class="h5 pt-2">Pamela Lopez</div>
-                          <p>Lorem ipsum dolor sit amet consectetur</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <div class="card mb-3">
-                    <a href="#" style="color: black;">
-                      <div class="container">
-                        <div class="card-body py-5" >
-                          <div class="text-primary">
-                            <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                          </div>
-                          <div class="w-auto p-3 bg-success text-white">80</div>
-                          <div class="h5 pt-2">Pamela Lopez</div>
-                          <p>Lorem ipsum dolor sit amet consectetur</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <div class="card mb-3">
-                    <a href="#" style="color: black;">
-                      <div class="container">
-                        <div class="card-body py-5" >
-                          <div class="text-primary">
-                            <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                          </div>
-                          <div class="w-auto p-3 bg-success text-white">80</div>
-                          <div class="h5 pt-2">Pamela Lopez</div>
-                          <p>Lorem ipsum dolor sit amet consectetur</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <div class="card mb-3">
-                    <a href="#" style="color: black;">
-                      <div class="container">
-                        <div class="card-body py-5" >
-                          <div class="text-primary">
-                            <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                          </div>
-                          <div class="w-auto p-3 bg-success text-white">80</div>
-                          <div class="h5 pt-2">Pamela Lopez</div>
-                          <p>Lorem ipsum dolor sit amet consectetur</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <div class="card mb-3">
-                    <a href="#" style="color: black;">
-                      <div class="container">
-                        <div class="card-body py-5" >
-                          <div class="text-primary">
-                            <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                          </div>
-                          <div class="w-auto p-3 bg-success text-white">80</div>
-                          <div class="h5 pt-2">Pamela Lopez</div>
-                          <p>Lorem ipsum dolor sit amet consectetur</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <div class="card mb-3">
-                    <a href="#" style="color: black;">
-                      <div class="container">
-                        <div class="card-body py-5" >
-                          <div class="text-primary">
-                            <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                          </div>
-                          <div class="w-auto p-3 bg-success text-white">80</div>
-                          <div class="h5 pt-2">Pamela Lopez</div>
-                          <p>Lorem ipsum dolor sit amet consectetur</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <div class="card mb-3">
-                    <a href="#" style="color: black;">
-                      <div class="container">
-                        <div class="card-body py-5" >
-                          <div class="text-primary">
-                            <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                          </div>
-                          <div class="w-auto p-3 bg-success text-white">80</div>
-                          <div class="h5 pt-2">Pamela Lopez</div>
-                          <p>Lorem ipsum dolor sit amet consectetur</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <div class="card mb-3">
-                    <a href="#" style="color: black;">
-                      <div class="container">
-                        <div class="card-body py-5" >
-                          <div class="text-primary">
-                            <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                          </div>
-                          <div class="w-auto p-3 bg-success text-white">80</div>
-                          <div class="h5 pt-2">Pamela Lopez</div>
-                          <p>Lorem ipsum dolor sit amet consectetur</p>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
+              {% endfor %}
+
               </div>
             </div>
 
@@ -466,28 +302,28 @@
 
 
 
-          <div class="d-flex flex-row-reverse">
-            <div class="p-2">
-                  <nav aria-label="...">
-                    <ul class="pagination">
-                      <li class="page-item disabled">
-                        <span class="page-link">Previous</span>
-                      </li>
-                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item active">
-                        <span class="page-link">
-                          2
-                          <span class="sr-only">(current)</span>
-                        </span>
-                      </li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                      </li>
-                    </ul>
-                  </nav>
-            </div>
-          </div>
+                  <div class="d-flex flex-row-reverse">
+                      <div class="p-2">
+                            <nav aria-label="...">
+                              <ul class="pagination">
+                                <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{prev_page_url}}">Previous</a>
+                                </li>
+
+                                {% for n in sortObj.paginator.page_range %}
+                                  {% if sortObj.number == n %}
+                                    <li class="page-item active"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% elif n > sortObj.number|add:-3 and n < sortObj.number|add:3 %}
+                                    <li class="page-item"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% endif %}
+                                {% endfor %}
+                                <li class="page-item {% if not next_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{next_page_url}}">Next</a>
+                                </li>
+                              </ul>
+                            </nav>
+                      </div>
+                  </div>
         </div>
         
       </div>

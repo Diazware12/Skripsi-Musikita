@@ -1,3 +1,4 @@
+from Skripsi.views import countReport, countUserPending
 from django.contrib import messages
 from carousel.forms import CarouselForm
 from carousel.models import CarouselImage
@@ -15,6 +16,8 @@ def manageCarousel(request):
             precontext.append([carousels[i],CarouselForm(initial={'imageActive':carousels[i].status}, prefix=i+1)])
         context = {
             'data': precontext,
+            'userPending': countUserPending(request),
+            'reportUser': countReport(request)
         }
         return render(request,'manageCarousel.html',context)
     else:

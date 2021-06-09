@@ -18,10 +18,7 @@
 
     <div class="container">
 
-        <h1 class="pb-5 pt-5">Add Product Picture</h1>
-
-        
-
+        <h1 class="pb-5 pt-5">{{ title }}</h1>
 
             {% if messages %}
             
@@ -48,16 +45,24 @@
             
             <span id="brand" style="display: none;" value="{{brand}}">{{brand}}</span>
             <span id="productName" style="display: none;" value="{{productName}}">{{productName}}</span>
+            <span id="context" style="display: none;" value="{{context}}">{{context}}</span>
 
             <div class="d-flex flex-row-reverse bd-highlight pt-3">
               <div class="p-2 bd-highlight"><button class="greenbutton" id="confirm-btn">Add</button></div>
-              <div class="p-2 bd-highlight"><a type="submit" class="greenbutton" href="{% url 'editProduct' context='editAddProduct' brand=brand productName=productName %}"style="text-decoration: none;">edit</a></div>
+              {% if context == '' %}
+                <div class="p-2 bd-highlight"><a type="submit" class="greenbutton" href="{% url 'editProduct' context='editAddProduct' brand=brand productName=productName %}"style="text-decoration: none;">edit</a></div>
+              {% elif context == 'editProductRating' %}
+                <div class="p-2 bd-highlight"><a type="submit" class="greenbutton" href="{% url 'showProduct' brand=brand productName=productName %}"style="text-decoration: none;">Back</a></div>
+              {% else %}
+                <div class="p-2 bd-highlight"><a type="submit" class="greenbutton" href="{% url 'brandPage' brandName=brand sort='By Date' %}"style="text-decoration: none;">Back</a></div>
+              {% endif %}
+              
             </div>
 
             
 
     </div>
-    <script src="{% static 'vendor2/scripts/cropProductPicture.js'%}"></script>  
+    <script src="{% static 'vendor2/scripts/cropProductPictures.js'%}"></script>  
     
 </body>
 

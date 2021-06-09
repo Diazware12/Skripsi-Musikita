@@ -13,6 +13,7 @@ class Review (models.Model):
     rating = models.IntegerField()
     helpful = models.BigIntegerField(default=0)
     notHelpful = models.BigIntegerField(default=0)
+    sellStatus = models.BooleanField(default=False)
 
 class HelpfulData (models.Model):
     helpfulDataId = models.AutoField(primary_key=True,null=False)
