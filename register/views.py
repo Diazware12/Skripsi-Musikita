@@ -23,7 +23,8 @@ def registerMember (request):
     if request.method != 'POST':
         regis_form = UserForm()
         context = {
-            'form': regis_form
+            'form': regis_form,
+            'role': 'Member'
         }
         return render(request,'registerMember.html', context)
     else :
@@ -201,6 +202,77 @@ def registerMusicStore (request):
 
             sendMailAfterRegis (domain, profile_obj, 'verification', '')
             web_direct = 'token-send.html'
+
+        except Exception as e:
+            print(e)
+            web_direct = 'error.html'
+
+    return render(request,web_direct)
+
+def registerAdmin (request,code):
+    if code != "@dm!n$$%":
+        return HttpResponse('You are not allowed to view this page')
+    if request.method != 'POST':
+        regis_form = UserForm()
+        context = {
+            'form': regis_form,
+            'role': 'Admin'
+        }
+        return render(request,'registerMember.html', context)
+    else :
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        conf_pass = request.POST.get('confirm_pass')
+
+        web_direct = ''
+
+        try: 
+            if username == '':
+                raise Exception("required field Empty")
+            if email == '':
+                raise Exception("required field Empty")
+            if password == '':
+                raise Exception("required field Empty")
+            if conf_pass == '':
+                raise Exception("required field Empty")
+
+            if User.objects.filter(userName = username).first():
+                messages.success(request, 'Username is Taken')
+                return redirect ('registerAdmin')
+
+            if User.objects.filter(email = email).first():
+                messages.success(request, 'email is Taken')
+                return redirect ('registerAdmin')
+            
+            check_pass = weakPassword (password)
+            if check_pass != 'True':
+                messages.success(request, check_pass)
+                return redirect ('registerAdmin')
+
+            if (conf_pass != password):
+                messages.success(request, 'confirm password should be same as password')
+                return redirect ('registerAdmin')
+
+            token = str (uuid.uuid4())
+
+            profile_obj = User.objects.create(
+                userName = username,
+                email = email, 
+                password = make_password(password),
+                roleId = 'Admin',
+                description = '',
+                status = 'Verified',
+                dtm_crt = datetime.now(),
+                verified_at = datetime.now(),
+                auth_token = token
+            )
+
+            profile_obj.save()
+
+            regisUserAuth(profile_obj)
+
+            return redirect('dashboard') 
 
         except Exception as e:
             print(e)

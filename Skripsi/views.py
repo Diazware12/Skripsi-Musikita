@@ -1,3 +1,4 @@
+import uuid
 from carousel.models import CarouselImage
 from django.db.models.fields import DecimalField
 from django.http import HttpResponse
@@ -61,9 +62,6 @@ def user_logout (request):
 
 def productList (request):
     return render(request,'productList.html')  
-
-def token (request):
-    return render(request,'token-send.html')  
 
 def verifyEmail (request, auth_token):
     webRender = ''
@@ -135,6 +133,9 @@ def sendMailAfterRegis (domain, user, context, additional_msg):
     elif (context == 'admin_reject'):   
         subject = 'Your Account Has Been Rejected by Admin'               
         messages = 'hi ' + user.userName + ',\n\n' + 'Unfortunately Your Music Store\'s account has been Rejected by admin because:\n\n' + additional_msg + '\n\nPlease make a new music store\'s account based on the admin\'s note\n' +'http://' + domain
+    elif (context == 'admin_delete'):   
+        subject = 'Your Account Has Been Deleted by Admin'               
+        messages = 'hi ' + user.userName + ',\n\n' + 'Unfortunately Your account has been Deleted by admin because:\n\n' + additional_msg + '\n\nPlease make a new music store\'s account based on the admin\'s note\n' +'http://' + domain
     elif (context == 'forgot_password'):  
         subject = 'Reset Your Password' 
         activate_url = 'http://' + domain + '/forgot_Pass/' + user.auth_token              

@@ -1,0 +1,126 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Control</title>
+    {% include "snippets/headImport.html" %}
+</head>
+<body>
+    {% include "snippets/navbar.html" %}
+    <div class="container">
+
+        <h1 class="pb-5 pt-5">User List</h1>
+
+                  <div class="card mb-3">
+                    <!-- review barangnya -->
+                    <div class="col-xs-12">
+
+                      <div class="container pt-4">
+                      {% if obj|length == 0 %}
+                        <div class="d-flex bd-highlight mb-3">                          
+                          <div class="p-2 bd-highlight"><p>Product Is Empty</p></div> 
+                        </div>                        
+                      {% else %} 
+                        <table class="table">
+                          <thead class="thead-dark">
+                            <tr class="text-center">
+                              <th scope="col">User</th>
+                              <th scope="col">Create Date</th>
+                              <th scope="col">Verification Status</th>
+                              <th scope="col">Role</th>
+                              <th scope="col">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for obj in obj %}
+                              <tr>
+                                <td>
+                                  <div class="p-2 bd-highlight text-center">
+                                    {% if obj.profilePicture != '' %}
+                                      <img src="{{ obj.profilePicture.url }}" alt="Admin" class="rounded-circle" width="100">
+                                    {% else %}
+                                      <img src="{% static 'img/profPic.jpg' %}" alt="Admin" class="rounded-circle" width="100">
+                                    {% endif %}
+                                    <h6>
+                                      {{obj.userName}}
+                                    </h6>     
+                                  </div>
+                                </td>
+                                <td class="text-center">{{obj.dtm_crt}}</td>
+                                <td>
+                                  <div class="text-center">
+                                    {{obj.status}}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="text-center">
+                                    {% if obj.roleId == 'Reg_User' %}
+                                      Regular User
+                                    {% elif obj.roleId == 'Mus_Store' %}  
+                                      Music Store
+                                    {% elif obj.roleId == 'Admin' %}  
+                                      Admin
+                                    {% endif %}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="text-center">
+                                    {% if obj.roleId != 'Admin' %}
+                                      <a href="{% url 'profilePage' userName=obj.userName %}" style="color: black; text-decoration: none;" class="pl-1 pr-1">
+                                        <i class="fas fa-user"></i>
+                                      </a>
+                                      <a href="{% url 'deleteUser' auth_token=obj.auth_token %}" style="color: black; text-decoration: none;">
+                                        <i class="fas fa-window-close"></i>
+                                      </a>
+                                    {% elif obj.roleId == 'Admin' and request.user.username != obj.userName %}
+                                      <a href="{% url 'deleteUser' auth_token=obj.auth_token %}" style="color: black; text-decoration: none;">
+                                        <i class="fas fa-window-close"></i>
+                                      </a>
+                                    {% endif %}
+                                  </div>
+                                </td>
+                              </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      {% endif %}   
+
+                  <div class="d-flex flex-row-reverse">
+                      <div class="p-2">
+                            <nav aria-label="...">
+                              <ul class="pagination">
+                                <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{prev_page_url}}">Previous</a>
+                                </li>
+
+                                {% for n in obj.paginator.page_range %}
+                                  {% if obj.number == n %}
+                                    <li class="page-item active"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% elif n > obj.number|add:-3 and n < obj.number|add:3 %}
+                                    <li class="page-item"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                  {% endif %}
+                                {% endfor %}
+                                <li class="page-item {% if not next_page_url %} disabled {% endif %}">
+                                  <a class="page-link" href="{{next_page_url}}">Next</a>
+                                </li>
+                              </ul>
+                            </nav>
+                      </div>
+                  </div>                       
+                      </div>
+
+                    </div>
+                  </div>
+    </div>
+
+    {% include "snippets/footerAndScripts.html" %}
+    
+</body>
+
+
+
+</html>

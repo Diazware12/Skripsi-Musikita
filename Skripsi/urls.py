@@ -32,7 +32,6 @@ urlpatterns = [
     path('brand/',include('profileBrand.urls'),name="brand"),
     path('carousel/',include('carousel.urls'),name="carousel"),
     path('reportList/',include('report.urls'),name="report"),
-    url(r'^success/',views.token),
     path('verify/<auth_token>',views.verifyEmail,name="verify"),
     path('forgot_Pass/<auth_token>',views.forgotPasswordForm,name="forgot_pass"),
 ]

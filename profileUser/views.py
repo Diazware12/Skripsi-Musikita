@@ -1,10 +1,12 @@
+from django.contrib.sites.shortcuts import get_current_site
+from register.forms import RejectionReason
 from django.http import HttpResponse
 from django.shortcuts import redirect,render
 from register.models import MusicStoreData, User
 from django.contrib import messages
 from review.models import Review
 from django.db import connection
-from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator
+from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator, sendMailAfterRegis
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.models import User as auth_user
 from Skripsi.decorator import allowed_users
@@ -160,7 +162,7 @@ def profilePage(request,userName):
             else:
                 prev_url = ''
         else:
-            getReviewListByPage = Review.none()
+            getReviewListByPage = Review.objects.none()
             next_url = ''
             prev_url = ''
 
@@ -332,3 +334,91 @@ def editUserData (request,userName):
                 'message': 'error'
             }
         return render(request,'error.html', context)
+
+
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def userControl (request):
+    getAllUser = User.objects.all()
+    getAllUsersByPage = None
+    if getAllUser:
+        paginator = Paginator(getAllUser,4)
+        page_number = request.GET.get('page', 1)
+        getAllUsersByPage = paginator.get_page(page_number)
+
+        if getAllUsersByPage.has_next():
+            next_url = f'?page={getAllUsersByPage.next_page_number()}'
+        else:
+            next_url = ''
+
+        if getAllUsersByPage.has_previous():
+            prev_url = f'?page={getAllUsersByPage.previous_page_number()}'
+        else:
+            prev_url = ''
+    else:
+        getAllUsersByPage = User.none()
+        next_url = ''
+        prev_url = ''
+
+    context = {
+        'obj':getAllUsersByPage,
+        'userPending': countUserPending(request),
+        'reportUser': countReport(request),
+        'next_page_url': next_url,
+        'prev_page_url': prev_url
+    }
+
+    return render(request,'usercontrol.html', context)
+
+@login_required
+@allowed_users(allowed_roles=['Admin'])
+def deleteUser (request,auth_token):
+    if request.method != 'POST':
+        rejectionForm = RejectionReason()
+        context = {
+            'form': rejectionForm,
+            'userPending': countUserPending(request)
+        }
+        return render(request,'deletionReason.html', context)
+    else :
+        rejectionReason = request.POST.get('reason')
+        try:
+            profile_obj = User.objects.get(auth_token = auth_token)
+            if profile_obj:    
+                if profile_obj.roleId == 'Mus_Store':   
+                    musicStore = MusicStoreData.objects.select_related('userID').get(userID__userName = profile_obj.userName)
+                    if os.path.exists(musicStore.musicStorePicture.name) and os.path.exists(musicStore.musicStorePicture2.name) and os.path.exists(musicStore.musicStorePicture3.name):
+                        os.remove(musicStore.musicStorePicture.name)
+                        os.remove(musicStore.musicStorePicture2.name)
+                        os.remove(musicStore.musicStorePicture3.name)
+                    else:
+                        pass
+                else:
+                    if os.path.exists(profile_obj.profilePicture.name):
+                        os.remove(profile_obj.profilePicture.name)
+                    else:
+                        pass
+
+
+                domain = get_current_site(request).domain
+                sendMailAfterRegis (domain, profile_obj, 'admin_delete',rejectionReason)
+
+                userAuth = auth_user.objects.get(username = profile_obj.userName)
+                userAuth.groups.clear()
+                userAuth.delete()
+
+                profile_obj.delete()
+
+                webRender = 'success.html'
+                return redirect('usercontrol')
+            else:
+                raise Exception("User Empty")
+
+        except Exception as e:
+            print (e) 
+            context = {
+                'message': 'error'
+            }
+            return render(request,'error.html', context)
+            
+        
