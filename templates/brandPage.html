@@ -33,8 +33,14 @@
             </tr>
           </tbody>
         </table>
-
-
+        {%if user.is_authenticated %}
+          {% if request.user.groups.all.0.name == 'Brand' and request.user.username == brand.brandName %}
+            <div class="d-flex flex-row bd-highlight pt-3">
+              <div class="p-2 bd-highlight"><a type="submit" style="color:white;text-decoration: none;" class="greenbutton" href="{% url 'addProduct' %}">Add Product</a></div>
+              <div class="p-2 bd-highlight"><a type="submit" style="color:white;text-decoration: none;" class="greenbutton" href="{% url 'brandEdit' brandName=brand.brandName context='editBrandPage'  %}">Edit Brand</a></div>
+            </div>
+          {% endif %}
+        {% endif %}
       
         <div class="main-body">        
               <div class="row gutters-sm">
@@ -164,9 +170,6 @@
 
                     {% endif %}
                   </div>
-
-
-
                   <div class="card mb-3">
                     <!-- review barangnya -->
                     <div class="col-xs-12">

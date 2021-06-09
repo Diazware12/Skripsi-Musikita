@@ -1,3 +1,5 @@
+from django.http.response import HttpResponse
+from register.forms import RejectionReason
 from register.models import User
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
@@ -7,7 +9,7 @@ from Skripsi.decorator import allowed_users
 from django.contrib.auth.decorators import login_required
 from product.models import Category, Product, Brand
 from django.shortcuts import redirect, render
-from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator, sendMailAfterRegis, weakPassword
+from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator, sendMail, weakPassword
 from django.db import connection
 from django.core.paginator import Paginator
 from django.contrib.auth.models import Group, User as auth_user
@@ -286,9 +288,9 @@ def inviteBrand (request):
             brandData.append(token)
 
             domain = get_current_site(request).domain
-            sendMailAfterRegis (domain, brandData, 'brand_invitation',message)
+            sendMail (domain, brandData, 'brand_invitation',message)
 
-            brand_obj.status = 'user_verif'
+            brand_obj.status = 'User_Verif'
             brand_obj.auth_token = token
             brand_obj.save()
             
@@ -300,6 +302,69 @@ def inviteBrand (request):
             }
             return render(request,'error.html', context)
 
+@login_required
+@allowed_users(allowed_roles=['Admin','Brand'])
+def brandEdit (request,brandName,context):
+    try:
+        getUserAuth = request.user
+        getBrand = Brand.objects.get(brandName = brandName)
+        if request.method != 'POST':
+            if getUserAuth.groups.filter(name='Admin').exists():
+                pass
+            elif getUserAuth.username != getBrand.brandName:
+                return HttpResponse('You are not allowed to view this page')
+
+            context = {
+                'obj': getBrand,
+                'context': context
+            }
+            return render(request,'brandEdit.html', context)
+        else:
+            bName = request.POST.get('brandName')
+            brandUrl = request.POST.get('brandUrl')
+            description = request.POST.get('description')
+
+            if bName == '':
+                raise Exception("required field Empty")
+
+            req = requests.head(brandUrl)
+            if req.status_code == 404:
+                messages.success(request, 'Url\'s not valid')
+                return redirect ('brandEdit',context=context,brandName=brandName)   
+            
+            if getUserAuth.groups.filter(name='Admin').exists() and getBrand.status !='Verified':
+
+                getBrand.brandName = bName
+                getBrand.brandURL = brandUrl
+                getBrand.description = description
+            else:
+                if Brand.objects.filter(brandName = bName).first():
+                    if (request.user.username == bName):
+                        pass
+                    else:
+                        messages.success(request, 'Brand Name is Taken')
+                        return redirect ('brandEdit',context=context,brandName=brandName)
+
+                getBrand.brandName = bName
+                getBrand.brandURL = brandUrl
+                getBrand.description = description
+                
+                getAuthUser = auth_user.objects.get(username=getUserAuth.username)
+                getAuthUser.username = bName
+                getAuthUser.save()
+            
+            getBrand.save()
+
+            if context == 'editBrandPage':
+               return redirect ('brandPage',brandName=getBrand.brandName, sort="By Date")
+            else: 
+               return redirect ('brandcontrol')
+
+    except Exception as e:
+        context = {
+            'message': 'error'
+        }
+        return render(request,'error.html', context)
 
 def registerBrand (request,auth_token):
     try:
@@ -367,3 +432,63 @@ def registerBrand (request,auth_token):
             'message': 'error'
         }
         return render(request,'error.html', context)
+
+def resetInvitation (request,brand):
+    try:
+        getBrand = Brand.objects.get (brandName = brand)
+        getBrand.status = 'No_User'
+        getBrand.auth_token = None
+        getBrand.save()
+        return redirect ('brandcontrol')
+    except Exception as e:
+        context = {
+            'message': 'error'
+        }
+        return render(request,'error.html', context)
+
+def deleteBrand (request,brand):
+    try:
+        getBrand = Brand.objects.get (brandName = brand)
+        getBrand.delete()
+
+        return redirect ('brandcontrol')
+    except Exception as e:
+        context = {
+            'message': 'error'
+        }
+        return render(request,'error.html', context)
+
+def deleteBrandWithReason (request,brand):
+    if request.method != 'POST':
+        deleteForm = RejectionReason()
+        context = {
+            'form': deleteForm,
+            'userPending': countUserPending(request)
+        }
+        return render(request,'deletionReason.html', context)
+    else :
+        deleteReason = request.POST.get('reason')
+        try:
+            getBrand = Brand.objects.get(brandName = brand)
+
+            domain = get_current_site(request).domain
+            sendMail (domain, getBrand, 'admin_brand_delete',deleteReason)
+
+            userAuth = auth_user.objects.get(username = getBrand.brandName)
+            userAuth.groups.clear()
+            userAuth.delete()
+
+            getBrand.delete()
+
+            return redirect ('brandcontrol')
+
+
+        except Exception as e:
+            print (e) 
+            context = {
+                'message': 'error'
+            }
+            return render(request,'error.html', context)
+
+
+

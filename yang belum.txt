@@ -2,9 +2,6 @@ DIAZ
 
 - footer: masih blm tau harus diisi apa 
 - searching blm bisa    
-- edit product -> brand/admin
-- invitation brand
-- add brand
 
 CALVIN
 - editor's choice masih dummy
@@ -39,6 +36,9 @@ yang done
     - tanda untuk "sell this product" untuk musicStore (done)
     - carousel blm ada gambar musiknya (done)
         -> buat page add carousel (done)
+    - edit product -> brand/admin (done)
+    - invitation brand (done)
+    - add brand (done)
 
 Note:
     brand g bisa delete product (tapi bisa edit product), cuma admin aja

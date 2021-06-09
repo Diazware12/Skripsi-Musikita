@@ -82,7 +82,7 @@ class registerBrandForm (forms.Form):
         label='confirm_pass',
     )
     brandWebsiteUrl = forms.CharField(
-        required=True,
+        required=False,
         label='brandWebsiteUrl',
         widget=forms.TextInput(
             attrs={
@@ -92,7 +92,7 @@ class registerBrandForm (forms.Form):
         )
     )
     description = forms.CharField(
-        required=True,
+        required=False,
         label='description',
         widget=forms.Textarea(
             attrs={

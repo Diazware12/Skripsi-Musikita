@@ -5,7 +5,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from product.models import Product
 from Skripsi.decorator import allowed_users
 from django.contrib.auth.decorators import login_required
-from Skripsi.views import countReport, countUserPending, sendMailAfterRegis
+from Skripsi.views import countReport, countUserPending, sendMail
 from django.db.models.query import QuerySet
 from django.shortcuts import redirect, render
 from review.models import Report, Review
@@ -145,7 +145,7 @@ def approveReport (request, user_select, brand, productName):
                     http://"""+domain+"""
                 """    
         getUser = User.objects.get(userName = user_select)
-        sendMailAfterRegis (domain, getUser, 'approve_report',message)
+        sendMail (domain, getUser, 'approve_report',message)
 
         obj.delete()
         updateReviewAvg(getProduct)
@@ -201,7 +201,7 @@ def rejectReport (request, user_select, brand, productName):
                         http://"""+domain+"""
                     """    
             getUser = User.objects.get(userName = user_select)
-            sendMailAfterRegis (domain, getUserEmailList, 'reject_report',message)
+            sendMail (domain, getUserEmailList, 'reject_report',message)
 
             getReportReviewData.delete()
             

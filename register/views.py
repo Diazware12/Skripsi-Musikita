@@ -14,7 +14,7 @@ from django.contrib.auth.models import User as auth_user
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import allowed_users
-from Skripsi.views import countReport, countUserPending, sendMailAfterRegis, weakPassword, make_square
+from Skripsi.views import countReport, countUserPending, sendMail, weakPassword, make_square
 from PIL import Image
 import os
 from django.core.paginator import Paginator
@@ -82,7 +82,7 @@ def registerMember (request):
 
             domain = get_current_site(request).domain
 
-            sendMailAfterRegis (domain, profile_obj ,'verification', '')
+            sendMail (domain, profile_obj ,'verification', '')
             web_direct = 'token-send.html'
             return render(request,'token-send.html') 
 
@@ -200,7 +200,7 @@ def registerMusicStore (request):
 
             domain = get_current_site(request).domain
 
-            sendMailAfterRegis (domain, profile_obj, 'verification', '')
+            sendMail(domain, profile_obj, 'verification', '')
             web_direct = 'token-send.html'
 
         except Exception as e:
@@ -351,7 +351,7 @@ def approve (request,auth_token):
             profile_obj.save()
 
             domain = get_current_site(request).domain
-            sendMailAfterRegis (domain, profile_obj, 'admin_approve','')
+            sendMail (domain, profile_obj, 'admin_approve','')
 
             webRender = 'success.html'
         else:
@@ -391,7 +391,7 @@ def reject (request,auth_token):
 
 
                 domain = get_current_site(request).domain
-                sendMailAfterRegis (domain, profile_obj, 'admin_reject',rejectionReason)
+                sendMail (domain, profile_obj, 'admin_reject',rejectionReason)
 
                 userAuth = auth_user.objects.get(username = profile_obj.userName)
                 userAuth.groups.clear()

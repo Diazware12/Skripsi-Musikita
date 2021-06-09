@@ -129,7 +129,7 @@ def loginAccount (request):
         else:
             messages.error(request, 'We cannot find an account with that email address or that password')
 
-def sendMailAfterRegis (domain, user, context, additional_msg):
+def sendMail (domain, user, context, additional_msg):
     subject = ''
     messages = ''
     
@@ -165,6 +165,11 @@ def sendMailAfterRegis (domain, user, context, additional_msg):
         subject = 'You invited to Our Community'
         nameReceipent.append(user[0])
         messages = additional_msg +"\n\n"+register_url
+    elif (context == 'admin_brand_delete'):
+        register_url = 'http://' + domain
+        subject = 'You Brand Account has been deleted'
+        nameReceipent.append(user.brandEmail)
+        messages = 'hi ' + user.brandName + ',\n\n' + 'Unfortunately Your Brand account has been Deleted by admin because:\n\n' + additional_msg + '\n\n' +'http://' + domain
 
 
     email_from = settings.EMAIL_HOST_USER
@@ -196,7 +201,7 @@ def forgotPassword (request):
     else:
         user = User.objects.get(userName = username)
         domain = get_current_site(request).domain
-        sendMailAfterRegis(domain, user, 'forgot_password', '')
+        sendMail(domain, user, 'forgot_password', '')
         messages.error(request, 'We already send you email to reset your password')
 
 def forgotPasswordForm (request,auth_token):

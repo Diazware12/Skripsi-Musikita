@@ -6,7 +6,7 @@ from register.models import MusicStoreData, User
 from django.contrib import messages
 from review.models import Review
 from django.db import connection
-from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator, sendMailAfterRegis
+from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator, sendMail
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.models import User as auth_user
 from Skripsi.decorator import allowed_users
@@ -401,7 +401,7 @@ def deleteUser (request,auth_token):
 
 
                 domain = get_current_site(request).domain
-                sendMailAfterRegis (domain, profile_obj, 'admin_delete',rejectionReason)
+                sendMail (domain, profile_obj, 'admin_delete',rejectionReason)
 
                 userAuth = auth_user.objects.get(username = profile_obj.userName)
                 userAuth.groups.clear()

@@ -47,12 +47,28 @@
                                   {{obj.status}}
                                 </td>
                                 <td class="text-center">
-                                  <a href="#" style="color: black; text-decoration: none;" class="pl-1 pr-1">
+                                  <a href="{% url 'brandPage' brandName=obj.brandName sort="By Date" %}" style="color: black; text-decoration: none;" class="pl-1 pr-1">
                                     <i class="fas fa-user"></i>
                                   </a>
-                                  <a href="#" style="color: black; text-decoration: none;">
-                                    <i class="fas fa-window-close"></i>
+                                  <a href="{% url 'brandEdit' brandName=obj.brandName context='editBrandControl'  %}" style="color: black; text-decoration: none;" class="pl-1 pr-1">
+                                    <i class="fas fa-edit"></i>
                                   </a>
+                                  {% if obj.status == 'No_User'%}
+                                    <a href="{% url 'deleteBrand' brand=obj.brandName %}" style="color: black; text-decoration: none;">
+                                      <i class="fas fa-window-close"></i>
+                                    </a>
+                                  {% elif obj.status == 'User_Verif' %}
+                                    <a href="{% url 'resetInvitation' brand=obj.brandName %}" style="color: black; text-decoration: none;">
+                                      <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="{% url 'deleteBrand' brand=obj.brandName %}" style="color: black; text-decoration: none;">
+                                      <i class="fas fa-window-close"></i>
+                                    </a>
+                                  {% else %}
+                                    <a href="{% url 'deleteBrandWithReason' brand=obj.brandName %}" style="color: black; text-decoration: none;">
+                                      <i class="fas fa-window-close"></i>
+                                    </a>
+                                  {% endif %}
                                 </td>
                               </tr>
                             {% endfor %}
