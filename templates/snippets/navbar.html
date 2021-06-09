@@ -45,6 +45,7 @@
                  {% if request.user.groups.all.0.name == 'Admin' %}
                     <a class="dropdown-item" href="{% url 'addProduct' %}">Add Product</a>
                     <a class="dropdown-item" href="{% url 'managecarousel' %}">Manage Carousel</a>
+                    <a class="dropdown-item" href="{% url 'usercontrol' %}">User Control</a>
                   {% else %}
                     <a class="dropdown-item" href="{% url 'profilePage' userName=request.user.username %}">profile</a>
                  {% endif %}
