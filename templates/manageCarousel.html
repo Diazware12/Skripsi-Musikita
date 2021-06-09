@@ -29,6 +29,9 @@
                         <div class="card-body">
                           <img src="{{obj.0.carouselIMG.url}}" width="100%" alt="image">
                           {{ obj.1.imageActive }}
+                          <a href="{% url 'deleteCarousel' carouselObject=obj.0.carouselId %}" style="color: rgb(187, 42, 42); text-decoration: none;">
+                            <i class="fas fa-window-close"></i>
+                          </a>
                         </div>
                     </div>
                 </div>
