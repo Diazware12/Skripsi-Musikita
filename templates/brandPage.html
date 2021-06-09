@@ -12,7 +12,22 @@
 <body>
     {% include "snippets/navbar.html" %}
       <div class="container">
-      <h3 class="pl-3 pt-3">{{brand.brandName}}</h3>
+        <h3 class="pl-3 pt-3">{{brand.brandName}}</h3>
+        <table class="table table-sm table-borderless mb-0 mr-3">
+          <tbody>
+            <tr>
+              <th class="pl-0 w-17 pl-3" scope="row"><strong>Website</strong></th>
+              <td><a href="{{brand.brandURL}}">{{brand.brandURL}}</a></td>
+            </tr>
+            <tr>
+              <th class="pl-0 w-17 pl-3" scope="row"><strong>Description</strong></th>
+              <td><span class="more">{{brand.description}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      
         <div class="main-body">        
               <div class="row gutters-sm">
                 <div class="col">
