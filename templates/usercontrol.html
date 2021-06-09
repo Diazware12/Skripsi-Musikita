@@ -25,35 +25,68 @@
                           <div class="p-2 bd-highlight"><p>Product Is Empty</p></div> 
                         </div>                        
                       {% else %} 
-                        {% for obj in obj %}
-                          <div class="d-flex bd-highlight mb-3">                          
-                             
-                            <div class="pl-5 p-2 bd-highlight">
-                              {% if obj.profilePicture != '' %}
-                                <img src="{{ obj.profilePicture.url }}" alt="Admin" class="rounded-circle" width="100">
-                              {% else %}
-                                <img src="{% static 'img/profPic.jpg' %}" alt="Admin" class="rounded-circle" width="100">
-                              {% endif %}     
-                            </div>
-                            
-                            <div class="p-2 bd-highlight">
-                              <h6 class="pt-5">
-                                {{obj.userName}}
-                              </h6>
-                            </div>
-                            <div class="ml-auto p-2 pr-5 mr-5 bd-highlight pt-5">
-                              {{obj.dtm_crt}}
-                              {% if obj.roleId != 'Admin' %}
-                                <a href="{% url 'profilePage' userName=obj.userName %}" style="color: black; text-decoration: none;" class="pl-1 pr-1">
-                                  <i class="fas fa-user"></i>
-                                </a>
-                                <a href="{% url 'deleteUser' auth_token=obj.auth_token %}" style="color: black; text-decoration: none;">
-                                  <i class="fas fa-window-close"></i>
-                                </a>
-                              {% endif %}
-                            </div>
-                          </div>
-                        {% endfor %}
+                        <table class="table">
+                          <thead class="thead-dark">
+                            <tr class="text-center">
+                              <th scope="col">User</th>
+                              <th scope="col">Create Date</th>
+                              <th scope="col">Verification Status</th>
+                              <th scope="col">Role</th>
+                              <th scope="col">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for obj in obj %}
+                              <tr>
+                                <td>
+                                  <div class="p-2 bd-highlight text-center">
+                                    {% if obj.profilePicture != '' %}
+                                      <img src="{{ obj.profilePicture.url }}" alt="Admin" class="rounded-circle" width="100">
+                                    {% else %}
+                                      <img src="{% static 'img/profPic.jpg' %}" alt="Admin" class="rounded-circle" width="100">
+                                    {% endif %}
+                                    <h6>
+                                      {{obj.userName}}
+                                    </h6>     
+                                  </div>
+                                </td>
+                                <td class="text-center">{{obj.dtm_crt}}</td>
+                                <td>
+                                  <div class="text-center">
+                                    {{obj.status}}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="text-center">
+                                    {% if obj.roleId == 'Reg_User' %}
+                                      Regular User
+                                    {% elif obj.roleId == 'Mus_Store' %}  
+                                      Music Store
+                                    {% elif obj.roleId == 'Admin' %}  
+                                      Admin
+                                    {% endif %}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="text-center">
+                                    {% if obj.roleId != 'Admin' %}
+                                      <a href="{% url 'profilePage' userName=obj.userName %}" style="color: black; text-decoration: none;" class="pl-1 pr-1">
+                                        <i class="fas fa-user"></i>
+                                      </a>
+                                      <a href="{% url 'deleteUser' auth_token=obj.auth_token %}" style="color: black; text-decoration: none;">
+                                        <i class="fas fa-window-close"></i>
+                                      </a>
+                                    {% elif obj.roleId == 'Admin' and request.user.username != obj.userName %}
+                                      <a href="{% url 'deleteUser' auth_token=obj.auth_token %}" style="color: black; text-decoration: none;">
+                                        <i class="fas fa-window-close"></i>
+                                      </a>
+                                    {% endif %}
+                                  </div>
+                                </td>
+                              </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
                       {% endif %}   
 
                   <div class="d-flex flex-row-reverse">
