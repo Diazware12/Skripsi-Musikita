@@ -53,21 +53,124 @@
                                   <a href="{% url 'brandEdit' brandName=obj.brandName context='editBrandControl'  %}" style="color: black; text-decoration: none;" class="pl-1 pr-1">
                                     <i class="fas fa-edit"></i>
                                   </a>
+
                                   {% if obj.status == 'No_User'%}
-                                    <a href="{% url 'deleteBrand' brand=obj.brandName %}" style="color: black; text-decoration: none;">
+                                    <a data-toggle="modal" data-target="#sureModal{{obj.brandId}}" href="#" style=" color: black;text-decoration: none;">
                                       <i class="fas fa-window-close"></i>
                                     </a>
+                                    <div class="modal fade" id="sureModal{{obj.brandId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            Are you sure you want yo delete "<strong>{{obj.brandName}}</strong>"?
+                                          </div>
+                                          <div class="modal-footer">
+                                            <div class="d-flex flex-row bd-highlight">
+                                              <div class="p-2 bd-highlight"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+                                              <div class="p-1 bd-highlight">
+                                                <a class="greenbutton" href="{% url 'deleteBrand' brand=obj.brandName %}" style="color: white; text-decoration: none;">
+                                                  Yes
+                                                </a>    
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   {% elif obj.status == 'User_Verif' %}
-                                    <a href="{% url 'resetInvitation' brand=obj.brandName %}" style="color: black; text-decoration: none;">
+
+                                    <a data-toggle="modal" data-target="#sureModal{{obj.brandId}}" href="#" style=" color: black;text-decoration: none;">
                                       <i class="fa fa-refresh" aria-hidden="true"></i>
                                     </a>
-                                    <a href="{% url 'deleteBrand' brand=obj.brandName %}" style="color: black; text-decoration: none;">
+                                    <div class="modal fade" id="sureModal{{obj.brandId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            Are you sure you want to reset "<strong>{{obj.brandName}}</strong>" invitation?
+                                          </div>
+                                          <div class="modal-footer">
+                                            <div class="d-flex flex-row bd-highlight">
+                                              <div class="p-2 bd-highlight"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+                                              <div class="p-1 bd-highlight">
+                                                <a class="greenbutton" href="{% url 'resetInvitation' brand=obj.brandName %}" style="color: white; text-decoration: none;">
+                                                  Yes
+                                                </a>    
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <a data-toggle="modal" data-target="#sureModal{{obj.brandId}}" href="#" style=" color: black;text-decoration: none;">
                                       <i class="fas fa-window-close"></i>
                                     </a>
+                                    <div class="modal fade" id="sureModal{{obj.brandId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            Are you sure you want yo delete "<strong>{{obj.brandName}}</strong>"?
+                                          </div>
+                                          <div class="modal-footer">
+                                            <div class="d-flex flex-row bd-highlight">
+                                              <div class="p-2 bd-highlight"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+                                              <div class="p-1 bd-highlight">
+                                                <a class="greenbutton" href="{% url 'deleteBrand' brand=obj.brandName %}" style="color: white; text-decoration: none;">
+                                                  Yes
+                                                </a>    
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   {% else %}
-                                    <a href="{% url 'deleteBrandWithReason' brand=obj.brandName %}" style="color: black; text-decoration: none;">
+                                    <a data-toggle="modal" data-target="#sureModal{{obj.brandId}}" href="#" style=" color: black;text-decoration: none;">
                                       <i class="fas fa-window-close"></i>
                                     </a>
+                                    <div class="modal fade" id="sureModal{{obj.brandId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            Are you sure you want yo delete "<strong>{{obj.brandName}}</strong>"?
+                                          </div>
+                                          <div class="modal-footer">
+                                            <div class="d-flex flex-row bd-highlight">
+                                              <div class="p-2 bd-highlight"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+                                              <div class="p-1 bd-highlight">
+                                                <a class="greenbutton" href="{% url 'deleteBrandWithReason' brand=obj.brandName %}" style="color: white; text-decoration: none;">
+                                                  Yes
+                                                </a>    
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   {% endif %}
                                 </td>
                               </tr>

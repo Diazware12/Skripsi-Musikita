@@ -110,9 +110,34 @@
                                 </a>
                                 <br>
                                 <br>
-                                <a class="btn btn-primary" href="{% url 'deleteProduct' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
+                                <a class="btn btn-primary" data-toggle="modal" data-target="#sureModal{{obj.productId}}" href="#" style="text-decoration: none;">
                                   Delete Product
                                 </a>
+                                <div class="modal fade" id="sureModal{{obj.productId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Are you sure you want yo delete "<strong>{{obj.productName}}</strong>" Product?
+                                      </div>
+                                      <div class="modal-footer">
+                                        <div class="d-flex flex-row bd-highlight">
+                                          <div class="p-2 bd-highlight"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+                                          <div class="p-1 bd-highlight">
+                                            <a class="greenbutton" href="{% url 'deleteProduct' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="color: white; text-decoration: none;">
+                                              Yes
+                                            </a>    
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                             {% elif request.user.groups.all.0.name == 'Brand' and request.user.username == obj.brandId.brandName %}
                                 <a class="btn btn-primary" href="{% url 'editProduct' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
                                   Edit Product Data
@@ -124,9 +149,34 @@
                                 </a>
                                 <br>
                                 <br>
-                                <a class="btn btn-primary" href="{% url 'deleteProduct' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="text-decoration: none;">
+                                <a class="btn btn-primary" data-toggle="modal" data-target="#sureModal{{obj.productId}}" href="#" style="text-decoration: none;">
                                   Delete Product
                                 </a>
+                                <div class="modal fade" id="sureModal{{obj.productId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Are you sure you want yo delete "<strong>{{obj.productName}}</strong>" review?
+                                      </div>
+                                      <div class="modal-footer">
+                                        <div class="d-flex flex-row bd-highlight">
+                                          <div class="p-2 bd-highlight"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+                                          <div class="p-1 bd-highlight">
+                                            <a class="greenbutton" href="{% url 'deleteProduct' context='editProductRating' brand=obj.brandId.brandName productName=obj.productName %}" style="color: white; text-decoration: none;">
+                                              Yes
+                                            </a>    
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                             {% endif %}
                         </div>
                     </div>
@@ -225,9 +275,36 @@
                                           </a>
                                         {% endif %}  
                                         {% if request.user.username == mrev.userID.userName or request.user.groups.all.0.name == 'Admin'%}
-                                          <a href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=mrev.userID.userName action='ratingReview'%}" style="color: black; text-decoration: none;">
+
+                                          <a href="#" style="color: black; text-decoration: none;" data-toggle="modal" data-target="#sureModal{{mrev.reviewId}}">
                                             <i class="fas fa-window-close"></i>
                                           </a>
+                                          <div class="modal fade" id="sureModal{{mrev.reviewId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  Are you sure you want yo delete "<strong>{{mrev.title}}</strong>" review?
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <div class="d-flex flex-row bd-highlight">
+                                                    <div class="p-2 bd-highlight"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+                                                    <div class="p-1 bd-highlight">
+                                                      <a class="greenbutton" href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=mrev.userID.userName action='ratingReview'%}" style="color: white; text-decoration: none;">
+                                                        Yes
+                                                      </a>    
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
                                         {% endif %} 
                                         </div>
                                       
@@ -380,9 +457,34 @@
                                     {% endif %}
 
                                     {% if request.user.username == urev.userID.userName or request.user.groups.all.0.name == 'Admin' %}
-                                      <a href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview'%}" style="color: black; text-decoration: none;">
-                                        <i class="fas fa-window-close"></i>
-                                      </a>
+                                          <a href="#" style="color: black; text-decoration: none;" data-toggle="modal" data-target="#sureModal{{urev.reviewId}}">
+                                            <i class="fas fa-window-close"></i>
+                                          </a>
+                                          <div class="modal fade" id="sureModal{{urev.reviewId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  Are you sure you want yo delete "<strong>{{urev.title}}</strong>" review?
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <div class="d-flex flex-row bd-highlight">
+                                                    <div class="p-2 bd-highlight"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+                                                    <div class="p-1 bd-highlight">
+                                                      <a class="greenbutton" href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview'%}" style="color: white; text-decoration: none;">
+                                                        Yes
+                                                      </a>    
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
                                     {% endif %}
                                   
                                   </div>
@@ -527,9 +629,34 @@
                                           </a>
                                         {% endif %}  
                                         {% if request.user.username == mrev.userID.userName or request.user.groups.all.0.name == 'Admin'%}
-                                          <a href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=mrev.userID.userName action='ratingReview'%}" style="color: black; text-decoration: none;">
+                                          <a href="#" style="color: black; text-decoration: none;" data-toggle="modal" data-target="#sureModal{{mrev.reviewId}}">
                                             <i class="fas fa-window-close"></i>
                                           </a>
+                                          <div class="modal fade" id="sureModal{{mrev.reviewId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  Are you sure you want yo delete "<strong>{{mrev.title}}</strong>" review?
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <div class="d-flex flex-row bd-highlight">
+                                                    <div class="p-2 bd-highlight"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+                                                    <div class="p-1 bd-highlight">
+                                                      <a class="greenbutton" href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=mrev.userID.userName action='ratingReview'%}" style="color: white; text-decoration: none;">
+                                                        Yes
+                                                      </a>    
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
                                         {% endif %} 
                                         </div>
                                       
@@ -692,9 +819,34 @@
                                     {% endif %}
 
                                     {% if request.user.username == urev.userID.userName or request.user.groups.all.0.name == 'Admin' %}
-                                      <a href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview'%}" style="color: black; text-decoration: none;">
-                                        <i class="fas fa-window-close"></i>
-                                      </a>
+                                          <a href="#" style="color: black; text-decoration: none;" data-toggle="modal" data-target="#sureModal{{urev.reviewId}}">
+                                            <i class="fas fa-window-close"></i>
+                                          </a>
+                                          <div class="modal fade" id="sureModal{{urev.reviewId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  Are you sure you want yo delete "<strong>{{urev.title}}</strong>" review?
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <div class="d-flex flex-row bd-highlight">
+                                                    <div class="p-2 bd-highlight"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+                                                    <div class="p-1 bd-highlight">
+                                                      <a class="greenbutton" href="{% url 'deleteReview' brand=obj.brandId.brandName productName=obj.productName user_select=urev.userID.userName action='ratingReview'%}" style="color: white; text-decoration: none;">
+                                                        Yes
+                                                      </a>    
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
                                     {% endif %}
                                   
                                   </div>

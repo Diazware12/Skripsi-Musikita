@@ -332,8 +332,13 @@ def brandEdit (request,brandName,context):
                 messages.success(request, 'Url\'s not valid')
                 return redirect ('brandEdit',context=context,brandName=brandName)   
             
-            if getUserAuth.groups.filter(name='Admin').exists() and getBrand.status !='Verified':
+            if getUserAuth.groups.filter(name='Admin').exists():
 
+                if getBrand.status == 'Verified':
+                    getAuthUser = auth_user.objects.get(username=getBrand.brandName)
+                    getAuthUser.username = bName
+                    getAuthUser.save()
+                
                 getBrand.brandName = bName
                 getBrand.brandURL = brandUrl
                 getBrand.description = description
@@ -433,6 +438,8 @@ def registerBrand (request,auth_token):
         }
         return render(request,'error.html', context)
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def resetInvitation (request,brand):
     try:
         getBrand = Brand.objects.get (brandName = brand)
@@ -446,6 +453,8 @@ def resetInvitation (request,brand):
         }
         return render(request,'error.html', context)
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def deleteBrand (request,brand):
     try:
         getBrand = Brand.objects.get (brandName = brand)
@@ -458,6 +467,8 @@ def deleteBrand (request,brand):
         }
         return render(request,'error.html', context)
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def deleteBrandWithReason (request,brand):
     if request.method != 'POST':
         deleteForm = RejectionReason()

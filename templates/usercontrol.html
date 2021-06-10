@@ -73,13 +73,64 @@
                                       <a href="{% url 'profilePage' userName=obj.userName %}" style="color: black; text-decoration: none;" class="pl-1 pr-1">
                                         <i class="fas fa-user"></i>
                                       </a>
-                                      <a href="{% url 'deleteUser' auth_token=obj.auth_token %}" style="color: black; text-decoration: none;">
+                                      <a data-toggle="modal" data-target="#sureModal{{obj.userID}}" href="#" style=" color: black;text-decoration: none;">
                                         <i class="fas fa-window-close"></i>
                                       </a>
+                                      <div class="modal fade" id="sureModal{{obj.userID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                            </div>
+                                            <div class="modal-body">
+                                              Are you sure you want yo delete "<strong>{{obj.userName}}</strong>"?
+                                            </div>
+                                            <div class="modal-footer">
+                                              <div class="d-flex flex-row bd-highlight">
+                                                <div class="p-2 bd-highlight"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+                                                <div class="p-1 bd-highlight">
+                                                  <a class="greenbutton" href="{% url 'deleteUser' auth_token=obj.auth_token %}" style="color: white; text-decoration: none;">
+                                                    Yes
+                                                  </a>    
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
                                     {% elif obj.roleId == 'Admin' and request.user.username != obj.userName %}
-                                      <a href="{% url 'deleteUser' auth_token=obj.auth_token %}" style="color: black; text-decoration: none;">
+                                      <a data-toggle="modal" data-target="#sureModal{{obj.userID}}" href="#" style=" color: black;text-decoration: none;">
                                         <i class="fas fa-window-close"></i>
                                       </a>
+                                      <div class="modal fade" id="sureModal{{obj.userID}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                            </div>
+                                            <div class="modal-body">
+                                              Are you sure you want yo delete "<strong>{{obj.userName}}</strong>"?
+                                            </div>
+                                            <div class="modal-footer">
+                                              <div class="d-flex flex-row bd-highlight">
+                                                <div class="p-2 bd-highlight"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>
+                                                <div class="p-1 bd-highlight">
+                                                  <a class="greenbutton" href="{% url 'deleteUser' auth_token=obj.auth_token %}" style="color: white; text-decoration: none;">
+                                                    Yes
+                                                  </a>    
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                     {% endif %}
                                   </div>
                                 </td>
