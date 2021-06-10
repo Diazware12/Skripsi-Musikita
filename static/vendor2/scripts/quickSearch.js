@@ -1,5 +1,3 @@
-console.log('hello world')
-
 const url = window.location.href
 const searchForm = document.getElementById('search-form')
 const searchInput = document.getElementById('search-input')
@@ -16,7 +14,6 @@ const sendSearchData = (product) =>{
             'product':product
         },
         success: (res) => {
-            console.log(res.data)
             const data = res.data
             if(Array.isArray(data)){
                 resultBox.innerHTML = ""
@@ -25,7 +22,7 @@ const sendSearchData = (product) =>{
                         <a href="/product/${product.productBrand}/${product.productName}/" class"item" style="text-decoration: none;color:black;">
                             <div class="row mt-2 mb-2">
                                 <div class="col-2">
-                                    <img src="${product.productIMG}" class="game-img">
+                                    <img src="${product.productIMG}" alt="Admin" width="90">
                                 </div>
                                 <div class="col-10">
                                     <h5>${product.productName}</h5>
@@ -50,7 +47,6 @@ const sendSearchData = (product) =>{
 }
 
 searchInput.addEventListener('keyup', e=>{
-    console.log(e.target.value)
 
     if (resultBox.classList.contains('not-visible')){
         resultBox.classList.remove('not-visible')

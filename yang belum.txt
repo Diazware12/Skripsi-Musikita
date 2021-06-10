@@ -1,7 +1,6 @@
 DIAZ
 
 - footer: masih blm tau harus diisi apa 
-- searching blm bisa    
 
 CALVIN
 - editor's choice masih dummy
@@ -39,6 +38,7 @@ yang done
     - edit product -> brand/admin (done)
     - invitation brand (done)
     - add brand (done)
+    - searching blm bisa (done)
 
 Note:
     brand g bisa delete product (tapi bisa edit product), cuma admin aja
