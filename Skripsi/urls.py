@@ -34,6 +34,8 @@ urlpatterns = [
     path('reportList/',include('report.urls'),name="report"),
     path('verify/<auth_token>',views.verifyEmail,name="verify"),
     path('forgot_Pass/<auth_token>',views.forgotPasswordForm,name="forgot_pass"),
+
+    path('search/',views.search,name="search"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

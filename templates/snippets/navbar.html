@@ -13,13 +13,21 @@
             <div class="p-2">
               <div class="container">
                 <div class="search-data">
-                  <form action="#"> 
-                    <input name="keyword" type="text" required>
+                  <form id="search-form" autocomplete = "off"> 
+                      {% csrf_token %}
+                      <input name="keyword" id="search-input" type="text" placeholder="type to search">
                       <div class="line" style="width: 77%;"></div>
-                      <label>type to search</label>
+                      
                     <span class="fa fa-search" style="width: 50%;"></span>
+
+                    <div class="container pt-2" style="margin-right:140%;">
+                      <div id="result-box" class="results-card not-visible"></div> 
+                    </div>            
+
                   </form>
+
                 </div>
+                
               </div>
 
             </div>

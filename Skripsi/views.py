@@ -1,4 +1,6 @@
 import uuid
+
+from django.http.response import JsonResponse
 from carousel.models import CarouselImage
 from django.db.models.fields import DecimalField
 from django.http import HttpResponse
@@ -314,3 +316,26 @@ def make_square(img):
     else :
         new_img.paste(img, (int((size - x) / 2), int((size - y) / 2)))
     return new_img
+
+def search (request):
+    if request.is_ajax():
+        res = None
+        product = request.POST.get('product')
+        result = Product.objects.select_related('brandId').filter(productName__icontains=product)
+        if len(result) > 0 and len(product) > 0:
+            data = []
+            for pos in result:
+                item = {
+                    'productId': pos.productId,
+                    'productIMG': pos.productIMG.url,
+                    'productName': pos.productName,
+                    'productBrand': pos.brandId.brandName
+                }
+                data.append(item)
+            res = data
+        else:
+            res = 'No Products Found ...'
+        
+        return JsonResponse({'data':res})
+    
+    return JsonResponse({})
