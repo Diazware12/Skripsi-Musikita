@@ -44,8 +44,12 @@ INSTALLED_APPS = [
     'profileUser',
     'profileBrand',
     'carousel',
-    'report'
+    'report',
+    'django_filters',
+    'advancesearch'
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

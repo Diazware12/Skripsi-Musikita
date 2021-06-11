@@ -741,8 +741,14 @@ def viewProductByCategory(request, categoryName):
         loginAccount (request)
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
-        
-    productList = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName=categoryName)[:12]
+
+    productList = None    
+    sort = request.GET.get('sort', 'rate')
+    if sort == 'rate':
+        productList = Product.objects.order_by('-avgScore').select_related('categoryId','brandId').filter(categoryId__categoryName=categoryName)
+    else:
+        productList = Product.objects.order_by('-dtm_crt').select_related('categoryId','brandId').filter(categoryId__categoryName=categoryName)
+
     getProductListByPage = None
     if productList:
         paginator = Paginator(productList,4)
@@ -785,15 +791,47 @@ def viewProductByCategory(request, categoryName):
 def viewProductBySubCategory(request, categoryName, subCategoryName):
     error = 0
     try:
-        productList = Product.objects.order_by('-dtm_crt').select_related('subCategoryId','brandId').filter(subCategoryId__subCategoryName=subCategoryName,categoryId__categoryName=categoryName)[:12]
+
+        productList = None    
+        sort = request.GET.get('sort', 'rate')
+        if sort == 'rate':
+            productList = Product.objects.order_by('-avgScore').select_related('subCategoryId','brandId').filter(subCategoryId__subCategoryName=subCategoryName,categoryId__categoryName=categoryName)
+        else:
+            productList = Product.objects.order_by('-dtm_crt').select_related('subCategoryId','brandId').filter(subCategoryId__subCategoryName=subCategoryName,categoryId__categoryName=categoryName)
+
+        
         SubCategory.objects.select_related('categoryId').get(subCategoryName=subCategoryName,categoryId__categoryName=categoryName)
         error = 1
+        
+        getProductListByPage = None
+        if productList:
+            paginator = Paginator(productList,4)
+            page_number = request.GET.get('page', 12)
+            getProductListByPage = paginator.get_page(page_number)
+
+            if getProductListByPage.has_next():
+                next_url = f'?page={getProductListByPage.next_page_number()}'
+            else:
+                next_url = ''
+
+            if getProductListByPage.has_previous():
+                prev_url = f'?page={getProductListByPage.previous_page_number()}'
+            else:
+                prev_url = ''
+        else: 
+            getProductListByPage = Product.objects.none()
+            next_url = ''
+            prev_url = ''        
+        
+        
         context={
-            'productList': productList,
+            'productList': getProductListByPage,
             'categoryName': categoryName,
             'subCategoryName': subCategoryName,
             'userPending': countUserPending(request),
-            'reportUser': countReport(request)
+            'reportUser': countReport(request),
+            'next_page_url': next_url,
+            'prev_page_url': prev_url
         }
     except:
         context = None
