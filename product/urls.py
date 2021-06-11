@@ -16,6 +16,7 @@ urlpatterns = [
    
    path('addProduct/<brand>/<productName>/addPicture',views.addEditPicture,name="addProductPicture"),
    path('editor/',views.editorChoice,name="editorchoice"),
+   path('hotitems/',views.hotItems,name="hotitems"),
    path('category/<categoryName>/',views.viewProductByCategory,name="category"),
    path('category/<categoryName>/<subCategoryName>/',views.viewProductBySubCategory,name="subcategory"),
    path('<brand>/<productName>/',views.showProduct,name="showProduct"),

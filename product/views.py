@@ -796,8 +796,8 @@ def viewProductByCategory(request, categoryName):
 
     getProductListByPage = None
     if productList:
-        paginator = Paginator(productList,4)
-        page_number = request.GET.get('page', 12)
+        paginator = Paginator(productList,12)
+        page_number = request.GET.get('page', 1)
         getProductListByPage = paginator.get_page(page_number)
 
         if getProductListByPage.has_next():
@@ -832,6 +832,46 @@ def viewProductByCategory(request, categoryName):
         'prev_page_url': prev_url
     }
     return render(request,'productListByCategory.html', context)
+
+def hotItems(request):
+    isLogin = request.POST.get('isLogin')
+    isForgotPass = request.POST.get('isForgotPassword')
+    if request.method == 'POST' and isLogin == "1":
+        loginAccount (request)
+    elif request.method == 'POST' and isForgotPass == "1":
+        forgotPassword (request)
+
+    productList = Product.objects.select_related('brandId').order_by('-visitCount')[:8]   
+
+    getProductListByPage = None
+    if productList:
+        paginator = Paginator(productList,12)
+        page_number = request.GET.get('page', 1)
+        getProductListByPage = paginator.get_page(page_number)
+
+        if getProductListByPage.has_next():
+            next_url = f'?page={getProductListByPage.next_page_number()}'
+        else:
+            next_url = ''
+
+        if getProductListByPage.has_previous():
+            prev_url = f'?page={getProductListByPage.previous_page_number()}'
+        else:
+            prev_url = ''
+    else: 
+        getProductListByPage = Product.objects.none()
+        next_url = ''
+        prev_url = ''
+        
+    context={
+        'productList': getProductListByPage,
+        'userPending': countUserPending(request),
+        'reportUser': countReport(request),
+        'next_page_url': next_url,
+        'prev_page_url': prev_url
+    }
+    return render(request,'hotProducts.html', context)
+
 
 def viewProductBySubCategory(request, categoryName, subCategoryName):
     error = 0

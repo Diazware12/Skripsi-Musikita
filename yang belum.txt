@@ -3,7 +3,6 @@ DIAZ
 - footer: masih blm tau harus diisi apa 
 
 CALVIN
-- editor's choice masih dummy
 - filtering apagi, blm samsek (belakangan)
 - halaman "about Musikita"
 
@@ -39,6 +38,7 @@ yang done
     - invitation brand (done)
     - add brand (done)
     - searching blm bisa (done)
+    - editor's choice masih dummy (done)
 
 Note:
     brand g bisa delete product (tapi bisa edit product), cuma admin aja
