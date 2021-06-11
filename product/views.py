@@ -378,7 +378,7 @@ def editorChoice(request):
             product = Product.objects.get(productId=int(id[0]))
             product.editorChoice = True
             product.save()
-        
+        messages.success(request, 'Editor choice(s) successfully saved!')
         return redirect('editorchoice')
 
 def showProduct (request, productName, brand):
