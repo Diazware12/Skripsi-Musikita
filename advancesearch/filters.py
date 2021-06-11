@@ -19,7 +19,8 @@ class productFilters(django_filters.FilterSet):
         model = Product
         fields = {
             'productName':['icontains'],
-            'brandId':['exact']
+            'brandId__brandName':['icontains'],
+            'categoryId__categoryName':['icontains']
         }
 
 
