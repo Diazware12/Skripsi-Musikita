@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Profile</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     {% include "snippets/headImport.html" %}
 </head>
 <body>
@@ -16,256 +17,22 @@
         <div class="da-services pl-5 pr-5">
           <div class="separator pb-2"><div class="h3 text-center" data-aos="fade-up" data-aos-duration="500" >Search Result for '{{keyword}}'</div></div>
              <div class="d-flex flex-row-reverse">
-              <div class="p-2">
-                <div class="dropdown pl-5 ml-5">
-                  <button class="btn dropdown-toggle" style="background: #f9f9f9;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Sort By
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Rating</a>
-                    <a class="dropdown-item" href="#">Latest Release</a>
-                  </div>
-                </div>
-              </div>
             </div> 
           <div class="row">
             <div class="col-md-3">
-              <div class="card">
-                 <article class="filter-group">
-                 	<div class="card-header">
-                      <a href="#" data-toggle="collapse" data-target="#collapse_aside2" data-abc="true" aria-expanded="false" class="collapsed">
-                        <div class="form-row">
-                            <div class="form-group col-md-6"> <h6 class="title">Price</h6> </div>
-                            <div class="form-group text-right col-md-6"> <i class="icon-control fa fa-chevron-down"></i> </div>
-                        </div>
-                      </a> 
+              <form method='GET'>
+                {{filter.form.as_p}}
+  
+                <div class="d-flex flex-row-reverse bd-highlight pb-5">
+                    <div class="p-2 bd-highlight">
+                        <button type="submit" class="greenbutton">Add</button>
                     </div>
-                     <div class="filter-content collapse" id="collapse_aside2" style="">
-                         <div class="card-body"> 
-                             <div class="form-row">
-                                 <div class="form-group col-md-6"> <label>Min</label> <input class="form-control" placeholder="Rp." type="number"> </div>
-                                 <div class="form-group col-md-6"> <label>Max</label> <input class="form-control" placeholder="Rp." type="number"> </div>
-                             </div>
-                         </div>
-                     </div>
-                 </article>
-                 <article class="filter-group">
-                 	<div class="card-header">
-                      <a href="#" data-toggle="collapse" data-target="#collapse_aside4" data-abc="true" class="collapsed" aria-expanded="false">
-                        <div class="form-row">
-                            <div class="form-group col-md-6"> <h6 class="title">Category</h6> </div>
-                            <div class="form-group text-right col-md-6"> <i class="icon-control fa fa-chevron-down"></i> </div>
-                        </div>
-                      </a>
-                    </div>
-                     <div class="filter-content collapse" id="collapse_aside4" style="">
-                         <div class="card-body"> 
-
-                            <a href="#" data-toggle="collapse" style="color: black;" data-target="#acousticCollapse" data-abc="true" class="collapsed" aria-expanded="false">
-                              <div class="row pl-3">
-                                <div class="col pb-3">Acoustic</div>
-                                <div class="col"><i class="icon-control fa fa-caret-down"></i></div>
-                              </div>
-                            </a>
-                                <div class="filter-content collapse ml-5" id="acousticCollapse" style="">                            
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Guitar </div>
-                                  </label> 
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Bass </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Orchestra instruments </div>
-                                  </label>
-                                </div>
-
-                            <a href="#" data-toggle="collapse" style="color: black;" data-target="#electricCollapse" data-abc="true" class="collapsed" aria-expanded="false">
-                              <div class="row pl-3">
-                                <div class="col pb-3">Electric</div>
-                                <div class="col"><i class="icon-control fa fa-caret-down"></i></div>
-                              </div>
-                            </a>
-                                <div class="filter-content collapse ml-5" id="electricCollapse" style="">                            
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Guitar </div>
-                                  </label> 
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Bass </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Orchestra instruments </div>
-                                  </label>
-                                </div>
-
-                            <a href="#" data-toggle="collapse" style="color: black;" data-target="#percussionCollapse" data-abc="true" class="collapsed" aria-expanded="false">
-                              <div class="row pl-3">
-                                <div class="col pb-3">Percussion</div>
-                                <div class="col"><i class="icon-control fa fa-caret-down"></i></div>
-                              </div>
-                            </a>
-                                <div class="filter-content collapse ml-5" id="percussionCollapse" style="">                            
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Electric drums </div>
-                                  </label> 
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Tom </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Cymbal </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Hat </div>
-                                  </label> 
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Snare </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Bass Drum </div>
-                                  </label>
-                                </div>
-
-                            <a href="#" data-toggle="collapse" style="color: black;" data-target="#keysCollapse" data-abc="true" class="collapsed" aria-expanded="false">
-                              <div class="row pl-3">
-                                <div class="col pb-3">Keys & MIDI</div>
-                                <div class="col"><i class="icon-control fa fa-caret-down"></i></div>
-                              </div>
-                            </a>
-                                <div class="filter-content collapse ml-5" id="keysCollapse" style="">                            
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Piano </div>
-                                  </label> 
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Keyboard </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">MIDI keyboard </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Synthesizer </div>
-                                  </label> 
-                                </div>
-
-                            <a href="#" data-toggle="collapse" style="color: black;" data-target="#recordingCollapse" data-abc="true" class="collapsed" aria-expanded="false">
-                              <div class="row pl-3">
-                                <div class="col pb-3">Recording Kit</div>
-                                <div class="col"><i class="icon-control fa fa-caret-down"></i></div>
-                              </div>
-                            </a>
-                                <div class="filter-content collapse ml-5" id="recordingCollapse" style="">                            
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Microphone </div>
-                                  </label> 
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Audio Interface </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Monitor Speaker </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Headphone </div>
-                                  </label> 
-                                </div>
-                    
-                            <a href="#" data-toggle="collapse" style="color: black;" data-target="#soundCollapse" data-abc="true" class="collapsed" aria-expanded="false">
-                              <div class="row pl-3">
-                                <div class="col pb-3">Sound System</div>
-                                <div class="col"><i class="icon-control fa fa-caret-down"></i></div>
-                              </div>
-                            </a>
-                                <div class="filter-content collapse ml-5" id="soundCollapse" style="">                            
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Speaker </div>
-                                  </label> 
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Mixer </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Amplifier </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Processor </div>
-                                  </label> 
-                                </div>
-
-                            <a href="#" data-toggle="collapse" style="color: black;" data-target="#accessoriesCollapse" data-abc="true" class="collapsed" aria-expanded="false">
-                              <div class="row pl-3">
-                                <div class="col pb-3">Accessories</div>
-                                <div class="col"><i class="icon-control fa fa-caret-down"></i></div>
-                              </div>
-                            </a>
-                                <div class="filter-content collapse ml-5" id="accessoriesCollapse" style="">                            
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">String </div>
-                                  </label> 
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Tuner </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Pick </div>
-                                  </label>
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Capo </div>
-                                  </label> 
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Other </div>
-                                  </label> 
-                                </div>
-
-
-                            <a href="#" data-toggle="collapse" style="color: black;" data-target="#dawCollapse" data-abc="true" class="collapsed" aria-expanded="false">
-                              <div class="row pl-3">
-                                <div class="col pb-3">DAW & Plugins</div>
-                                <div class="col"><i class="icon-control fa fa-caret-down"></i></div>
-                              </div>
-                            </a>
-                                <div class="filter-content collapse ml-5" id="dawCollapse" style="">                            
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">DAW Software </div>
-                                  </label> 
-                                  <label class="custom-control"> 
-                                      <input type="checkbox" class="custom-control-input">
-                                      <div class="custom-control-label">Plugins </div>
-                                  </label>
-                                </div>
-
-                     </div>
-                 </article>
-                  <a href="#" class="highlight-button btn btn-medium button xs-margin-bottom-five" data-abc="true">Apply Now</a>
-             </div>
+                </div>
+              </form>
             </div>
             <div class="col">
               <div class="row">
-              {% for obj in obj %}
+              {% for obj in productList %}
                 <div class="col-lg-3 col-md-6">
                   <div class="card mb-3">
                     <a href="#" style="color: black; text-decoration: none;">
@@ -329,7 +96,7 @@
       </div>
 
 
-
+    <script src="{% static 'vendor2/scripts/dropdownFilter.js'%}"></script>
     {% include "snippets/footerAndScripts.html" %}
 </body>
 
