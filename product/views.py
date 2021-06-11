@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
-from .forms import ProductForm
+from .forms import EditorForm, ProductForm
 from django.conf import settings
 from product.models import Product, Category, SubCategory, Brand
 from datetime import datetime
@@ -335,6 +335,51 @@ def deleteProduct (request,productName,brand,context):
                 'message': 'error'
             }
         return render(request,'error.html', context)
+
+@login_required
+@allowed_users(allowed_roles=['Admin','Brand'])
+def editorChoice(request):
+    if request.method != 'POST':
+        topList = []
+        with connection.cursor() as cursor:
+            raw_sql ="""            
+                        SELECT
+                            r.productId_id, FORMAT(AVG(r.rating), 1)'avg_score'
+                        FROM review_review as r
+                        GROUP BY r.productId_id
+                        ORDER BY avg_score DESC;
+                    """            
+            cursor.execute(raw_sql)
+
+            for qux in cursor.fetchall():
+                topList.append(qux[0])
+        
+        productList = Product.objects.select_related('brandId').filter(productId__in=topList)[:10]
+        precontext = []
+        for i in range(len(productList)):
+            precontext.append([productList[i],EditorForm(initial={'imageActive':productList[i].editorChoice},prefix=productList[i].productId)])
+        context = {
+            'data': precontext,
+            'userPending': countUserPending(request),
+            'reportUser': countReport(request)
+        }
+        return render(request,'editorChoice.html',context)
+    else:
+        
+        oldChoice = Product.objects.filter(editorChoice=True)
+        for choice in oldChoice:
+            choice.editorChoice = False
+            choice.save()
+
+        for key, value in request.POST.items():
+            if key == 'csrfmiddlewaretoken':
+                continue
+            id = key.split('-')
+            product = Product.objects.get(productId=int(id[0]))
+            product.editorChoice = True
+            product.save()
+        
+        return redirect('editorchoice')
 
 def showProduct (request, productName, brand):
     isLogin = request.POST.get('isLogin')

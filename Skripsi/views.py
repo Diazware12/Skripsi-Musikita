@@ -28,6 +28,18 @@ def dashboard (request):
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
     
+    #editor's choice
+    editorChoices = Product.objects.select_related('brandId').filter(editorChoice=True)
+    editorPack = []
+    container = []
+    for i in range(len(editorChoices)):
+        if i%3==0:
+            if len(container)!=0:
+                editorPack.append(container)
+            container = []
+        container.append(editorChoices[i])
+    editorPack.append(container)
+
     #carousel
     carousels = CarouselImage.objects.filter(status=True)
 
@@ -44,6 +56,7 @@ def dashboard (request):
 
     context = {
         'carousels':carousels,
+        'editorChoice':editorPack,
         'hotItems': hotItems,
         'newReleaseAcoustic': newReleaseAcoustic,
         'newReleaseElectric': newReleaseElectric,

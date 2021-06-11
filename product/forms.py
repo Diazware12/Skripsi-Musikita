@@ -77,3 +77,6 @@ class ProductForm (forms.Form):
         required=True,
         label='productPicture',
     )
+
+class EditorForm (forms.Form):
+    imageActive = forms.BooleanField(required=False)

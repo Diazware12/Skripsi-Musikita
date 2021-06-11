@@ -54,98 +54,51 @@
                     <li data-target="#da-carouselIndicator" data-slide-to="1"></li>
                   </ol>
                   <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <div class="row">
-                        <div class="col-md-4">
-                          <div class="container">
-                            <div class="card d-block mb-3">
-                              <a href="#" style="color: black;">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                                <div class="p-3 mb-2 bg-success text-white">93</div>
-                                <div class="card-body text-center">
-                                  <div class="h5">Pamela Lopez</div>
-                                  <p class="text-muted">CEO</p>
+                    {% for pack in editorChoice %}
+                      {% if forloop.first %}
+                        <div class="carousel-item active">
+                          <div class="row">
+                            {% for obj in pack %}
+                              <div class="col-md-4">
+                                <div class="container">
+                                  <div class="card d-block mb-3">
+                                    <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;">
+                                      <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
+                                      <div class="p-3 mb-2 bg-success text-white">{{ obj.avgScore }}</div>
+                                      <div class="card-body text-center">
+                                        <div class="h5">{{ obj.productName }}</div>
+                                        <p class="text-muted">{{ obj.brandId.brandName }}</p>
+                                      </div>
+                                    </a>
+                                  </div>
                                 </div>
-                              </a>
-                            </div>
+                              </div>
+                            {% endfor %}
                           </div>
                         </div>
-                        <div class="col-md-4">
-                          <div class="container">
-                            <div class="card d-block mb-3">
-                              <a href="#" style="color: black;">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                                <div class="p-3 mb-2 bg-success text-white">93</div>
-                                <div class="card-body text-center">
-                                  <div class="h5">Pamela Lopez</div>
-                                  <p class="text-muted">CEO</p>
+                      {% else %}
+                        <div class="carousel-item">
+                          <div class="row">
+                            {% for obj in pack %}
+                              <div class="col-md-4">
+                                <div class="container">
+                                  <div class="card d-block mb-3">
+                                    <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;">
+                                      <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
+                                      <div class="p-3 mb-2 bg-success text-white">{{ obj.avgScore }}</div>
+                                      <div class="card-body text-center">
+                                        <div class="h5">{{ obj.productName }}</div>
+                                        <p class="text-muted">{{ obj.brandId.brandName }}</p>
+                                      </div>
+                                    </a>
+                                  </div>
                                 </div>
-                              </a>
-                            </div>
+                              </div>
+                            {% endfor %}
                           </div>
                         </div>
-                        <div class="col-md-4">
-                          <div class="container">
-                            <div class="card d-block mb-3">
-                              <a href="#" style="color: black;">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                                <div class="p-3 mb-2 bg-success text-white">93</div>
-                                <div class="card-body text-center">
-                                  <div class="h5">Pamela Lopez</div>
-                                  <p class="text-muted">CEO</p>
-                                </div>
-                              </a>
-                            </div>
-                          </div>
-                        </div>                
-                      </div>
-                    </div>
-                    <div class="carousel-item">
-                      <div class="row">
-                        <div class="col-md-4">
-                          <div class="container">
-                            <div class="card d-block mb-3">
-                              <a href="#" style="color: black;">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                                <div class="p-3 mb-2 bg-success text-white">93</div>
-                                <div class="card-body text-center">
-                                  <div class="h5">Pamela Lopez</div>
-                                  <p class="text-muted">CEO</p>
-                                </div>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="container">
-                            <div class="card d-block mb-3">
-                              <a href="#" style="color: black;">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                                <div class="p-3 mb-2 bg-success text-white">93</div>
-                                <div class="card-body text-center">
-                                  <div class="h5">Pamela Lopez</div>
-                                  <p class="text-muted">CEO</p>
-                                </div>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="container">
-                            <div class="card d-block mb-3">
-                              <a href="#" style="color: black;">
-                                <img class="card-img-top" src="{% static 'img/ellieJoel.jpg' %}" alt="image"/>
-                                <div class="p-3 mb-2 bg-success text-white">93</div>
-                                <div class="card-body text-center">
-                                  <div class="h5">Pamela Lopez</div>
-                                  <p class="text-muted">CEO</p>
-                                </div>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                      {% endif %}
+                    {% endfor %}
                   </div>
         </div>
       </div>
