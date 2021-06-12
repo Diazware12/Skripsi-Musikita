@@ -58,7 +58,17 @@
                                   <div class="card d-block mb-3">
                                     <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;text-decoration:none;">
                                       <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
-                                      <div class="p-3 mb-2 bg-success text-white">{{ obj.avgScore }}</div>
+
+                                      {% if obj.avgScore == None %}
+                                        <div class="w-auto p-3 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                      {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
+                                        <div class="p-3 mb-2 bg-success text-white">{{ obj.avgScore }}</div>
+                                      {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
+                                        <div class="p-3 mb-2 bg-warning text-white">{{ obj.avgScore }}</div>
+                                      {% else %}
+                                        <div class="p-3 mb-2 bg-danger text-white">{{ obj.avgScore }}</div>
+                                      {% endif %} 
+
                                       <div class="card-body text-center">
                                         <div class="h5">{{ obj.productName }}</div>
                                         <p class="text-muted">{{ obj.brandId.brandName }}</p>
@@ -79,7 +89,15 @@
                                   <div class="card d-block mb-3">
                                     <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;text-decoration:none;">
                                       <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
-                                      <div class="p-3 mb-2 bg-success text-white">{{ obj.avgScore }}</div>
+                                      {% if obj.avgScore == None %}
+                                        <div class="w-auto p-3 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                      {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
+                                        <div class="p-3 mb-2 bg-success text-white">{{ obj.avgScore }}</div>
+                                      {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
+                                        <div class="p-3 mb-2 bg-warning text-white">{{ obj.avgScore }}</div>
+                                      {% else %}
+                                        <div class="p-3 mb-2 bg-danger text-white">{{ obj.avgScore }}</div>
+                                      {% endif %} 
                                       <div class="card-body text-center">
                                         <div class="h5">{{ obj.productName }}</div>
                                         <p class="text-muted">{{ obj.brandId.brandName }}</p>
@@ -134,7 +152,7 @@
           </div>
           <div class="d-flex flex-row-reverse">
             <div class="p-2">
-              <a href="{% url 'hotitems' %}">See more...</a>
+              <a href="#">See more...</a>
             </div>
           </div>
         </div>
@@ -182,6 +200,12 @@
                               <span class="more">{{ obj.description }}</span>
                             </div>
                           </div>
+
+                          {% comment %} <div class="d-flex flex-row-reverse">
+                            <div class="p-2">
+                              <a href="#">see more...</a>
+                            </div>
+                          </div> {% endcomment %}
 
                         </div>
                       </a>

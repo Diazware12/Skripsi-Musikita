@@ -36,6 +36,7 @@
       </div> 
       <div class="right">
         <ul>
+          <li><a href="{% url 'advanceSearch' %}">Browse Product</a></li>
           {% if user.is_authenticated %}
       
             {% if request.user.groups.all.0.name == 'Admin' %}
@@ -71,6 +72,7 @@
             <li><a href="#signUpModal" data-toggle="modal" data-target="#signUpModal">Sign Up</a></li>
             <li><a href="#loginModal" data-toggle="modal" data-target="#loginModal">LogIn</a></li>
           {% endif %}
+            
         </ul>
       </div>
     </div>

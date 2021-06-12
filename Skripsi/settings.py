@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'carousel',
     'report',
     'django_filters',
-    'advancesearch'
+    'advancesearch',
+    'bootstrapform'
 ]
 
 
