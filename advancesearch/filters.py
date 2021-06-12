@@ -1,6 +1,7 @@
 from django.db.models import expressions, query
 import django_filters
-from product.models import Product, Brand
+from django_filters import filters
+from product.models import Category, Product, Brand
 
 class productFilters(django_filters.FilterSet):
 
@@ -15,13 +16,15 @@ class productFilters(django_filters.FilterSet):
         expression = '-avgScore' if value == 'avgScore' else '-dtm_crt'
         return queryset.order_by(expression)
     
+    brandList = Brand.objects.all()
+    brand_choice = [[obj.brandId,obj.brandName] for obj in brandList]
+    categoryList = Category.objects.all()
+    category_choice = [[obj.categoryId,obj.categoryName] for obj in categoryList]
+
+    productName = filters.CharFilter(lookup_expr='icontains')
+    brandId = filters.ChoiceFilter(label='Brand Name',choices=brand_choice)
+    categoryId = filters.ChoiceFilter(label='Category',choices=category_choice)
+
     class Meta:
         model = Product
-        fields = {
-            'productName':['icontains'],
-            'brandId__brandName':['icontains'],
-            'categoryId__categoryName':['icontains']
-        }
-
-
-
+        fields = ['productName','brandId','categoryId']
