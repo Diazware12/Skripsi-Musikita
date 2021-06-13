@@ -378,6 +378,8 @@ def brandEdit (request,brandName,context):
         }
         return render(request,'error.html', context)
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def registerBrand (request,auth_token):
     try:
         getBrand = Brand.objects.get(auth_token = auth_token)
