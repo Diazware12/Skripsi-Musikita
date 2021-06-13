@@ -1,4 +1,6 @@
 {% load static %}
+{% load bootstrap %}
+{% load profilebrand_extras %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +20,10 @@
           <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;" class="greenbutton" href="{% url 'addBrand' %}">Add Brand</a></div>
           <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;" class="greenbutton" href="{% url 'inviteBrand' %}">Invite Brand</a></div>
         </div>
+
+          <form method='GET'>
+            {{filter.form|bootstrap}}
+          </form>
 
                   <div class="card mb-3">
                     <!-- review barangnya -->
@@ -183,18 +189,18 @@
                             <nav aria-label="...">
                               <ul class="pagination">
                                 <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
-                                  <a class="page-link" href="{{prev_page_url}}">Previous</a>
+                                  <a class="page-link" href="{% my_url prev_page_url 'page' request.GET.urlencode %}">Previous</a>
                                 </li>
 
                                 {% for n in obj.paginator.page_range %}
                                   {% if obj.number == n %}
-                                    <li class="page-item active"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                    <li class="page-item active"><a class="page-link" href="{% my_url n 'page' request.GET.urlencode %}">{{n}}</a></li>
                                   {% elif n > obj.number|add:-3 and n < obj.number|add:3 %}
-                                    <li class="page-item"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                    <li class="page-item"><a class="page-link" href="{% my_url n 'page' request.GET.urlencode %}">{{n}}</a></li>
                                   {% endif %}
                                 {% endfor %}
                                 <li class="page-item {% if not next_page_url %} disabled {% endif %}">
-                                  <a class="page-link" href="{{next_page_url}}">Next</a>
+                                  <a class="page-link" href="{% my_url next_page_url 'page' request.GET.urlencode %}">Next</a>
                                 </li>
                               </ul>
                             </nav>

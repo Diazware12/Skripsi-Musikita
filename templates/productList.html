@@ -1,5 +1,6 @@
 {% load static %}
 {% load bootstrap %}
+{% load advancesearch_extras %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +17,13 @@
 
       <div class="da-section pt-3" id="services">
         <div class="da-services pl-5 pr-5">
-          <div class="separator pb-2"><div class="h3 text-center" data-aos="fade-up" data-aos-duration="500" >Search Result for '{{keyword}}'</div></div>
+          <div class="separator pb-2">
+            {% if productName != '' %}
+              <div class="h3 text-center" data-aos="fade-up" data-aos-duration="500" >Search Result for '{{productName}}'</div>
+            {% else %}
+              <div class="h3 text-center" data-aos="fade-up" data-aos-duration="500" >Search Product</div>
+            {% endif %}
+          </div>
              <div class="d-flex flex-row-reverse">
             </div> 
           <div class="row">
@@ -33,6 +40,12 @@
             </div>
             <div class="col">
               <div class="row">
+
+            {% if productList|length == 0 %}
+              <div class="col-lg-3 col-md-6 pt-5">
+                  <p>Product that you search was unavailable</p>
+              </div>
+            {% else %}
               {% for obj in productList %}
                 <div class="col-lg-3 col-md-6">
                   <div class="card mb-3">
@@ -60,11 +73,11 @@
                   </div>
                 </div>
               {% endfor %}
-
-              </div>
+            {% endif %}
             </div>
-
           </div>
+
+        </div>
 
 
 
@@ -75,18 +88,18 @@
                             <nav aria-label="...">
                               <ul class="pagination">
                                 <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
-                                  <a class="page-link" href="{{prev_page_url}}">Previous</a>
+                                  <a class="page-link" href="{% my_url prev_page_url 'page' request.GET.urlencode %}">Previous</a>
                                 </li>
 
-                                {% for n in sortObj.paginator.page_range %}
-                                  {% if sortObj.number == n %}
-                                    <li class="page-item active"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
-                                  {% elif n > sortObj.number|add:-3 and n < sortObj.number|add:3 %}
-                                    <li class="page-item"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                {% for n in productList.paginator.page_range %}
+                                  {% if productList.number == n %}
+                                    <li class="page-item active"><a class="page-link" href="{% my_url n 'page' request.GET.urlencode %}">{{n}}</a></li>
+                                  {% elif n > productList.number|add:-3 and n < productList.number|add:3 %}
+                                    <li class="page-item"><a class="page-link" href="{% my_url n 'page' request.GET.urlencode %}">{{n}}</a></li>
                                   {% endif %}
                                 {% endfor %}
                                 <li class="page-item {% if not next_page_url %} disabled {% endif %}">
-                                  <a class="page-link" href="{{next_page_url}}">Next</a>
+                                  <a class="page-link" href="{% my_url next_page_url 'page' request.GET.urlencode %}">Next</a>
                                 </li>
                               </ul>
                             </nav>

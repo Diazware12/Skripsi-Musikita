@@ -1,3 +1,4 @@
+from profileUser.filters import userFilters
 from django.contrib.sites.shortcuts import get_current_site
 from register.forms import RejectionReason
 from django.http import HttpResponse
@@ -335,14 +336,18 @@ def editUserData (request,userName):
             }
         return render(request,'error.html', context)
 
-
 @login_required
 @allowed_users(allowed_roles=['Admin'])
 def userControl (request):
-    getAllUser = User.objects.all()
+
+    getAllUser = userFilters(
+        request.GET,
+        User.objects.all()
+    )
+    
     getAllUsersByPage = None
     if getAllUser:
-        paginator = Paginator(getAllUser,4)
+        paginator = Paginator(getAllUser.qs,4)
         page_number = request.GET.get('page', 1)
         getAllUsersByPage = paginator.get_page(page_number)
 
@@ -361,6 +366,7 @@ def userControl (request):
         prev_url = ''
 
     context = {
+        'filter':getAllUser,
         'obj':getAllUsersByPage,
         'userPending': countUserPending(request),
         'reportUser': countReport(request),

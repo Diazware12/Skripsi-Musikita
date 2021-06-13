@@ -24,7 +24,12 @@ def advanceSearch (request):
         Product.objects.all()
     )
 
-    
+    productName = None
+
+    if 'productName' in request.GET:
+        productName = request.GET['productName']
+    else:
+        productName = ''    
 
     if new_var:
         paginator = Paginator(new_var.qs,8)
@@ -48,6 +53,7 @@ def advanceSearch (request):
 
 
     context={
+        'productName': productName,
         'filter': new_var,
         'productList': getProductListByPage,
         'userPending': countUserPending(request),

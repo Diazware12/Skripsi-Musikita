@@ -337,7 +337,7 @@ def deleteProduct (request,productName,brand,context):
         return render(request,'error.html', context)
 
 @login_required
-@allowed_users(allowed_roles=['Admin','Brand'])
+@allowed_users(allowed_roles=['Admin'])
 def editorChoice(request):
     if request.method != 'POST':
         topList = []
@@ -871,7 +871,6 @@ def hotItems(request):
         'prev_page_url': prev_url
     }
     return render(request,'hotProducts.html', context)
-
 
 def viewProductBySubCategory(request, categoryName, subCategoryName):
     error = 0

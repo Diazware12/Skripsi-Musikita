@@ -1,3 +1,4 @@
+from profileBrand.filters import brandFilters
 from django.http.response import HttpResponse
 from register.forms import RejectionReason
 from register.models import User
@@ -144,7 +145,7 @@ def brandPage (request,brandName,sort):
 
         getProductByPage = None
         if getProductFromSort:
-            paginator = Paginator(getProductFromSort,4)
+            paginator = Paginator(getProductFromSort,8)
             page_number = request.GET.get('page', 1)
             getProductByPage = paginator.get_page(page_number)
 
@@ -192,10 +193,15 @@ def brandPage (request,brandName,sort):
 @login_required
 @allowed_users(allowed_roles=['Admin'])
 def brandControl (request):
-    getAllBrand = Brand.objects.all()
+ 
+    getAllBrand = brandFilters(
+        request.GET,
+        Brand.objects.all()
+    )
+
     getAllBrandByPage = None
     if getAllBrand:
-        paginator = Paginator(getAllBrand,4)
+        paginator = Paginator(getAllBrand.qs,4)
         page_number = request.GET.get('page', 1)
         getAllBrandByPage = paginator.get_page(page_number)
 
@@ -214,6 +220,7 @@ def brandControl (request):
         prev_url = ''
 
     context = {
+        'filter': getAllBrand,
         'obj':getAllBrandByPage,
         'userPending': countUserPending(request),
         'reportUser': countReport(request),

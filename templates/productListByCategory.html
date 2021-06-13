@@ -1,4 +1,6 @@
 {% load static %}
+{% load product_extras %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -80,23 +82,23 @@
             </div>
           {% endif %}
           
-                  <div class="d-flex flex-row-reverse">
+          <div class="d-flex flex-row-reverse">
                       <div class="p-2">
                             <nav aria-label="...">
                               <ul class="pagination">
                                 <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
-                                  <a class="page-link" href="{{prev_page_url}}">Previous</a>
+                                  <a class="page-link" href="{% my_url prev_page_url 'page' request.GET.urlencode %}">Previous</a>
                                 </li>
 
                                 {% for n in productList.paginator.page_range %}
                                   {% if productList.number == n %}
-                                    <li class="page-item active"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                    <li class="page-item active"><a class="page-link" href="{% my_url n 'page' request.GET.urlencode %}">{{n}}</a></li>
                                   {% elif n > productList.number|add:-3 and n < productList.number|add:3 %}
-                                    <li class="page-item"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+                                    <li class="page-item"><a class="page-link" href="{% my_url n 'page' request.GET.urlencode %}">{{n}}</a></li>
                                   {% endif %}
                                 {% endfor %}
                                 <li class="page-item {% if not next_page_url %} disabled {% endif %}">
-                                  <a class="page-link" href="{{next_page_url}}">Next</a>
+                                  <a class="page-link" href="{% my_url next_page_url 'page' request.GET.urlencode %}">Next</a>
                                 </li>
                               </ul>
                             </nav>
