@@ -37,12 +37,12 @@ def advanceSearch (request):
         getProductListByPage = paginator.get_page(page_number)
 
         if getProductListByPage.has_next():
-            next_url = f'?page={getProductListByPage.next_page_number()}'
+            next_url = getProductListByPage.next_page_number()
         else:
             next_url = ''
 
         if getProductListByPage.has_previous():
-            prev_url = f'?page={getProductListByPage.previous_page_number()}'
+            prev_url = getProductListByPage.previous_page_number()
         else:
             prev_url = ''
     else: 

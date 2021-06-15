@@ -15,9 +15,9 @@ class productFilters(django_filters.FilterSet):
         expression = '-avgScore' if value == 'avgScore' else '-dtm_crt'
         return queryset.order_by(expression)
     
-    brandList = Brand.objects.all()
+    brandList = Brand.objects.all().order_by('brandName')
     brand_choice = [[obj.brandId,obj.brandName] for obj in brandList]
-    categoryList = Category.objects.all()
+    categoryList = Category.objects.all().order_by('categoryName')
     category_choice = [[obj.categoryId,obj.categoryName] for obj in categoryList]
 
     productName = filters.CharFilter(label='Product Name',lookup_expr='icontains')

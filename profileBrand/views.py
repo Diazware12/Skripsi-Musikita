@@ -10,7 +10,7 @@ from Skripsi.decorator import allowed_users
 from django.contrib.auth.decorators import login_required
 from product.models import Category, Product, Brand
 from django.shortcuts import redirect, render
-from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator, sendMail, weakPassword
+from Skripsi.views import checkChar, countReport, loginAccount, countUserPending, forgotPassword, numIndicator, sendMail, weakPassword
 from django.db import connection
 from django.core.paginator import Paginator
 from django.contrib.auth.models import Group, User as auth_user
@@ -206,12 +206,12 @@ def brandControl (request):
         getAllBrandByPage = paginator.get_page(page_number)
 
         if getAllBrandByPage.has_next():
-            next_url = f'?page={getAllBrandByPage.next_page_number()}'
+            next_url = getAllBrandByPage.next_page_number()
         else:
             next_url = ''
 
         if getAllBrandByPage.has_previous():
-            prev_url = f'?page={getAllBrandByPage.previous_page_number()}'
+            prev_url = getAllBrandByPage.previous_page_number()
         else:
             prev_url = ''
     else:
@@ -248,6 +248,10 @@ def addBrand (request):
             if Brand.objects.filter(brandName = brandName).first():
                 messages.success(request, 'Brand Name is Taken')
                 return redirect ('addBrand')
+
+            if checkChar (brandName) == False:
+                messages.success(request, 'Name cannot contain / , # , and ?')
+                return redirect ('addBrand') 
             
             brand_obj = Brand.objects.create(
                 brandName = brandName,
@@ -337,7 +341,11 @@ def brandEdit (request,brandName,context):
             req = requests.head(brandUrl)
             if req.status_code == 404:
                 messages.success(request, 'Url\'s not valid')
-                return redirect ('brandEdit',context=context,brandName=brandName)   
+                return redirect ('brandEdit',context=context,brandName=brandName)  
+
+            if checkChar (bName) == False:
+                messages.success(request, 'Name cannot contain / , # , and ?')
+                return redirect ('brandEdit',context=context,brandName=brandName) 
             
             if getUserAuth.groups.filter(name='Admin').exists():
 

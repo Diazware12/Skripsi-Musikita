@@ -14,7 +14,7 @@ from django.contrib.auth.models import User as auth_user
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, user_passes_test
 from Skripsi.decorator import allowed_users
-from Skripsi.views import countReport, countUserPending, sendMail, weakPassword, make_square
+from Skripsi.views import checkChar, countReport, countUserPending, sendMail, weakPassword, make_square
 from PIL import Image
 import os
 from django.core.paginator import Paginator
@@ -44,6 +44,11 @@ def registerMember (request):
                 raise Exception("required field Empty")
             if conf_pass == '':
                 raise Exception("required field Empty")
+
+
+            if checkChar (username) == False:
+                messages.success(request, 'Name cannot contain / , # , and ?')
+                return redirect ('regularUser')
 
             if User.objects.filter(userName = username).first():
                 messages.success(request, 'Username is Taken')
@@ -138,6 +143,10 @@ def registerMusicStore (request):
                 raise Exception("required field Empty")
             if description == '':
                 raise Exception("required field Empty")
+
+            if checkChar (musicStoreName) == False:
+                messages.success(request, 'Name cannot contain / , # , and ?')
+                return redirect ('musicStore')
 
             if User.objects.filter(userName = musicStoreName).first():
                 messages.success(request, 'Music Store Name is Taken')

@@ -27,6 +27,7 @@ VALUES
 (3, "Hat"),
 (3, "Snare"),
 (3, "Bass Drum"),
+(3, "Drum Set"),
 (4, "Piano"),
 (4, "Keyboard"),
 (4, "MIDI Keyboard"),
