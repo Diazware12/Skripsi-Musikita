@@ -272,6 +272,10 @@ def editUserData (request,userName):
                 if name == '':
                     raise Exception("Username Empty")
 
+                if len(name) > 20:
+                    messages.success(request, 'Store Name has tobe less than or equal 20 characters')
+                    return redirect ('editUserData', userName = userName)
+
                 if User.objects.filter(userName = name).first():
                     if (request.user.username == name):
                         pass
@@ -312,7 +316,11 @@ def editUserData (request,userName):
                     else:
                         messages.success(request, 'User Name is Taken')
                         return redirect ('editUserData', userName = userName)
-                
+
+                if len(name) > 20:
+                    messages.success(request, 'Store Name has tobe less than or equal 20 characters')
+                    return redirect ('editUserData', userName = userName)                            
+    
                 if checkChar (name) == False:
                     messages.success(request, 'Name cannot contain / , # , and ?')
                     return redirect ('editUserData', userName = userName)
@@ -350,7 +358,7 @@ def userControl (request):
 
     getAllUser = userFilters(
         request.GET,
-        User.objects.all()
+        User.objects.order_by('userName').all()
     )
     
     getAllUsersByPage = None

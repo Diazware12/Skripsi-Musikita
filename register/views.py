@@ -45,6 +45,9 @@ def registerMember (request):
             if conf_pass == '':
                 raise Exception("required field Empty")
 
+            if len(username) > 20:
+                messages.success(request, 'User Name has tobe less than or equal 20 characters')
+                return redirect ('addProduct')
 
             if checkChar (username) == False:
                 messages.success(request, 'Name cannot contain / , # , and ?')
@@ -146,6 +149,10 @@ def registerMusicStore (request):
 
             if checkChar (musicStoreName) == False:
                 messages.success(request, 'Name cannot contain / , # , and ?')
+                return redirect ('musicStore')
+
+            if len(musicStoreName) > 20:
+                messages.success(request, 'Music Store Name has tobe less than or equal 20 characters')
                 return redirect ('musicStore')
 
             if User.objects.filter(userName = musicStoreName).first():

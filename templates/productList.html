@@ -10,6 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Profile</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.js"></script>
+
     {% include "snippets/headImport.html" %}
 </head>
 <body>
@@ -111,6 +114,9 @@
 
 
     <script src="{% static 'vendor2/scripts/dropdownFilter.js'%}"></script>
+    <script>
+        $(".chosen").chosen();
+    </script>
     {% include "snippets/footerAndScripts.html" %}
 </body>
 

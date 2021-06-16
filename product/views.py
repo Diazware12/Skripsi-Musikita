@@ -67,6 +67,10 @@ def addProduct (request):
                 messages.success(request, 'Name cannot contain / , # , and ?')
                 return redirect ('addProduct')  
 
+            if len(productName) > 50:
+                messages.success(request, 'Product Name has tobe less than or equal 50 characters')
+                return redirect ('addProduct')
+
             if Product.objects.select_related('brandId').filter(productName=productName,brandId__brandName=brand_Id.brandName).first():
                 messages.success(request, 'Product is already exist')
                 return redirect ('addProduct')
@@ -161,6 +165,10 @@ def addEditProduct (request,context,productName,brand):
                     raise Exception("forbidden")
             else:
                 pass
+
+            if len(productName) > 50:
+                messages.success(request, 'Product Name has tobe less than or equal 50 characters')
+                return redirect ('editProduct',context=context,productName=productName,brand=brand) 
 
             if checkChar (productName) == False:
                 messages.success(request, 'Name cannot contain / , # , and ?')

@@ -22,7 +22,7 @@ class ProductForm (forms.Form):
         label="brandName",
         widget=forms.Select(
             attrs={
-                'class': 'form-control'
+                'class': 'form-control chosen'
             }
         )
     )

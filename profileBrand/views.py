@@ -145,7 +145,7 @@ def brandPage (request,brandName,sort):
 
         getProductByPage = None
         if getProductFromSort:
-            paginator = Paginator(getProductFromSort,8)
+            paginator = Paginator(getProductFromSort,5)
             page_number = request.GET.get('page', 1)
             getProductByPage = paginator.get_page(page_number)
 
@@ -196,7 +196,7 @@ def brandControl (request):
  
     getAllBrand = brandFilters(
         request.GET,
-        Brand.objects.all()
+        Brand.objects.order_by('brandName').all()
     )
 
     getAllBrandByPage = None
@@ -245,6 +245,11 @@ def addBrand (request):
         try:
             if brandName == '':
                 raise Exception("required field Empty")
+
+            if len(brandName) > 50:
+                messages.success(request, 'Brand Name has tobe less than or equal 50 characters')
+                return redirect ('addBrand')
+
             if Brand.objects.filter(brandName = brandName).first():
                 messages.success(request, 'Brand Name is Taken')
                 return redirect ('addBrand')
@@ -338,6 +343,10 @@ def brandEdit (request,brandName,context):
             if bName == '':
                 raise Exception("required field Empty")
 
+            if len(bName) > 50:
+                messages.success(request, 'Brand Name has tobe less than or equal 50 characters')
+                return redirect ('brandEdit',context=context,brandName=brandName) 
+
             req = requests.head(brandUrl)
             if req.status_code == 404:
                 messages.success(request, 'Url\'s not valid')
@@ -415,6 +424,7 @@ def registerBrand (request,auth_token):
             if User.objects.filter(email = email).first():
                 messages.success(request, 'email is Taken')
                 return redirect ('registerBrand', auth_token=auth_token)
+                
             check_pass = weakPassword (password)
             if check_pass != 'True':
                 messages.success(request, check_pass)
