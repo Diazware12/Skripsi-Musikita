@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib import messages
@@ -344,9 +345,17 @@ def deleteProduct (request,productName,brand,context):
         product = Product.objects.select_related('brandId').get(productName=productName,brandId__brandName=brand) #
         userAuth = request.user
         
-        if userAuth.groups.filter(name='Admin').exists():
+        if userAuth.groups.filter(name='Brand').exists():
+            if userAuth.username != product.brandId.brandName:
+                return HttpResponse('You are not allowed to view this page')
+            else:
+                pass
+
+        if os.path.exists(product.productIMG.name):
+            os.remove(product.productIMG.name)
+        else:
             pass
-        
+    
         product.delete()
 
         if (context == "editProductRating"):
@@ -571,7 +580,7 @@ def showProduct (request, productName, brand):
             review_available = "disabled" 
             messages = "You Need To Login First"
 
-        otherProduct = Product.objects.order_by('-avgScore')[:6]
+        otherProduct = Product.objects.order_by('-avgScore')[:10]
 
         context = {
             'obj': obj,
