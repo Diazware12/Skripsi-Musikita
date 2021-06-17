@@ -27,6 +27,7 @@ urlpatterns = [
     path('logout/',views.user_logout,name="logoutUser"),
     path('profile/',include('profileUser.urls')),
     url(r'^productList/',views.productList),
+    path('aboutUs/',views.aboutUs,name='aboutus'),
     path('register/',include('register.urls'),name="register"),
     path('product/',include('product.urls'),name="product"),
     path('brand/',include('profileBrand.urls'),name="brand"),

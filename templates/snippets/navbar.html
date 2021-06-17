@@ -43,7 +43,7 @@
               <li><a style="text-decoration: none;" href="{% url 'reportList' %}">Report List ({{reportUser}})</a></li>  
               <li><a style="text-decoration: none;" href="{% url 'userApproveList' %}">User Pending ({{userPending}})</a></li>
             {% else %} 
-              <li><a href="#">About Musikita</a></li>
+              <li><a href="{% url 'aboutus' %}">About Musikita</a></li>
             {% endif %}
 
             <li class="nav-item dropdown">
@@ -68,7 +68,7 @@
             </li>
             
           {% else %}
-            <li><a href="#">About Musikita</a></li>
+            <li><a href="{% url 'aboutus' %}">About Musikita</a></li>
             <li><a href="#signUpModal" data-toggle="modal" data-target="#signUpModal">Sign Up</a></li>
             <li><a href="#loginModal" data-toggle="modal" data-target="#loginModal">LogIn</a></li>
           {% endif %}

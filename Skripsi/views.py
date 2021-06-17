@@ -78,6 +78,9 @@ def user_logout (request):
 def productList (request):
     return render(request,'productList.html')  
 
+def aboutUs (request):
+    return render(request,'aboutUs.html')
+
 def verifyEmail (request, auth_token):
     webRender = ''
     try:
