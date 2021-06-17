@@ -6,6 +6,7 @@ $(document).ready(function() {
     var lesstext = "Show less";
     var showCharDesc = 190;
     var showCharprod = 16;
+    var showCharBrandProd = 35;
     
 
     $('.more').each(function() {
@@ -45,6 +46,21 @@ $(document).ready(function() {
  
             var c = content.substr(0, showCharprod);
             var h = content.substr(showCharprod, content.length - showCharprod);
+ 
+            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span>';
+ 
+            $(this).html(html);
+        }
+ 
+    });
+
+    $('.moreBrandProd').each(function() {
+        var content = $(this).html();
+ 
+        if(content.length > showCharBrandProd) {
+ 
+            var c = content.substr(0, showCharBrandProd);
+            var h = content.substr(showCharBrandProd, content.length - showCharBrandProd);
  
             var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span>';
  

@@ -10,19 +10,19 @@ class ProductForm (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'class':'form-control',
-                'placeholder':'Product Name'
+                'placeholder':'Product Name (Max. 70 Character)'
             }
         )
     )
 
 
     productBrand = forms.ModelChoiceField(
-        queryset=Brand.objects.values_list('brandName', flat=True),
+        queryset=Brand.objects.values_list('brandName', flat=True).order_by('brandName'),
         required=True,
         label="brandName",
         widget=forms.Select(
             attrs={
-                'class': 'form-control'
+                'class': 'form-control chosen'
             }
         )
     )

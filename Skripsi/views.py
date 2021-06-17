@@ -73,10 +73,7 @@ def dashboard (request):
 
 def user_logout (request):
     logout (request)
-    return redirect ('dashboard')
-
-def productList (request):
-    return render(request,'productList.html')  
+    return redirect ('dashboard') 
 
 def aboutUs (request):
     return render(request,'aboutUs.html')
@@ -355,3 +352,17 @@ def search (request):
         return JsonResponse({'data':res})
     
     return JsonResponse({})
+
+def checkChar (stringCheck):
+    slash = "/"
+    question = "?"
+    hashtag = "#"
+
+    if slash in stringCheck:
+        return False
+    if question in stringCheck:
+        return False
+    if question in stringCheck:
+        return False
+    
+    return True

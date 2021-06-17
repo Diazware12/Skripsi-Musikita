@@ -9,7 +9,7 @@ class UserForm (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'class':'form-control',
-                'placeholder':'Username'
+                'placeholder':'Username (Max. 20 Character)'
             }
         )
     )

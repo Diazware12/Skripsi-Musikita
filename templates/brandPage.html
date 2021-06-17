@@ -203,7 +203,7 @@
                             {% endif %} 
                             <div class="p-2 bd-highlight">
                               <h6>
-                                <a style="text-decoration: none; color:black;" href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}">{{obj.productName}}</a>
+                                <a style="text-decoration: none; color:black;" href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}"><span class="moreBrandProd">{{obj.productName}}</span></a>
                               </h6>
                             </div>
                             <div class="ml-auto p-2 pr-5 mr-5 bd-highlight">

@@ -10,7 +10,7 @@ from Skripsi.decorator import allowed_users
 from django.contrib.auth.decorators import login_required
 from product.models import Category, Product, Brand
 from django.shortcuts import redirect, render
-from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator, sendMail, weakPassword
+from Skripsi.views import checkChar, countReport, loginAccount, countUserPending, forgotPassword, numIndicator, sendMail, weakPassword
 from django.db import connection
 from django.core.paginator import Paginator
 from django.contrib.auth.models import Group, User as auth_user
@@ -145,7 +145,7 @@ def brandPage (request,brandName,sort):
 
         getProductByPage = None
         if getProductFromSort:
-            paginator = Paginator(getProductFromSort,8)
+            paginator = Paginator(getProductFromSort,5)
             page_number = request.GET.get('page', 1)
             getProductByPage = paginator.get_page(page_number)
 
@@ -196,7 +196,7 @@ def brandControl (request):
  
     getAllBrand = brandFilters(
         request.GET,
-        Brand.objects.all()
+        Brand.objects.order_by('brandName').all()
     )
 
     getAllBrandByPage = None
@@ -206,12 +206,12 @@ def brandControl (request):
         getAllBrandByPage = paginator.get_page(page_number)
 
         if getAllBrandByPage.has_next():
-            next_url = f'?page={getAllBrandByPage.next_page_number()}'
+            next_url = getAllBrandByPage.next_page_number()
         else:
             next_url = ''
 
         if getAllBrandByPage.has_previous():
-            prev_url = f'?page={getAllBrandByPage.previous_page_number()}'
+            prev_url = getAllBrandByPage.previous_page_number()
         else:
             prev_url = ''
     else:
@@ -245,9 +245,18 @@ def addBrand (request):
         try:
             if brandName == '':
                 raise Exception("required field Empty")
+
+            if len(brandName) > 50:
+                messages.success(request, 'Brand Name has tobe less than or equal 50 characters')
+                return redirect ('addBrand')
+
             if Brand.objects.filter(brandName = brandName).first():
                 messages.success(request, 'Brand Name is Taken')
                 return redirect ('addBrand')
+
+            if checkChar (brandName) == False:
+                messages.success(request, 'Name cannot contain / , # , and ?')
+                return redirect ('addBrand') 
             
             brand_obj = Brand.objects.create(
                 brandName = brandName,
@@ -334,10 +343,18 @@ def brandEdit (request,brandName,context):
             if bName == '':
                 raise Exception("required field Empty")
 
+            if len(bName) > 50:
+                messages.success(request, 'Brand Name has tobe less than or equal 50 characters')
+                return redirect ('brandEdit',context=context,brandName=brandName) 
+
             req = requests.head(brandUrl)
             if req.status_code == 404:
                 messages.success(request, 'Url\'s not valid')
-                return redirect ('brandEdit',context=context,brandName=brandName)   
+                return redirect ('brandEdit',context=context,brandName=brandName)  
+
+            if checkChar (bName) == False:
+                messages.success(request, 'Name cannot contain / , # , and ?')
+                return redirect ('brandEdit',context=context,brandName=brandName) 
             
             if getUserAuth.groups.filter(name='Admin').exists():
 
@@ -407,6 +424,7 @@ def registerBrand (request,auth_token):
             if User.objects.filter(email = email).first():
                 messages.success(request, 'email is Taken')
                 return redirect ('registerBrand', auth_token=auth_token)
+                
             check_pass = weakPassword (password)
             if check_pass != 'True':
                 messages.success(request, check_pass)

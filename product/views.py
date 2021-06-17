@@ -1,17 +1,16 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.contrib import messages
 from .forms import EditorForm, ProductForm
-from django.conf import settings
 from product.models import Product, Category, SubCategory, Brand
 from datetime import datetime
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from Skripsi.decorator import allowed_users
 from review.models import Review
 from django.db import connection
-import requests
 import os
-from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator
+from Skripsi.views import checkChar, countReport, loginAccount, countUserPending, forgotPassword, numIndicator
 from django.core.paginator import Paginator
 
 @login_required
@@ -65,18 +64,26 @@ def addProduct (request):
             else:
                 pass
 
+            if checkChar (productName) == False:
+                messages.success(request, 'Name cannot contain / , # , and ?')
+                return redirect ('addProduct')  
+
+            if len(productName) > 70:
+                messages.success(request, 'Product Name has tobe less than or equal 70 characters')
+                return redirect ('addProduct')
+
             if Product.objects.select_related('brandId').filter(productName=productName,brandId__brandName=brand_Id.brandName).first():
                 messages.success(request, 'Product is already exist')
                 return redirect ('addProduct')
+
+            if checkYoutubeUrl (videoUrl) == False:
+                messages.success(request, 'url not valid')
+                return redirect ('addProduct') 
 
             if len(description) < 75:
                 messages.success(request, 'description need to be equal or more than 75 character')
                 return redirect ('addProduct')
 
-            req = requests.head(videoUrl)
-            if req.status_code == 404:
-                messages.success(request, 'video Url\'s not valid')
-                return redirect ('addProduct')
 
             product_obj = Product.objects.create(
                 categoryId = category_Id,
@@ -140,17 +147,42 @@ def addEditProduct (request,context,productName,brand):
                                 categoryId = category_Id
                             )
 
-            if productName == '' or brand == '' or category == '' or subCategory == '' or description == '' or videoUrl == '':
+            if productName == '':
                 raise Exception("required field Empty")
+            if brand == '':
+                raise Exception("required field Empty")
+            if category == '':
+                raise Exception("required field Empty")
+            if subCategory == '':
+                raise Exception("required field Empty")
+            if description == '':
+                raise Exception("required field Empty")
+            if videoUrl == '':
+                raise Exception("required field Empty")
+
+            checkUsr = request.user
+            if checkUsr.groups.filter(name='Brand').exists():
+                if brand != checkUsr.username:
+                    raise Exception("forbidden")
+            else:
+                pass
+
+            if len(productName) > 70:
+                messages.success(request, 'Product Name has tobe less than or equal 70 characters')
+                return redirect ('editProduct',context=context,productName=productName,brand=brand) 
+
+            if checkChar (productName) == False:
+                messages.success(request, 'Name cannot contain / , # , and ?')
+                return redirect ('editProduct',context=context,productName=productName,brand=brand) 
+
+            if checkYoutubeUrl (videoUrl) == False:
+                messages.success(request, 'url not valid')
+                return redirect ('editProduct',context=context,productName=productName,brand=brand)
             
             if len(description) < 75:
                 messages.success(request, 'description need to be equal or more than 75 character')
                 return redirect ('editProduct',context=context,productName=productName,brand=brand)
                 
-            req = requests.head(videoUrl)
-            if req.status_code == 404:
-                messages.success(request, 'video Url\'s not valid')
-                return redirect ('editProduct',context=context,productName=productName,brand=brand)
 
             getProduct.categoryId=category_Id
             getProduct.subCategoryId = subCategory_Id
@@ -186,7 +218,7 @@ def addEditProduct (request,context,productName,brand):
 @login_required
 @allowed_users(allowed_roles=['Admin','Brand'])
 def getJsonCategoryData (request):
-    catValue = list(Category.objects.values())
+    catValue = list(Category.objects.values().order_by('categoryName'))
     return JsonResponse ({
         'data':catValue 
     })
@@ -194,7 +226,7 @@ def getJsonCategoryData (request):
 @login_required
 @allowed_users(allowed_roles=['Admin','Brand'])
 def getJsonCategoryDataEdit (request,context,brand,productName):
-    catValue = list(Category.objects.values())
+    catValue = list(Category.objects.values().order_by('categoryName'))
     return JsonResponse ({
         'data':catValue 
     })
@@ -212,7 +244,7 @@ def getJsonSubCategoryDataEdit (request,context,brand,productName, *args, **kwar
     print(cat_Id)
 
     subCat_models = list(
-        SubCategory.objects.filter(categoryId=cat_Id).values()
+        SubCategory.objects.filter(categoryId=cat_Id).values().order_by('subCategoryName')
     )
 
     return JsonResponse ({
@@ -232,7 +264,7 @@ def getJsonSubCategoryData (request, *args, **kwargs):
     print(cat_Id)
 
     subCat_models = list(
-        SubCategory.objects.filter(categoryId=cat_Id).values()
+        SubCategory.objects.filter(categoryId=cat_Id).values().order_by('subCategoryName')
     )
 
     return JsonResponse ({
@@ -313,9 +345,17 @@ def deleteProduct (request,productName,brand,context):
         product = Product.objects.select_related('brandId').get(productName=productName,brandId__brandName=brand) #
         userAuth = request.user
         
-        if userAuth.groups.filter(name='Admin').exists():
+        if userAuth.groups.filter(name='Brand').exists():
+            if userAuth.username != product.brandId.brandName:
+                return HttpResponse('You are not allowed to view this page')
+            else:
+                pass
+
+        if os.path.exists(product.productIMG.name):
+            os.remove(product.productIMG.name)
+        else:
             pass
-        
+    
         product.delete()
 
         if (context == "editProductRating"):
@@ -540,7 +580,7 @@ def showProduct (request, productName, brand):
             review_available = "disabled" 
             messages = "You Need To Login First"
 
-        otherProduct = Product.objects.order_by('-avgScore')[:6]
+        otherProduct = Product.objects.order_by('-avgScore')[:10]
 
         context = {
             'obj': obj,
@@ -801,12 +841,12 @@ def viewProductByCategory(request, categoryName):
         getProductListByPage = paginator.get_page(page_number)
 
         if getProductListByPage.has_next():
-            next_url = f'?page={getProductListByPage.next_page_number()}'
+            next_url = getProductListByPage.next_page_number()
         else:
             next_url = ''
 
         if getProductListByPage.has_previous():
-            prev_url = f'?page={getProductListByPage.previous_page_number()}'
+            prev_url = getProductListByPage.previous_page_number()
         else:
             prev_url = ''
     else: 
@@ -841,7 +881,7 @@ def hotItems(request):
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
 
-    productList = Product.objects.select_related('brandId').order_by('-visitCount')[:8]   
+    productList = Product.objects.select_related('brandId').order_by('-visitCount')[:16]   
 
     getProductListByPage = None
     if productList:
@@ -889,17 +929,17 @@ def viewProductBySubCategory(request, categoryName, subCategoryName):
         
         getProductListByPage = None
         if productList:
-            paginator = Paginator(productList,4)
-            page_number = request.GET.get('page', 12)
+            paginator = Paginator(productList,12)
+            page_number = request.GET.get('page', 1)
             getProductListByPage = paginator.get_page(page_number)
 
             if getProductListByPage.has_next():
-                next_url = f'?page={getProductListByPage.next_page_number()}'
+                next_url = getProductListByPage.next_page_number()
             else:
                 next_url = ''
 
             if getProductListByPage.has_previous():
-                prev_url = f'?page={getProductListByPage.previous_page_number()}'
+                prev_url = getProductListByPage.previous_page_number()
             else:
                 prev_url = ''
         else: 
@@ -931,3 +971,19 @@ def viewProductBySubCategory(request, categoryName, subCategoryName):
         return render(request,'error.html', context)
 
     return render(request,'productListByCategory.html', context)
+
+def checkYoutubeUrl (videoUrl):
+    url1 = "youtube"
+    url2 = "youtu.be"
+    url3 = "watch"
+
+    value = False
+
+    if url1 in videoUrl:
+        value = True
+    if url2 in videoUrl:
+        value = True
+    if url3 in videoUrl:
+        value = True
+    
+    return value

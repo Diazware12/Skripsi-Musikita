@@ -7,7 +7,7 @@ from register.models import MusicStoreData, User
 from django.contrib import messages
 from review.models import Review
 from django.db import connection
-from Skripsi.views import countReport, loginAccount, countUserPending, forgotPassword, numIndicator, sendMail
+from Skripsi.views import checkChar, countReport, loginAccount, countUserPending, forgotPassword, numIndicator, sendMail
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.models import User as auth_user
 from Skripsi.decorator import allowed_users
@@ -272,12 +272,20 @@ def editUserData (request,userName):
                 if name == '':
                     raise Exception("Username Empty")
 
+                if len(name) > 20:
+                    messages.success(request, 'Store Name has tobe less than or equal 20 characters')
+                    return redirect ('editUserData', userName = userName)
+
                 if User.objects.filter(userName = name).first():
                     if (request.user.username == name):
                         pass
                     else:
                         messages.success(request, 'User Name is Taken')
                         return redirect ('editUserData', userName = userName)
+                
+                if checkChar (name) == False:
+                    messages.success(request, 'Name cannot contain / , # , and ?')
+                    return redirect ('editUserData', userName = userName)
 
                 getUser.userName = name
                 getUser.description = description
@@ -308,6 +316,14 @@ def editUserData (request,userName):
                     else:
                         messages.success(request, 'User Name is Taken')
                         return redirect ('editUserData', userName = userName)
+
+                if len(name) > 20:
+                    messages.success(request, 'Store Name has tobe less than or equal 20 characters')
+                    return redirect ('editUserData', userName = userName)                            
+    
+                if checkChar (name) == False:
+                    messages.success(request, 'Name cannot contain / , # , and ?')
+                    return redirect ('editUserData', userName = userName)
                 
                 getUser.address = address
                 getUser.contact = contact
@@ -342,7 +358,7 @@ def userControl (request):
 
     getAllUser = userFilters(
         request.GET,
-        User.objects.all()
+        User.objects.order_by('userName').all()
     )
     
     getAllUsersByPage = None
@@ -352,12 +368,12 @@ def userControl (request):
         getAllUsersByPage = paginator.get_page(page_number)
 
         if getAllUsersByPage.has_next():
-            next_url = f'?page={getAllUsersByPage.next_page_number()}'
+            next_url = getAllUsersByPage.next_page_number()
         else:
             next_url = ''
 
         if getAllUsersByPage.has_previous():
-            prev_url = f'?page={getAllUsersByPage.previous_page_number()}'
+            prev_url = getAllUsersByPage.previous_page_number()
         else:
             prev_url = ''
     else:
