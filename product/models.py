@@ -26,7 +26,7 @@ class Product (models.Model):
     categoryId = models.ForeignKey(Category,on_delete=models.CASCADE)
     subCategoryId = models.ForeignKey(SubCategory,on_delete=models.CASCADE)
     brandId = models.ForeignKey(Brand,on_delete=models.CASCADE)
-    productName = models.CharField(max_length = 50)
+    productName = models.CharField(max_length = 70)
     description = models.TextField()
     videoUrl = EmbedVideoField()
     dtm_crt = models.DateTimeField(null=False)

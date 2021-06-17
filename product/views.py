@@ -68,8 +68,8 @@ def addProduct (request):
                 messages.success(request, 'Name cannot contain / , # , and ?')
                 return redirect ('addProduct')  
 
-            if len(productName) > 50:
-                messages.success(request, 'Product Name has tobe less than or equal 50 characters')
+            if len(productName) > 70:
+                messages.success(request, 'Product Name has tobe less than or equal 70 characters')
                 return redirect ('addProduct')
 
             if Product.objects.select_related('brandId').filter(productName=productName,brandId__brandName=brand_Id.brandName).first():
@@ -167,8 +167,8 @@ def addEditProduct (request,context,productName,brand):
             else:
                 pass
 
-            if len(productName) > 50:
-                messages.success(request, 'Product Name has tobe less than or equal 50 characters')
+            if len(productName) > 70:
+                messages.success(request, 'Product Name has tobe less than or equal 70 characters')
                 return redirect ('editProduct',context=context,productName=productName,brand=brand) 
 
             if checkChar (productName) == False:
@@ -881,7 +881,7 @@ def hotItems(request):
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
 
-    productList = Product.objects.select_related('brandId').order_by('-visitCount')[:8]   
+    productList = Product.objects.select_related('brandId').order_by('-visitCount')[:16]   
 
     getProductListByPage = None
     if productList:

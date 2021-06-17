@@ -10,7 +10,7 @@ class ProductForm (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'class':'form-control',
-                'placeholder':'Product Name'
+                'placeholder':'Product Name (Max. 70 Character)'
             }
         )
     )
