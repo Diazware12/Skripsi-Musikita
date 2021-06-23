@@ -5,10 +5,10 @@ from datetime import datetime
 
 class Review (models.Model):
     reviewId = models.AutoField(primary_key=True,null=False)
-    productId = models.ForeignKey(Product,on_delete=models.CASCADE) 
-    userID = models.ForeignKey(User,on_delete=models.CASCADE)
+    productId = models.ForeignKey(Product,on_delete=models.CASCADE) #
+    userID = models.ForeignKey(User,on_delete=models.CASCADE) #
     dtm_crt = models.DateTimeField(null=False)
-    title = models.CharField(blank=False,max_length=40)
+    title = models.CharField(blank=False,max_length=60)
     description = models.TextField()
     rating = models.IntegerField()
     helpful = models.BigIntegerField(default=0)
@@ -17,11 +17,11 @@ class Review (models.Model):
 
 class HelpfulData (models.Model):
     helpfulDataId = models.AutoField(primary_key=True,null=False)
-    reviewId = models.ForeignKey(Review,on_delete=models.CASCADE, default=1)
+    reviewId = models.ForeignKey(Review,on_delete=models.CASCADE, default=1) #
     userID = models.ForeignKey(User,on_delete=models.CASCADE)
 
 class Report (models.Model):
     reportId = models.AutoField(primary_key=True,null=False)
-    reviewId = models.ForeignKey(Review,on_delete=models.CASCADE)
+    reviewId = models.ForeignKey(Review,on_delete=models.CASCADE) #
     userID = models.ForeignKey(User,on_delete=models.CASCADE) 
     reason = models.CharField(max_length=50)

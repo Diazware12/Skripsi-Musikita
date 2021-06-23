@@ -352,7 +352,8 @@ def musicStoreApproval (request,auth_token):
 
     context = {
         'obj': qux,
-        'userPending': countUserPending(request)
+        'userPending': countUserPending(request),
+        'reportUser': countReport(request)
     }
     return render(request,'musicStoreApproval.html', context)    
 
@@ -382,7 +383,7 @@ def approve (request,auth_token):
 
 @login_required
 @allowed_users(allowed_roles=['Admin'])
-def reject (request,auth_token):
+def reject (request,auth_token,context):
     webRender=''
     if request.method != 'POST':
         rejectionForm = RejectionReason()

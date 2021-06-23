@@ -357,12 +357,18 @@ def checkChar (stringCheck):
     slash = "/"
     question = "?"
     hashtag = "#"
+    petik2 = "\""
+    petik1 = "\'"
 
     if slash in stringCheck:
         return False
     if question in stringCheck:
         return False
-    if question in stringCheck:
+    if hashtag in stringCheck:
+        return False
+    if petik2 in stringCheck:
+        return False
+    if petik1 in stringCheck:
         return False
     
     return True

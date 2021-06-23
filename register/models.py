@@ -17,7 +17,7 @@ class User (models.Model):
 
 class MusicStoreData (models.Model): #ganti nama
     musicStoreDataID = models.AutoField(primary_key=True,null=False)
-    userID = models.ForeignKey(User,on_delete=models.CASCADE)
+    userID = models.ForeignKey(User,on_delete=models.CASCADE) #
     address = models.CharField(blank=False,max_length=255)
     contact = models.CharField(null=False,max_length=16,default='') #
     musicStorePicture = models.ImageField(null=False, blank=False, upload_to=settings.MEDIA_ROOT+'/musicStorePictures', max_length=255)

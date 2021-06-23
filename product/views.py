@@ -65,7 +65,7 @@ def addProduct (request):
                 pass
 
             if checkChar (productName) == False:
-                messages.success(request, 'Name cannot contain / , # , and ?')
+                messages.success(request, 'Name cannot contain / , # , ?, \", and \' ')
                 return redirect ('addProduct')  
 
             if len(productName) > 70:
@@ -172,7 +172,7 @@ def addEditProduct (request,context,productName,brand):
                 return redirect ('editProduct',context=context,productName=productName,brand=brand) 
 
             if checkChar (productName) == False:
-                messages.success(request, 'Name cannot contain / , # , and ?')
+                messages.success(request, 'Name cannot contain / , # , ?, \", and \' ')
                 return redirect ('editProduct',context=context,productName=productName,brand=brand) 
 
             if checkYoutubeUrl (videoUrl) == False:
@@ -430,8 +430,8 @@ def showProduct (request, productName, brand):
         forgotPassword (request)
 
     try:
-        user_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Reg_User",productId__productName=productName)[:5]
-        ms_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Mus_Store",productId__productName=productName)[:5]
+        user_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Reg_User",productId__productName=productName)[:4]
+        ms_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Mus_Store",productId__productName=productName)[:4]
         obj = Product.objects.select_related('brandId').get(productName = productName, brandId__brandName=brand)
 
         ratingUserScore = []
