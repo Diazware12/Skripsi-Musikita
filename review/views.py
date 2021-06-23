@@ -317,7 +317,7 @@ def feedback (request, productName, brand, feedback, user):
 
     getHelpfulData = HelpfulData.objects.filter(reviewId=getReview,userID=userSubmitHelpful)
     if getHelpfulData:
-        messages.success(request, 'You Already Submit Yout Response for This Review Before')
+        messages.success(request, 'You Already Submit Your Response for This Review Before')
         return redirect ('showProduct', brand=brand, productName=productName)
     else:
         if feedback == "helpful" :
