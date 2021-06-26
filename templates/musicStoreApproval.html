@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Register</title>
+    <title>Music Store - {{obj.userID.userName}}</title>
     {% include "snippets/headImport.html" %}
 </head>
 <body>
@@ -14,7 +14,7 @@
 
     <div class="container">
 
-        <h1 class="pb-5 pt-5">Register > As Music Store</h1>
+        <h1 class="pb-5 pt-5">Music Store Approval: {{obj.userID.userName}}</h1>
 
             <h5 class="pt-3">Music Store Name</h5>
             <div class="pt-3">
@@ -51,8 +51,8 @@
             </div>
 
             <div class="d-flex flex-row-reverse bd-highlight pt-3">
-              <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;" class="greenbutton" href="{% url 'approve' auth_token=obj.userID.auth_token %}">Approve</a></div>
-              <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;" class="redbutton" href="{% url 'reject' auth_token=obj.userID.auth_token context='rejection_user_reason' %}">Delete</a></div>
+              <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;color:white;" class="greenbutton" href="{% url 'approve' auth_token=obj.userID.auth_token %}">Approve</a></div>
+              <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;color:white;" class="redbutton" href="{% url 'reject' auth_token=obj.userID.auth_token context='rejection_user_reason' %}">Delete</a></div>
             </div>
 
         

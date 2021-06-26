@@ -46,6 +46,10 @@ def reviewProduct (request, productName, brand):
             if reviewTitle == '' or reviewDescription == '':
                 raise Exception("required field Empty")
 
+            if len(reviewTitle) > 60:
+                messages.success(request, 'title was too long, maximum 60 character')
+                return redirect ('reviewProduct', brand=brand, productName=productName)
+
             if len(reviewDescription) < 75:
                 messages.success(request, 'review need to be equal or more than 75 character')
                 return redirect ('reviewProduct', brand=brand, productName=productName)
@@ -212,6 +216,10 @@ def updateReview (request, productName, brand, user_select, action):
 
             if reviewTitle == '' or reviewDescription == '':
                 raise Exception("required field Empty")
+
+            if len(reviewTitle) > 60:
+                messages.success(request, 'title was too long, maximum 60 character')
+                return redirect ('updateReview', brand=brand, productName=productName, user_select=user_select, action='ratingReview')
 
             if len(reviewDescription) < 75:
                 messages.success(request, 'review need to be equal or more than 75 character')

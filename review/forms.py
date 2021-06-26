@@ -18,7 +18,7 @@ class ReviewForm (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'class':'form-control',
-                'placeholder':'Title For Review'
+                'placeholder':'Title For Review (max. 60 character)'
             }
         )
     )

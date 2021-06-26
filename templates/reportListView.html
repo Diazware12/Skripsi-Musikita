@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Register</title>
+    <title>Report Review - {{obj.title}}</title>
     {% include "snippets/headImport.html" %}
 </head>
 <body>
@@ -51,8 +51,8 @@
         </div>
 
         <div class="d-flex flex-row-reverse bd-highlight pt-3">
-            <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;" class="greenbutton" href="{% url 'approveReport' user_select=obj.userID.userName brand=brand productName=productName %}">Approve</a></div>
-            <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;" class="redbutton" href="{% url 'rejectReport' user_select=obj.userID.userName brand=brand productName=productName %}">Delete</a></div>
+            <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;color:white;" class="greenbutton" href="{% url 'approveReport' user_select=obj.userID.userName brand=brand productName=productName %}">Approve</a></div>
+            <div class="p-2 bd-highlight"><a type="submit" style="text-decoration: none;color:white;" class="redbutton" href="{% url 'rejectReport' user_select=obj.userID.userName brand=brand productName=productName %}">Delete</a></div>
         </div>
             
     </div>

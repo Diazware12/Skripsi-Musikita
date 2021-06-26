@@ -310,6 +310,8 @@ def editUserData (request,userName):
                 if contact == '':
                     raise Exception("Username Empty")
 
+
+
                 if User.objects.filter(userName = name).first():
                     if (request.user.username == name):
                         pass
@@ -324,6 +326,14 @@ def editUserData (request,userName):
                 if checkChar (name) == False:
                     messages.success(request, 'Name cannot contain / , # , and ?')
                     return redirect ('editUserData', userName = userName)
+
+                if len(contact) > 16:
+                    messages.success(request, 'contact too long')
+                    return redirect ('editUserData', userName = userName)
+
+                if not contact.isdigit():
+                    messages.success(request, 'contact must be numeric')
+                    return redirect ('editUserData', userName = userName)                        
                 
                 getUser.address = address
                 getUser.contact = contact

@@ -46,8 +46,16 @@ def registerMember (request):
                 raise Exception("required field Empty")
 
             if len(username) > 20:
-                messages.success(request, 'User Name has tobe less than or equal 20 characters')
-                return redirect ('addProduct')
+                messages.success(request, 'User Name has to be less than or equal 20 characters')
+                return redirect ('regularUser')
+
+            if len(email) > 60:
+                messages.success(request, 'Email has to be less than or equal 60 characters')
+                return redirect ('regularUser')
+
+            if len(password) > 60:
+                messages.success(request, 'Password too long')
+                return redirect ('regularUser')
 
             if checkChar (username) == False:
                 messages.success(request, 'Name cannot contain / , # , and ?')
@@ -155,6 +163,26 @@ def registerMusicStore (request):
                 messages.success(request, 'Music Store Name has tobe less than or equal 20 characters')
                 return redirect ('musicStore')
 
+            if len(email) > 60:
+                messages.success(request, 'Email has to be less than or equal 60 characters')
+                return redirect ('musicStore')
+
+            if len(password) > 60:
+                messages.success(request, 'Password too long')
+                return redirect ('musicStore')
+
+            if len(address) > 255:
+                messages.success(request, 'Address too long')
+                return redirect ('musicStore')   
+
+            if len(contact) > 16:
+                messages.success(request, 'contact too long')
+                return redirect ('musicStore')    
+
+            if not contact.isdigit():
+                messages.success(request, 'contact must be numeric')
+                return redirect ('musicStore')  
+
             if User.objects.filter(userName = musicStoreName).first():
                 messages.success(request, 'Music Store Name is Taken')
                 return redirect ('musicStore')
@@ -211,8 +239,6 @@ def registerMusicStore (request):
             img3.save(mStore_obj.musicStorePicture3.path)
 
             regisUserAuth(profile_obj)
-
-
 
             domain = get_current_site(request).domain
 
