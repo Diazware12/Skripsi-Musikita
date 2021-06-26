@@ -8,7 +8,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Rating</title>
+    {% if User.roleId == 'Reg_User' %}
+      <title>Profile - {{User.userName}}</title>
+    {% else %}
+      <title>Profile - {{User.userID.userName}}</title>
+    {% endif %}
+    
     {% include "snippets/headImport.html" %}
 </head>
 <body>
