@@ -97,7 +97,7 @@ class registerBrandForm (forms.Form):
         widget=forms.Textarea(
             attrs={
                 'class':'form-control',
-                'placeholder':'Product Description (min. 75 character)'
+                'placeholder':'Brand Description (min. 75 character)'
             }
         )
     )

@@ -154,6 +154,19 @@ class RejectionReason (forms.Form):
         )
     ) 
 
+class DeleteReason (forms.Form):       
+    
+    reason = forms.CharField(
+        required=True,
+        label='Delete Reason',
+        widget=forms.Textarea(
+            attrs={
+                'class':'form-control',
+                'placeholder':'Reason for Deletion'
+            }
+        )
+    ) 
+
 class resetPassword (forms.Form):       
     
     password = forms.CharField(

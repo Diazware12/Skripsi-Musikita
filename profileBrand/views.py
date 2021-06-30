@@ -1,6 +1,6 @@
 from profileBrand.filters import brandFilters
 from django.http.response import HttpResponse
-from register.forms import RejectionReason
+from register.forms import *
 from register.models import User
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
@@ -403,8 +403,6 @@ def brandEdit (request,brandName,context):
         }
         return render(request,'error.html', context)
 
-@login_required
-@allowed_users(allowed_roles=['Admin'])
 def registerBrand (request,auth_token):
     try:
         getBrand = Brand.objects.get(auth_token = auth_token)
@@ -506,7 +504,7 @@ def deleteBrand (request,brand):
 @allowed_users(allowed_roles=['Admin'])
 def deleteBrandWithReason (request,brand):
     if request.method != 'POST':
-        deleteForm = RejectionReason()
+        deleteForm = DeleteReason()
         context = {
             'form': deleteForm,
             'userPending': countUserPending(request)
