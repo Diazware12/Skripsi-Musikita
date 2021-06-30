@@ -31,9 +31,10 @@
             <h5 class="pt-3"></h5>
 
             <div class="pt-3">
-                <textarea name="brandName" class="form-control" id="exampleFormControlTextarea1" rows="1" required>{{ obj.brandName }}</textarea>
+                Name: <textarea name="brandName" class="form-control" id="exampleFormControlTextarea1" rows="1" required>{{ obj.brandName }}</textarea>
             </div>
             <div class="pt-3">
+                Email: 
                 {% if obj.brandURL == None %}
                     <textarea name="brandUrl" class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
                 {% else %}
@@ -41,6 +42,7 @@
                 {% endif %}
             </div>
             <div class="pt-3">
+                Description:
                 {% if obj.description == None %}
                     <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
                 {% else %}
@@ -51,7 +53,7 @@
             
             <div class="d-flex flex-row-reverse bd-highlight pb-5">
                 <div class="p-2 bd-highlight">
-                    <button type="submit" class="greenbutton">Add</button>
+                    <button type="submit" class="greenbutton">Submit</button>
                 </div>
                 <div class="p-2 bd-highlight">
                     {% if context == 'editBrandPage' %}
