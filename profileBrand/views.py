@@ -294,6 +294,14 @@ def inviteBrand (request):
             if message == '':
                 raise Exception("required field Empty")
 
+            if len(email) > 60:
+                messages.success(request, 'Email has to be less than or equal 60 characters')
+                return redirect ('inviteBrand')
+
+            if checkChar (email) == False:
+                messages.success(request, 'Email cannot contain / , # , and ?')
+                return redirect ('inviteBrand')
+
             brand_obj = Brand.objects.get(brandName = brandName)
             if brand_obj.status != 'No_User':
                 messages.success(request, 'Brand is Already receive email / have account ')

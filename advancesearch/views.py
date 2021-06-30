@@ -11,7 +11,6 @@ def advanceSearch (request):
     isForgotPass = request.POST.get('isForgotPassword')
     # isFilter = request.POST.get('IsFilter')
 
-    resultFilter = None
     new_var = None
     if request.method == 'POST' and isLogin == "1":
         loginAccount (request)

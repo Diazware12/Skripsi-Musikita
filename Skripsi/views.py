@@ -106,7 +106,7 @@ def loginAccount (request):
         email = request.POST.get('userEmail')
         password = request.POST.get('userPassword')
 
-        username = auth_user.objects.filter(email = email).values_list(
+        username = auth_user.objects.filter(email__icontains= email).values_list(
             'username', flat=True
             ).first()
 
@@ -207,7 +207,7 @@ def sendMail (domain, user, context, additional_msg):
 def forgotPassword (request):
     email = request.POST.get('userEmail')
 
-    username = User.objects.filter(email = email).values_list(
+    username = User.objects.filter(email__icontains = email).values_list(
         'userName', flat=True
         ).first()
 

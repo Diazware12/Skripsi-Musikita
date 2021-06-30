@@ -1,3 +1,4 @@
+from Skripsi.views import checkChar
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib import messages
@@ -48,6 +49,10 @@ def reviewProduct (request, productName, brand):
 
             if len(reviewTitle) > 60:
                 messages.success(request, 'title was too long, maximum 60 character')
+                return redirect ('reviewProduct', brand=brand, productName=productName)
+
+            if checkChar (reviewTitle) == False:
+                messages.success(request, 'Title cannot contain / , # , and ?')
                 return redirect ('reviewProduct', brand=brand, productName=productName)
 
             if len(reviewDescription) < 75:
