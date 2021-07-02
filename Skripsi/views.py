@@ -168,6 +168,11 @@ def sendMail (domain, user, context, additional_msg):
         subject = 'Reset Your Password' 
         activate_url = 'http://' + domain + '/forgot_Pass/' + user.auth_token              
         messages = 'hi ' + user.userName + ',\n\n' + 'Please click the link down below to reset your password\n\n' + activate_url
+    elif (context == 'forgot_password_brand'):  
+        subject = 'Reset Your Password' 
+        activate_url = 'http://' + domain + '/forgot_Pass/' + user.auth_token              
+        messages = 'hi ' + user.brandName + ',\n\n' + 'Please click the link down below to reset your password\n\n' + activate_url
+        nameReceipent.append(user.brandEmail)    
     elif (context == 'approve_report'):
         subject = 'Your Review has been reported'              
         messages = additional_msg
@@ -207,25 +212,44 @@ def sendMail (domain, user, context, additional_msg):
 def forgotPassword (request):
     email = request.POST.get('userEmail')
 
-    username = User.objects.filter(email__icontains = email).values_list(
+    username = User.objects.filter(email__icontains= email).values_list(
         'userName', flat=True
         ).first()
+    
+    brandName = Brand.objects.filter(brandEmail__icontains= email).values_list(
+        'brandName', flat=True
+        ).first()
+    
 
-    if username is None:
+    if username is None and brandName is None:
         messages.error(request, 'We cannot find an account with that email address or that password')
-    else:
+    elif not username is None:
         user = User.objects.get(userName = username)
         domain = get_current_site(request).domain
         sendMail(domain, user, 'forgot_password', '')
         messages.error(request, 'We already send you email to reset your password')
+    else: 
+        brand = Brand.objects.get(brandName = brandName)
+        domain = get_current_site(request).domain
+        sendMail(domain, brand, 'forgot_password_brand', '')
+        messages.error(request, 'We already send you email to reset your password')
 
 def forgotPasswordForm (request,auth_token):
-    getUser = User.objects.get(auth_token = auth_token)
+    check = checkUserData(auth_token) 
+    username = None
+    getUser = None
+    if check == 'user':
+        getUser = User.objects.get(auth_token = auth_token)
+        username = getUser.userName
+    else:
+        getUser = Brand.objects.get(auth_token = auth_token)
+        username = getUser.brandName
+
     if request.method != 'POST':
         forgot_pass_form = ForgotPasswordForm()
         context = {
             'form': forgot_pass_form,
-            'username': getUser.userName
+            'username': username
         }
         return render(request,'forgotPassword.html', context)
     else :
@@ -244,12 +268,17 @@ def forgotPasswordForm (request,auth_token):
                 messages.success(request, 'confirm password should be same as password')
                 return redirect ('regularUser')
 
-            getUser.password = make_password(password)
-            getUser.save()
+            if check == 'user':
+                getUser.password = make_password(password)
+                getUser.save()
 
-            userAuth = auth_user.objects.get(username = getUser.userName)
-            userAuth.password = make_password(password)
-            userAuth.save()
+                userAuth = auth_user.objects.get(username = getUser.userName)
+                userAuth.password = make_password(password)
+                userAuth.save()
+            else:
+                userAuth = auth_user.objects.get(username = getUser.brandName)
+                userAuth.password = make_password(password)
+                userAuth.save()
 
             return redirect ('dashboard')
 
@@ -261,6 +290,14 @@ def forgotPasswordForm (request,auth_token):
             return render(request,'error.html', context)
 
     return render(request,web_direct)
+
+def checkUserData (auth_token):
+    try:
+        user = User.objects.get(auth_token = auth_token)
+        return 'user'
+    except Exception as e:
+        brand = Brand.objects.get(auth_token = auth_token)
+        return 'brand'    
 
 def countUserPending(request):
     obj = MusicStoreData.objects.select_related('userID').filter(
