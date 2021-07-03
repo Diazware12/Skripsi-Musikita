@@ -25,7 +25,7 @@ def registerMember (request):
         regis_form = UserForm()
         context = {
             'form': regis_form,
-            'role': 'Member'
+            'role': 'Regular User'
         }
         return render(request,'registerMember.html', context)
     else :
