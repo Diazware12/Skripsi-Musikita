@@ -355,10 +355,11 @@ def brandEdit (request,brandName,context):
                 messages.success(request, 'Brand Name has tobe less than or equal 50 characters')
                 return redirect ('brandEdit',context=context,brandName=brandName) 
 
-            req = requests.head(brandUrl)
-            if req.status_code == 404:
-                messages.success(request, 'Url\'s not valid')
-                return redirect ('brandEdit',context=context,brandName=brandName)  
+            if brandUrl != '':
+                req = requests.head(brandUrl)
+                if req.status_code == 404:
+                    messages.success(request, 'Url\'s not valid')
+                    return redirect ('brandEdit',context=context,brandName=brandName)  
 
             if checkChar (bName) == False:
                 messages.success(request, 'Name cannot contain / , # , and ?')

@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="pb-5 pt-5">Add Product</h1>
+        <h1 class="pb-5 pt-5">Edit Product: {{ product.productName }}</h1>
         <form method='POST' enctype="multipart/form-data">
         
             {% csrf_token %}

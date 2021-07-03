@@ -55,7 +55,7 @@ class MusicStoreForm (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'class':'form-control',
-                'placeholder':'Music Store Name'
+                'placeholder':'Music Store Name (Max. 20 Character)'
             }
         )
     )
@@ -77,7 +77,7 @@ class MusicStoreForm (forms.Form):
         widget=forms.EmailInput(
             attrs={
                 'class':'form-control',
-                'placeholder':'Email'
+                'placeholder':'Email (Max. 60 Character)'
             }
         )
     )
@@ -88,7 +88,7 @@ class MusicStoreForm (forms.Form):
         widget=forms.TextInput(
             attrs={
                 'class':'form-control',
-                'placeholder':'Music Store Phone Contact'
+                'placeholder':'Music Store Phone Contact (numeric)'
             }
         )
     )

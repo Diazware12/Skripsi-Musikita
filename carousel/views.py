@@ -36,6 +36,7 @@ def manageCarousel(request):
                 carousels[i].status = False
         for i in range(len(carousels)):
             carousels[i].save()
+        messages.success(request, 'Carousel Set successfully saved!')
         return redirect('managecarousel')
         
 @login_required

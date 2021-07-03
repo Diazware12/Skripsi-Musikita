@@ -429,11 +429,13 @@ def showProduct (request, productName, brand):
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
 
+    error = 1
     try:
-        user_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Reg_User",productId__productName=productName)[:4]
-        ms_review = Review.objects.select_related('userID','productId').filter(userID__roleId="Mus_Store",productId__productName=productName)[:4]
+        user_review = Review.objects.select_related('userID','productId').order_by('-helpful').filter(userID__roleId="Reg_User",productId__productName=productName)[:4]
+        ms_review = Review.objects.select_related('userID','productId').order_by('-helpful').filter(userID__roleId="Mus_Store",productId__productName=productName)[:4]
         obj = Product.objects.select_related('brandId').get(productName = productName, brandId__brandName=brand)
 
+        error = 2
         ratingUserScore = []
         ratingMusicStore = []
         userAvg = None
@@ -602,9 +604,15 @@ def showProduct (request, productName, brand):
     except Exception as e:
         print(e)
         context = None
-        context = {
-            'message': "Product \""+ productName +"\" from brand \""+ brand +"\" Not Found"
-        }
+
+        if error == 1:
+            context = {
+                'message': "Product \""+ productName +"\" from brand \""+ brand +"\" Not Found"
+            }
+        else:
+            context = {
+                'message': "error"
+            }
 
         return render(request,'error.html', context)
 
@@ -616,10 +624,12 @@ def showMoreReview (request, productName, brand, showMore):
     elif request.method == 'POST' and isForgotPass == "1":
         forgotPassword (request)
 
+    error = 1
     try:
 
         obj = Product.objects.select_related('brandId').get(productName = productName, brandId__brandName=brand)
 
+        error = 2
         ratingUserScore = []
         ratingMusicStore = []
         userAvg = None
@@ -769,9 +779,9 @@ def showMoreReview (request, productName, brand, showMore):
 
         reviewList = None
         if showMore == 'Music Store':
-            reviewList = Review.objects.select_related('userID','productId').filter(userID__roleId="Mus_Store",productId__productName=productName) 
+            reviewList = Review.objects.select_related('userID','productId').order_by('-helpful').filter(userID__roleId="Mus_Store",productId__productName=productName) 
         else:
-            reviewList = Review.objects.select_related('userID','productId').filter(userID__roleId="Reg_User",productId__productName=productName)
+            reviewList = Review.objects.select_related('userID','productId').order_by('-helpful').filter(userID__roleId="Reg_User",productId__productName=productName)
         
         if reviewList:
             paginator = Paginator(reviewList,6)
@@ -803,6 +813,7 @@ def showMoreReview (request, productName, brand, showMore):
             'reviewStatus': review_available,
             'messageModal': messages,
             'userPending': countUserPending(request),
+            'reportUser': countReport(request),
             'otherProduct': otherProduct,
             'showMore': showMore,
             'next_page_url': next_url,
@@ -813,9 +824,14 @@ def showMoreReview (request, productName, brand, showMore):
     except Exception as e:
         print(e)
         context = None
-        context = {
-            'message': "Product \""+ productName +"\" from brand \""+ brand +"\" Not Found"
-        }
+        if error == 1:
+            context = {
+                'message': "Product \""+ productName +"\" from brand \""+ brand +"\" Not Found"
+            }
+        else:
+            context = {
+                'message': "error"
+            }
 
         return render(request,'error.html', context)
 

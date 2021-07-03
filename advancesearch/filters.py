@@ -6,8 +6,8 @@ from product.models import Category, Product, Brand
 class productFilters(django_filters.FilterSet):
 
     CHOICE = [
-        ('avgScore', 'avgScore'),
-        ('dateTime', 'dateTime')
+        ('avgScore', 'Rating'),
+        ('dateTime', 'Latest Release')
     ]
 
     ordering = django_filters.ChoiceFilter(label='ordering', choices=CHOICE, method='filter_by_order')

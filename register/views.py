@@ -18,6 +18,7 @@ from Skripsi.views import checkChar, countReport, countUserPending, sendMail, we
 from PIL import Image
 import os
 from django.core.paginator import Paginator
+import imghdr
 
 def registerMember (request):
     if request.method != 'POST':
@@ -169,14 +170,14 @@ def registerMusicStore (request):
 
             if len(password) > 60:
                 messages.success(request, 'Password too long')
-                return redirect ('musicStore')
-
-            if len(address) > 255:
-                messages.success(request, 'Address too long')
-                return redirect ('musicStore')   
+                return redirect ('musicStore')  
 
             if len(contact) > 16:
                 messages.success(request, 'contact too long')
+                return redirect ('musicStore')    
+
+            if imageDetector(msPicture) == False or imageDetector(msPicture2) == False or imageDetector(msPicture3) == False:
+                messages.success(request, 'Image Format must be jpeg or png')
                 return redirect ('musicStore')    
 
             if not contact.isdigit():
@@ -335,6 +336,20 @@ def regisUserAuth(userRegis):
     getgroupId = Group.objects.get(name = userRegis.roleId)
 
     userAuth.groups.add(getgroupId)
+
+def imageDetector(image):
+
+    format = False
+    name = imghdr.what(image)
+    if imghdr.what(image) == 'jpeg':
+        format = True
+    elif imghdr.what(image) == 'jpg':
+        format = True
+    elif imghdr.what(image) == 'png':
+        format = True
+
+
+    return format
 
 @login_required
 @allowed_users(allowed_roles=['Admin'])
