@@ -44,8 +44,14 @@
         <div class="da-team carousel slide py-5" id="da-carouselIndicator" data-ride="carousel">
           
                   <ol class="carousel-indicators">
-                    <li class="active" data-target="#da-carouselIndicator" data-slide-to="0"></li>
-                    <li data-target="#da-carouselIndicator" data-slide-to="1"></li>
+                    {% for pack in editorChoice %}
+                      {% if forloop.first %}
+                        <li class="active" data-target="#da-carouselIndicator" data-slide-to="0"></li>
+                      {% else %}
+                        <li data-target="#da-carouselIndicator" data-slide-to="{{ forloop.counter0 }}"></li>
+                      {% endif %}
+                    {% endfor %}
+                    
                   </ol>
                   <div class="carousel-inner">
                     {% for pack in editorChoice %}
