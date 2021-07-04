@@ -133,7 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/transaction/'
+MEDIA_URL = ''
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -148,4 +148,4 @@ EMAIL_HOST_USER = 'musikita726@gmail.com'
 EMAIL_HOST_PASSWORD = 'ifmtgvqzmtlsqrlw' 
 DEFAULT_FROM_EMAIL = 'musikita726@gmail.com'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/transaction')
+MEDIA_ROOT = 'static/transaction'
