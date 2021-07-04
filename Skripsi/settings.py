@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'report',
     'django_filters',
     'advancesearch',
-    'bootstrapform'
+    'bootstrapform',
+    'whitenoise.runserver_nostatic'
 ]
 
 
@@ -136,7 +137,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/transaction/'
-
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'), 
