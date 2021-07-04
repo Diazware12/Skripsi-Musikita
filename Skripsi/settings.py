@@ -22,7 +22,7 @@ SECRET_KEY = '5k2*^e4^^eh9$bm9qnis8ld5+y+0gu#%lgj)btj2kcq2qzd+6v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','musikita.herokuapp.com']
+# ALLOWED_HOSTS = ['127.0.0.1','musikita.herokuapp.com']
 
 
 # Application definition
@@ -44,21 +44,21 @@ INSTALLED_APPS = [
     'report',
     'django_filters',
     'advancesearch',
-    'bootstrapform',
-    'whitenoise.runserver_nostatic'
+    'bootstrapform'
+    # 'whitenoise.runserver_nostatic'
 ]
 
 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'Skripsi.urls'
