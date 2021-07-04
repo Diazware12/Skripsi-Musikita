@@ -88,10 +88,9 @@ WSGI_APPLICATION = 'Skripsi.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'b3alfoddpsrl9gcamp0a-mysql.services.clever-cloud.com',
-        'NAME': 'b3alfoddpsrl9gcamp0a',
-        'USER': 'uxszbnijy2q03vcd',
-        'PASSWORD': 'nvwDcPcEpKZ184xH0lcq'
+        'NAME': 'musikita_db',
+        'USER': 'sa',
+        'PASSWORD': 'qwerty123'
     }
 }
 
@@ -135,11 +134,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/transaction/'
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static'), 
-# ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+   os.path.join(BASE_DIR, 'static')
+]
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
