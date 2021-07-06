@@ -88,10 +88,9 @@ WSGI_APPLICATION = 'Skripsi.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'b3alfoddpsrl9gcamp0a-mysql.services.clever-cloud.com',
-        'NAME': 'b3alfoddpsrl9gcamp0a',
-        'USER': 'uxszbnijy2q03vcd',
-        'PASSWORD': 'nvwDcPcEpKZ184xH0lcq'
+        'NAME': 'musikita_db',
+        'USER': 'sa',
+        'PASSWORD': 'qwerty123'
     }
 }
 

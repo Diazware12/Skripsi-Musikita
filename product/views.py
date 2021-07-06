@@ -24,6 +24,8 @@ def addProduct (request):
             'form': form,
             'category': ddCategory,
             'subCategory': ddSubCategory,
+            'userPending': countUserPending(request),
+            'reportUser': countReport(request),
         }
         return render(request,'addProduct.html', context)
     else :
@@ -126,7 +128,9 @@ def addEditProduct (request,context,productName,brand):
                 'product': product,
                 'category': ddCategory,
                 'subCategory': ddSubCategory,
-                'context': context
+                'context': context,
+                'userPending': countUserPending(request),
+                'reportUser': countReport(request),
             }
             return render(request,'addProductEdit.html', context)
         else :
@@ -280,7 +284,9 @@ def addEditPicture (request,productName,brand):
             'brand': brand,
             'productName': productName,
             'context':'',
-            'title': 'Add Product Picture'
+            'title': 'Add Product Picture',
+            'userPending': countUserPending(request),
+            'reportUser': countReport(request),
         }
         return render(request,'addProductPicture.html',context)
     else:
@@ -313,7 +319,9 @@ def addEditPictureContext (request,productName,brand,context):
             'brand': brand,
             'productName': productName,
             'context':context,
-            'title': 'Edit Product Picture: ' + productName
+            'title': 'Edit Product Picture: ' + productName,
+            'userPending': countUserPending(request),
+            'reportUser': countReport(request),
         }
         return render(request,'addProductPicture.html',context)
     else:

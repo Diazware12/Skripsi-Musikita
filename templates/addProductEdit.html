@@ -14,6 +14,9 @@
 
 </head>
 <body>
+
+    {% include "snippets/navbar.html" %}
+
     <div class="container">
         <h1 class="pb-5 pt-5">Edit Product: {{ product.productName }}</h1>
         <form method='POST' enctype="multipart/form-data">
@@ -98,7 +101,16 @@
     <script>
         $(".chosen").chosen();
     </script>
-    {% include "snippets/scripts.html" %}
+    {% include "snippets/footer.html" %}
+    <script src="{% static 'vendor2/scripts/jquery.min.js'%}"></script>
+    <script src="{% static 'vendor2/scripts/bootstrap.bundle.min.js'%}"></script>
+    <script src="{% static 'vendor2/scripts/aos.js'%}"></script>
+    <script src="{% static 'vendor2/scripts/ekko-lightbox.min.js'%}"></script>
+    <script src="{% static 'vendor2/scripts/main.js'%}"></script>
+    <script src="{% static 'vendor2/scripts/seeMoreScripts.js'%}"></script>
+    <script src="{% static 'vendor2/scripts/custom.js'%}"></script>
+    <script src="{% static 'vendor2/scripts/rating.js'%}"></script>
+    <script src="{% static 'vendor2/scripts/tooglePassword.js'%}"></script>
     
 </body>
 
