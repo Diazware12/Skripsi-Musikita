@@ -2,35 +2,36 @@
 
 <nav class="sticky-top" id="navbar_top">
   <div class="wrapper">
+    
     <div class="top_nav">
         <div class="left">
         <div class="d-flex flex-row">
-            <div class="p-2"><div class="logo">
-              <a href="{% url 'dashboard' %}" style="text-decoration: none;">
-                <p><span>Musi</span>Kita.com</p></div>
-              </a>
-            </div>
-            <div class="p-2">
-              <div class="container">
-                <div class="search-data">
-                  <form id="search-form" autocomplete = "off"> 
-                      {% csrf_token %}
-                      <input name="keyword" id="search-input" type="text" placeholder="type to search">
-                      <div class="line" style="width: 77%;"></div>
-                      
-                    <span class="fa fa-search" style="width: 50%;"></span>
+          <div class="p-2"><div class="logo">
+            <a href="{% url 'dashboard' %}" style="text-decoration: none;">
+              <p><span>Musi</span>Kita.com</p></div>
+            </a>
+          </div>
+          <div class="p-2">
+            <div class="container">
+              <div class="search-data">
+                <form id="search-form" autocomplete = "off"> 
+                    {% csrf_token %}
+                    <input name="keyword" id="search-input" type="text" placeholder="type to search">
+                    <div class="line" style="width: 77%;"></div>
+                    
+                  <span class="fa fa-search" style="width: 50%;"></span>
 
-                    <div class="container pt-2" style="margin-right:140%;">
-                      <div id="result-box" class="results-card not-visible"></div> 
-                    </div>            
+                  <div class="container pt-2" style="margin-right:140%;">
+                    <div id="result-box" class="results-card not-visible"></div> 
+                  </div>            
 
-                  </form>
+                </form>
 
-                </div>
-                
               </div>
-
+              
             </div>
+
+          </div>
         </div>
 
       </div> 

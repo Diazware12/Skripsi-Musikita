@@ -179,3 +179,54 @@ nav > .nav.nav-tabs{
 .container .star-widget input{
     display: none;
 }
+
+.box {
+  float: left;
+  height: 50px;
+  width: 50px;
+  padding-bottom: 50px;
+  position:absolute;
+  top: 50px;
+  border-radius: 5px;
+}
+
+.boxEditor {
+  float: left;
+  height: 70px;
+  width: 70px;
+  padding-bottom: 50px;
+  position:absolute;
+  top: 50px;
+  border-radius: 5px;
+}
+
+.box h6 {
+  padding-top: 15px;
+  padding-left: 8px;
+  color:white;
+  font-weight: bold;
+}
+
+.boxEditor h6 {
+  padding-top: 25px;
+  padding-left: 16px;
+  color:white;
+  font-weight: bold;
+}
+
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: rgb(29, 216, 29);
+}
+
+.yellow {
+  background-color: rgb(252, 231, 41);
+}
+
+.grey {
+  background-color: rgb(148, 148, 148);
+}

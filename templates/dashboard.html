@@ -65,15 +65,15 @@
                                     <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;text-decoration:none;">
                                       <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
 
-                                      {% if obj.avgScore == None %}
-                                        <div class="w-auto p-3 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
-                                      {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
-                                        <div class="p-3 mb-2 bg-success text-white"><b>{{ obj.avgScore }}</b></div>
-                                      {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
-                                        <div class="p-3 mb-2 bg-warning text-white"><b>{{ obj.avgScore }}</b></div>
-                                      {% else %}
-                                        <div class="p-3 mb-2 bg-danger text-white"><b>{{ obj.avgScore }}</b></div>
-                                      {% endif %} 
+                                        {% if obj.avgScore == None %}
+                                          <div><div class='boxEditor grey' style="margin-top:-50px"><h6>Tba</h6></div></div>
+                                        {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
+                                          <div><div class='boxEditor green' style="margin-top:-50px"><h6>{{obj.avgScore }}</h6></div></div>
+                                        {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
+                                          <div><div class='boxEditor yellow' style="margin-top:-50px"><h6>{{obj.avgScore }}</h6></div></div>
+                                        {% else %}
+                                          <div><div class='boxEditor red' style="margin-top:-50px"><h6>{{obj.avgScore }}</h6></div></div>
+                                        {% endif %} 
 
                                       <div class="card-body text-center">
                                         <div class="h5">{{ obj.productName }}</div>
@@ -95,15 +95,15 @@
                                   <div class="card d-block mb-3">
                                     <a href="{% url 'showProduct' brand=obj.brandId.brandName productName=obj.productName %}" style="color: black;text-decoration:none;">
                                       <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
-                                      {% if obj.avgScore == None %}
-                                        <div class="w-auto p-3 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
-                                      {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
-                                        <div class="p-3 mb-2 bg-success text-white"><b>{{ obj.avgScore }}</b></div>
-                                      {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
-                                        <div class="p-3 mb-2 bg-warning text-white"><b>{{ obj.avgScore }}</b></div>
-                                      {% else %}
-                                        <div class="p-3 mb-2 bg-danger text-white"><b>{{ obj.avgScore }}</b></div>
-                                      {% endif %} 
+                                        {% if obj.avgScore == None %}
+                                          <div><div class='boxEditor grey' style="margin-top:-50px"><h6>Tba</h6></div></div>
+                                        {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
+                                          <div><div class='boxEditor green' style="margin-top:-50px"><h6>{{obj.avgScore }}</h6></div></div>
+                                        {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
+                                          <div><div class='boxEditor yellow' style="margin-top:-50px"><h6>{{obj.avgScore }}</h6></div></div>
+                                        {% else %}
+                                          <div><div class='boxEditor red' style="margin-top:-50px"><h6>{{obj.avgScore }}</h6></div></div>
+                                        {% endif %} 
                                       <div class="card-body text-center">
                                         <div class="h5">{{ obj.productName }}</div>
                                         <p class="text-muted">{{ obj.brandId.brandName }}</p>
@@ -135,14 +135,14 @@
                           <img class="card-img-top" src="{{ hotItem.productIMG.url }}" alt="image"/>
                         </div>
                         {% if hotItem.avgScore == None %}
-                          <div class="w-auto p-3 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                          <div><div class='box grey'><h6>Tba</h6></div></div>
                         {% elif hotItem.avgScore <= 10 and hotItem.avgScore >= 8 %}   
-                          <div class="w-auto p-3 bg-success text-white"><b>{{ hotItem.avgScore }}</b></div>
+                          <div><div class='box green'><h6>{{hotItem.avgScore }}</h6></div></div>
                         {% elif hotItem.avgScore < 8 and hotItem.avgScore >= 5 %}
-                          <div class="w-auto p-3 bg-warning text-white"><b>{{ hotItem.avgScore }}</b></div>
+                          <div><div class='box yellow'><h6>{{hotItem.avgScore }}</h6></div></div>
                         {% else %}
-                          <div class="w-auto p-3 bg-danger text-white"><b>{{ hotItem.avgScore }}</b></div>
-                        {% endif %} 
+                          <div><div class='box yellow'><h6>{{hotItem.avgScore }}</h6></div></div>
+                        {% endif %}
                         
                         
                         <div class="h5 pt-2">{{ hotItem.productName }}</div>
@@ -194,14 +194,16 @@
                                 <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
                               </div>
                               {% if obj.avgScore == None %}
-                                <div class="w-auto p-1 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                <div><div class='box grey' style="margin-top:-30px"><h6>Tba</h6></div></div>
                               {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
-                                <div class="w-auto p-1 bg-success text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box green' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
-                                <div class="w-auto p-1 bg-warning text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box yellow' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% else %}
-                                <div class="w-auto p-1 bg-danger text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box red' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% endif %} 
+
+
                               <div class="h5 pt-2">{{ obj.productName }}</div>
                               <span class="more">{{ obj.description }}</span>
                             </div>
@@ -231,14 +233,15 @@
                                 <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
                               </div>
                               {% if obj.avgScore == None %}
-                                <div class="w-auto p-1 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                <div><div class='box grey' style="margin-top:-30px"><h6>Tba</h6></div></div>
                               {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
-                                <div class="w-auto p-1 bg-success text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box green' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
-                                <div class="w-auto p-1 bg-warning text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box yellow' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% else %}
-                                <div class="w-auto p-1 bg-danger text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box red' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% endif %} 
+
                               <div class="h5 pt-2">{{ obj.productName }}</div>
                               <span class="more">{{ obj.description }}</span>
                             </div>
@@ -261,14 +264,15 @@
                                 <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
                               </div>
                               {% if obj.avgScore == None %}
-                                <div class="w-auto p-1 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                <div><div class='box grey' style="margin-top:-30px"><h6>Tba</h6></div></div>
                               {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
-                                <div class="w-auto p-1 bg-success text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box green' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
-                                <div class="w-auto p-1 bg-warning text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box yellow' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% else %}
-                                <div class="w-auto p-1 bg-danger text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box red' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% endif %} 
+
                               <div class="h5 pt-2">{{ obj.productName }}</div>
                               <span class="more">{{ obj.description }}</span>
                             </div>
@@ -291,14 +295,15 @@
                                 <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
                               </div>
                               {% if obj.avgScore == None %}
-                                <div class="w-auto p-1 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                <div><div class='box grey' style="margin-top:-30px"><h6>Tba</h6></div></div>
                               {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
-                                <div class="w-auto p-1 bg-success text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box green' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
-                                <div class="w-auto p-1 bg-warning text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box yellow' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% else %}
-                                <div class="w-auto p-1 bg-danger text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box red' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% endif %} 
+
                               <div class="h5 pt-2">{{ obj.productName }}</div>
                               <span class="more">{{ obj.description }}</span>
                             </div>
@@ -321,14 +326,15 @@
                                 <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
                               </div>
                               {% if obj.avgScore == None %}
-                                <div class="w-auto p-1 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                <div><div class='box grey' style="margin-top:-30px"><h6>Tba</h6></div></div>
                               {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
-                                <div class="w-auto p-1 bg-success text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box green' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
-                                <div class="w-auto p-1 bg-warning text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box yellow' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% else %}
-                                <div class="w-auto p-1 bg-danger text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box red' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% endif %} 
+
                               <div class="h5 pt-2">{{ obj.productName }}</div>
                               <span class="more">{{ obj.description }}</span>
                             </div>
@@ -351,14 +357,15 @@
                                 <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
                               </div>
                               {% if obj.avgScore == None %}
-                                <div class="w-auto p-1 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                <div><div class='box grey' style="margin-top:-30px"><h6>Tba</h6></div></div>
                               {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
-                                <div class="w-auto p-1 bg-success text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box green' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
-                                <div class="w-auto p-1 bg-warning text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box yellow' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% else %}
-                                <div class="w-auto p-1 bg-danger text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box red' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% endif %} 
+
                               <div class="h5 pt-2">{{ obj.productName }}</div>
                               <span class="more">{{ obj.description }}</span>
                             </div>
@@ -381,14 +388,15 @@
                                 <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
                               </div>
                               {% if obj.avgScore == None %}
-                                <div class="w-auto p-1 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                <div><div class='box grey' style="margin-top:-30px"><h6>Tba</h6></div></div>
                               {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
-                                <div class="w-auto p-1 bg-success text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box green' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
-                                <div class="w-auto p-1 bg-warning text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box yellow' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% else %}
-                                <div class="w-auto p-1 bg-danger text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box red' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% endif %} 
+
                               <div class="h5 pt-2">{{ obj.productName }}</div>
                               <span class="more">{{ obj.description }}</span>
                             </div>
@@ -411,14 +419,15 @@
                                 <img class="card-img-top" src="{{ obj.productIMG.url }}" alt="image"/>
                               </div>
                               {% if obj.avgScore == None %}
-                                <div class="w-auto p-1 text-white" style="background-color:rgba(135, 135, 135, 1);"><b>Tba</b></div>
+                                <div><div class='box grey' style="margin-top:-30px"><h6>Tba</h6></div></div>
                               {% elif obj.avgScore <= 10 and obj.avgScore >= 8 %}   
-                                <div class="w-auto p-1 bg-success text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box green' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% elif obj.avgScore < 8 and obj.avgScore >= 5 %}
-                                <div class="w-auto p-1 bg-warning text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box yellow' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% else %}
-                                <div class="w-auto p-1 bg-danger text-white"><b>{{ obj.avgScore }}</b></div>
+                                <div><div class='box red' style="margin-top:-30px"><h6>{{obj.avgScore }}</h6></div></div>
                               {% endif %} 
+
                               <div class="h5 pt-2">{{ obj.productName }}</div>
                               <span class="more">{{ obj.description }}</span>
                             </div>
