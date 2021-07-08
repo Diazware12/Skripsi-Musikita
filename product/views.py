@@ -18,7 +18,8 @@ from django.core.paginator import Paginator
 def addProduct (request):
     ddCategory = Category.objects.all()
     ddSubCategory = SubCategory.objects.all()
-    
+    error = None
+    msg = None
     if request.method != 'POST':
         form = ProductForm()
         context = {
@@ -38,6 +39,7 @@ def addProduct (request):
         videoUrl = request.POST.get('videoUrl')
         
         try:
+            error = 1
             brand_Id = Brand.objects.get(brandName = brand)
 
             category_Id = Category.objects.get(categoryName = category)
@@ -66,67 +68,27 @@ def addProduct (request):
                     raise Exception("forbidden")
             else:
                 pass
-
+            
+            error = 2
             if checkChar (productName) == False:
-                messages.success(request, 'Name cannot contain / , # , ?, \", and \' ')
-                form = ProductForm(request.POST)
-                context = {
-                    'form': form,
-                    'category': ddCategory,
-                    'subCategory': ddSubCategory,
-                    'userPending': countUserPending(request),
-                    'reportUser': countReport(request),
-                }
-                return render(request,'addProduct.html', context)
-
+                msg = 'Name cannot contain / , # , ?, \", and \' '
+                raise Exception("forbidden")
+            
             if len(productName) > 70:
-                messages.success(request, 'Product Name has tobe less than or equal 70 characters')
-                form = ProductForm(request.POST)
-                context = {
-                    'form': form,
-                    'category': ddCategory,
-                    'subCategory': ddSubCategory,
-                    'userPending': countUserPending(request),
-                    'reportUser': countReport(request),
-                }
-                return render(request,'addProduct.html', context)
+                msg = 'Product Name has tobe less than or equal 70 characters'
+                raise Exception("forbidden")
 
             if Product.objects.select_related('brandId').filter(productName=productName,brandId__brandName=brand_Id.brandName).first():
-                messages.success(request, 'Product is already exist')
-                form = ProductForm(request.POST)
-                context = {
-                    'form': form,
-                    'category': ddCategory,
-                    'subCategory': ddSubCategory,
-                    'userPending': countUserPending(request),
-                    'reportUser': countReport(request),
-                }
-                return render(request,'addProduct.html', context)
+                msg = 'Product is already exist'
+                raise Exception("forbidden")
 
             if checkYoutubeUrl (videoUrl) == False:
-                messages.success(request, 'url not valid')
-                form = ProductForm(request.POST)
-                context = {
-                    'form': form,
-                    'category': ddCategory,
-                    'subCategory': ddSubCategory,
-                    'userPending': countUserPending(request),
-                    'reportUser': countReport(request),
-                }
-                return render(request,'addProduct.html', context)
+                msg = 'url not valid'
+                raise Exception("forbidden")
 
             if len(description) < 75:
-                messages.success(request, 'description need to be equal or more than 75 character')
-                form = ProductForm(request.POST)
-                context = {
-                    'form': form,
-                    'category': ddCategory,
-                    'subCategory': ddSubCategory,
-                    'userPending': countUserPending(request),
-                    'reportUser': countReport(request),
-                }
-                return render(request,'addProduct.html', context)
-
+                msg = 'description need to be equal or more than 75 character'
+                raise Exception("forbidden")
 
             product_obj = Product.objects.create(
                 categoryId = category_Id,
@@ -145,15 +107,29 @@ def addProduct (request):
 
         except Exception as e:
             print(e)
-            context = {
-                'message': 'error'
-            }
-            return render(request,'error.html', context)
+            if error == 1:
+                context = {
+                    'message': 'error'
+                }
+                return render(request,'error.html', context)
+            else:
+                messages.success(request, msg)
+                form = ProductForm(request.POST)
+                context = {
+                    'form': form,
+                    'category': ddCategory,
+                    'subCategory': ddSubCategory,
+                    'userPending': countUserPending(request),
+                    'reportUser': countReport(request),
+                }
+                return render(request,'addProduct.html', context)
 
 @login_required
 @allowed_users(allowed_roles=['Admin','Brand'])
 def addEditProduct (request,context,productName,brand):
     error = 0
+    error = None
+    msg = None
     try:
         getProduct = Product.objects.select_related('brandId').get(
             brandId__brandName=brand,
@@ -163,7 +139,6 @@ def addEditProduct (request,context,productName,brand):
         product = getProduct
 
         if request.method != 'POST':
-
             form = ProductForm()
             context = {
                 'form':form,
@@ -183,7 +158,6 @@ def addEditProduct (request,context,productName,brand):
             description = request.POST.get('description')
             videoUrl = request.POST.get('videoUrl')
             error = 1
-
             brand_Id = Brand.objects.get(brandName = brand)
 
             category_Id = Category.objects.get(categoryName = category)
@@ -212,62 +186,23 @@ def addEditProduct (request,context,productName,brand):
                     raise Exception("forbidden")
             else:
                 pass
-
+            
+            error = 2
             if len(productName) > 70:
-                messages.success(request, 'Product Name has tobe less than or equal 70 characters')
-                form = ProductForm(request.POST)
-                context = {
-                    'form':form,
-                    'product': product,
-                    'category': ddCategory,
-                    'subCategory': ddSubCategory,
-                    'context': context,
-                    'userPending': countUserPending(request),
-                    'reportUser': countReport(request),
-                }
-                return render(request,'addProductEdit.html', context)
+                msg = 'Product Name has tobe less than or equal 70 characters'
+                raise Exception ("error")
 
             if checkChar (productName) == False:
-                messages.success(request, 'Name cannot contain / , # , ?, \", and \' ')
-                form = ProductForm(request.POST)
-                context = {
-                    'form':form,
-                    'product': product,
-                    'category': ddCategory,
-                    'subCategory': ddSubCategory,
-                    'context': context,
-                    'userPending': countUserPending(request),
-                    'reportUser': countReport(request),
-                }
-                return render(request,'addProductEdit.html', context)
+                msg = 'Name cannot contain / , # , ?, \", and \' '
+                raise Exception ("error")
 
             if checkYoutubeUrl (videoUrl) == False:
-                messages.success(request, 'url not valid')
-                form = ProductForm(request.POST)
-                context = {
-                    'form':form,
-                    'product': product,
-                    'category': ddCategory,
-                    'subCategory': ddSubCategory,
-                    'context': context,
-                    'userPending': countUserPending(request),
-                    'reportUser': countReport(request),
-                }
-                return render(request,'addProductEdit.html', context)
+                msg = 'url not valid'
+                raise Exception ("error")
             
             if len(description) < 75:
-                messages.success(request, 'description need to be equal or more than 75 character')
-                form = ProductForm(request.POST)
-                context = {
-                    'form':form,
-                    'product': product,
-                    'category': ddCategory,
-                    'subCategory': ddSubCategory,
-                    'context': context,
-                    'userPending': countUserPending(request),
-                    'reportUser': countReport(request),
-                }
-                return render(request,'addProductEdit.html', context)
+                msg = 'description need to be equal or more than 75 character'
+                raise Exception ("error")
                 
 
             getProduct.categoryId=category_Id
@@ -288,18 +223,29 @@ def addEditProduct (request,context,productName,brand):
             
     except Exception as e:
         print(e)
-
         context = None
         if error == 0:            
             context = {
                 'message': "product "+productName+" Not Found"
             }
-        else:
+        elif error == 1:
             context = {
                 'message': 'error'
             }
-        
-        return render(request,'error.html', context)
+            return render(request,'error.html', context)
+        else:
+            messages.success(request, msg)
+            form = ProductForm(request.POST)
+            context = {
+                'form':form,
+                'product': product,
+                'category': ddCategory,
+                'subCategory': ddSubCategory,
+                'context': context,
+                'userPending': countUserPending(request),
+                'reportUser': countReport(request),
+            }
+            return render(request,'addProductEdit.html', context)
 
 @login_required
 @allowed_users(allowed_roles=['Admin','Brand'])

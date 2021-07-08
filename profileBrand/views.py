@@ -233,6 +233,8 @@ def brandControl (request):
 @login_required
 @allowed_users(allowed_roles=['Admin'])
 def addBrand (request):
+    error = 1
+    msg = None
     if request.method != 'POST':
         regis_form = AddBrandForm()
         context = {
@@ -247,16 +249,16 @@ def addBrand (request):
                 raise Exception("required field Empty")
 
             if len(brandName) > 50:
-                messages.success(request, 'Brand Name has tobe less than or equal 50 characters')
-                return redirect ('addBrand')
+                msg = 'Brand Name has tobe less than or equal 50 characters'
+                raise Exception("error")
 
             if Brand.objects.filter(brandName = brandName).first():
-                messages.success(request, 'Brand Name is Taken')
-                return redirect ('addBrand')
+                msg = 'Brand Name is Taken'
+                raise Exception("error")
 
             if checkChar (brandName) == False:
-                messages.success(request, 'Name cannot contain / , # , and ?')
-                return redirect ('addBrand') 
+                msg = 'Name cannot contain / , # , and ?'
+                raise Exception("error")
             
             brand_obj = Brand.objects.create(
                 brandName = brandName,
@@ -266,10 +268,19 @@ def addBrand (request):
 
             return redirect ('brandcontrol')
         except Exception as e:
-            context = {
-                'message': 'error'
-            }
-            return render(request,'error.html', context)
+            if error == 1:
+                context = {
+                    'message': 'error'
+                }
+                return render(request,'error.html', context)
+            else:
+                messages.success(request, msg)
+                regis_form = AddBrandForm(request.POST)
+                context = {
+                    'form': regis_form,
+                    'context': 'Add Brand'
+                }
+                return render(request,'addInviteRegisterBrand.html', context)
 
 @login_required
 @allowed_users(allowed_roles=['Admin'])
@@ -405,6 +416,8 @@ def brandEdit (request,brandName,context):
         return render(request,'error.html', context)
 
 def registerBrand (request,auth_token):
+    error = None
+    msg = None
     try:
         getBrand = Brand.objects.get(auth_token = auth_token)
         if request.method != 'POST':
@@ -420,7 +433,8 @@ def registerBrand (request,auth_token):
             confirm_pass = request.POST.get('confirm_pass')
             brandWebsiteUrl = request.POST.get('brandWebsiteUrl')
             description = request.POST.get('description')
-
+            
+            error = 1
             if email == '':
                 raise Exception("required field Empty")
             if password == '':
@@ -428,43 +442,24 @@ def registerBrand (request,auth_token):
             if confirm_pass == '':
                 raise Exception("required field Empty")
 
+            error = 2
             if User.objects.filter(email = email).first():
-                messages.success(request, 'email is Taken')
-                registerForm = registerBrandForm(request.POST)
-                context = {
-                    'form': registerForm,
-                    'context': "Register Brand :"+getBrand.brandName+""
-                }
-                return render(request,'addInviteRegisterBrand.html', context)
+                msg = 'email is Taken'
+                raise Exception ("error")
                 
             check_pass = weakPassword (password)
             if check_pass != 'True':
-                messages.success(request, check_pass)
-                registerForm = registerBrandForm(request.POST)
-                context = {
-                    'form': registerForm,
-                    'context': "Register Brand :"+getBrand.brandName+""
-                }
-                return render(request,'addInviteRegisterBrand.html', context)
+                msg = check_pass
+                raise Exception ("error")
 
             if (confirm_pass != password):
-                messages.success(request, 'confirm password should be same as password')
-                registerForm = registerBrandForm(request.POST)
-                context = {
-                    'form': registerForm,
-                    'context': "Register Brand :"+getBrand.brandName+""
-                }
-                return render(request,'addInviteRegisterBrand.html', context)
+                msg = 'confirm password should be same as password'
+                raise Exception ("error")
 
             req = requests.head(brandWebsiteUrl)
             if req.status_code == 404:
-                messages.success(request, 'Url\'s not valid')
-                registerForm = registerBrandForm(request.POST)
-                context = {
-                    'form': registerForm,
-                    'context': "Register Brand :"+getBrand.brandName+""
-                }
-                return render(request,'addInviteRegisterBrand.html', context)
+                msg = 'Url\'s not valid'
+                raise Exception ("error")
 
             getBrand.brandURL = brandWebsiteUrl
             getBrand.description = description
@@ -487,10 +482,19 @@ def registerBrand (request,auth_token):
             return redirect ('dashboard')
 
     except Exception as e:
-        context = {
-            'message': 'error'
-        }
-        return render(request,'error.html', context)
+        if error == 1:
+            context = {
+                'message': 'error'
+            }
+            return render(request,'error.html', context)
+        else:
+            messages.success(request, msg)
+            registerForm = registerBrandForm(request.POST)
+            context = {
+                'form': registerForm,
+                'context': "Register Brand :"+getBrand.brandName+""
+            }
+            return render(request,'addInviteRegisterBrand.html', context)
 
 @login_required
 @allowed_users(allowed_roles=['Admin'])

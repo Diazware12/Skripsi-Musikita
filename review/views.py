@@ -16,6 +16,7 @@ from Skripsi.decorator import allowed_users
 @allowed_users(allowed_roles=['Reg_User','Mus_Store'])
 def reviewProduct (request, productName, brand):
     error = 0
+    msg = None
     try:
         product = Product.objects.select_related('brandId').get(productName=productName,brandId__brandName=brand) #
         userAuthName = request.user.username
@@ -40,51 +41,27 @@ def reviewProduct (request, productName, brand):
             sellStatus = False
             error = 1
 
-            if rate == None:
-                messages.success(request, 'you need to fill-in the rate')
-                review_form = ReviewForm(request.POST)
-                context = {
-                    'form': review_form,
-                    'Brand': brand,
-                    'productName': productName
-                }
-                return render(request,'scoreRating.html', context)
-
             if reviewTitle == '' or reviewDescription == '':
                 raise Exception("required field Empty")
 
+            error = 2
+            if rate == None:
+                msg = 'you need to fill-in the rate'
+                raise Exception("error")
+
+
             if len(reviewTitle) > 60:
-                messages.success(request, 'title was too long, maximum 60 character')
-                review_form = ReviewForm(request.POST)
-                context = {
-                    'form': review_form,
-                    'Brand': brand,
-                    'productName': productName
-                }
-                return render(request,'scoreRating.html', context)
+                msg = 'title was too long, maximum 60 character'
+                raise Exception("error")
 
 
             if checkChar (reviewTitle) == False:
-                messages.success(request, 'Title cannot contain / , # , and ?')
-                review_form = ReviewForm(request.POST)
-                context = {
-                    'form': review_form,
-                    'Brand': brand,
-                    'productName': productName
-                }
-                return render(request,'scoreRating.html', context)
-
+                msg = 'Title cannot contain / , # , and ?'
+                raise Exception("error")
 
             if len(reviewDescription) < 75:
-                messages.success(request, 'review need to be equal or more than 75 character')
-                review_form = ReviewForm(request.POST)
-                context = {
-                    'form': review_form,
-                    'Brand': brand,
-                    'productName': productName
-                }
-                return render(request,'scoreRating.html', context)
-
+                msg = 'review need to be equal or more than 75 character'
+                raise Exception("error")
 
             userAuth = request.user
             if userAuth.groups.filter(name='Mus_Store').exists():
@@ -116,11 +93,20 @@ def reviewProduct (request, productName, brand):
             context = {
                 'message': "Product \""+ productName +"\" from brand \""+ brand +"\" Not Found"
             }
-        else:
+        elif error == 1:
             context = {
                 'message': 'error'
             }
-        return render(request,'error.html', context)
+            return render(request,'error.html', context)
+        else:
+            messages.success(request, msg)
+            review_form = ReviewForm(request.POST)
+            context = {
+                'form': review_form,
+                'Brand': brand,
+                'productName': productName
+            }
+            return render(request,'scoreRating.html', context)
 
 def putReviewAvg(rating):
     average = 0

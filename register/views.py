@@ -21,6 +21,8 @@ from django.core.paginator import Paginator
 import imghdr
 
 def registerMember (request):
+    error = None
+    msg = None
     if request.method != 'POST':
         regis_form = UserForm()
         context = {
@@ -37,6 +39,7 @@ def registerMember (request):
         web_direct = ''
 
         try: 
+            error = 1
             if username == '':
                 raise Exception("Required field empty")
             if email == '':
@@ -46,78 +49,39 @@ def registerMember (request):
             if conf_pass == '':
                 raise Exception("Required field empty")
 
+            error = 2
             if len(username) > 20:
-                messages.success(request, 'User Name has to be less than or equal 20 characters')
-                regis_form = UserForm(request.POST)
-                context = {
-                    'form': regis_form,
-                    'role': 'Regular User'
-                }
-                return render(request,'registerMember.html', context)
+                msg = 'User Name has to be less than or equal 20 characters'
+                raise Exception("error")
 
             if len(email) > 60:
-                messages.success(request, 'Email has to be less than or equal 60 characters')
-                regis_form = UserForm(request.POST)
-                context = {
-                    'form': regis_form,
-                    'role': 'Regular User'
-                }
-                return render(request,'registerMember.html', context)
+                msg = 'Email has to be less than or equal 60 characters'
+                raise Exception("error")
 
             if len(password) > 60:
-                messages.success(request, 'Password too long')
-                regis_form = UserForm(request.POST)
-                context = {
-                    'form': regis_form,
-                    'role': 'Regular User'
-                }
-                return render(request,'registerMember.html', context)
+                msg = 'Password too long'
+                raise Exception("error")
 
             if checkChar (username) == False:
-                messages.success(request, 'Name cannot contain / , # , and ?')
-                regis_form = UserForm(request.POST)
-                context = {
-                    'form': regis_form,
-                    'role': 'Regular User'
-                }
-                return render(request,'registerMember.html', context)
+                msg = 'Name cannot contain / , # , and ?'
+                raise Exception("error")
 
             if User.objects.filter(userName = username).first():
-                messages.success(request, 'Username is taken')
-                regis_form = UserForm(request.POST)
-                context = {
-                    'form': regis_form,
-                    'role': 'Regular User'
-                }
-                return render(request,'registerMember.html', context)
+                msg = 'Username is taken'
+                raise Exception("error")
 
             if User.objects.filter(email = email).first():
-                messages.success(request, 'Email address is taken')
-                regis_form = UserForm(request.POST)
-                context = {
-                    'form': regis_form,
-                    'role': 'Regular User'
-                }
-                return render(request,'registerMember.html', context)
+                msg = 'Email address is taken'
+                raise Exception("error")
             
             check_pass = weakPassword (password)
             if check_pass != 'True':
-                messages.success(request, check_pass)
-                regis_form = UserForm(request.POST)
-                context = {
-                    'form': regis_form,
-                    'role': 'Regular User'
-                }
-                return render(request,'registerMember.html', context)
+                msg = check_pass
+                raise Exception("error")
 
             if (conf_pass != password):
-                messages.success(request, 'Confirm password should be same as password')
-                regis_form = UserForm(request.POST)
-                context = {
-                    'form': regis_form,
-                    'role': 'Regular User'
-                }
-                return render(request,'registerMember.html', context)
+                msg = 'Confirm password should be same as password'
+                raise Exception("error")
 
             token = str (uuid.uuid4())
             
@@ -145,11 +109,23 @@ def registerMember (request):
 
         except Exception as e:
             print(e)
-            web_direct = 'error.html'
-
-    return render(request,web_direct)
+            if error == 1:
+                context = {
+                    'message': 'error'
+                }
+                return render(request,'error.html', context)
+            else:
+                messages.success(request, msg)
+                regis_form = UserForm(request.POST)
+                context = {
+                    'form': regis_form,
+                    'role': 'Regular User'
+                }
+                return render(request,'registerMember.html', context)
 
 def registerMusicStore (request):
+    error = None
+    msg = None
     if request.method != 'POST':
         regis_form = MusicStoreForm()
         context = {
@@ -175,6 +151,7 @@ def registerMusicStore (request):
 
         try: 
 
+            error = 1
             if musicStoreName == '':
                 raise Exception("Required field empty")
             if address == '':
@@ -196,94 +173,52 @@ def registerMusicStore (request):
             if description == '':
                 raise Exception("Required field empty")
 
+            error = 2
             if checkChar (musicStoreName) == False:
-                messages.success(request, 'Name cannot contain / , # , and ?')
-                regis_form = MusicStoreForm(request.POST)
-                context = {
-                    'form': regis_form
-                }
-                return render(request,'registerMusicStore.html', context)
+                msg = 'Name cannot contain / , # , and ?'
+                raise Exception ("error")
 
             if len(musicStoreName) > 20:
-                messages.success(request, 'Music Store Name has to be less than or equal 20 characters')
-                regis_form = MusicStoreForm(request.POST)
-                context = {
-                    'form': regis_form
-                }
-                return render(request,'registerMusicStore.html', context)
+                msg = 'Music Store Name has to be less than or equal 20 characters'
+                raise Exception ("error")
 
             if len(email) > 60:
-                messages.success(request, 'Email has to be less than or equal 60 characters')
-                regis_form = MusicStoreForm(request.POST)
-                context = {
-                    'form': regis_form
-                }
-                return render(request,'registerMusicStore.html', context)
+                msg = 'Email has to be less than or equal 60 characters'
+                raise Exception ("error")
 
             if len(password) > 60:
-                messages.success(request, 'Password too long')
-                regis_form = MusicStoreForm(request.POST)
-                context = {
-                    'form': regis_form
-                }
-                return render(request,'registerMusicStore.html', context)  
+                msg = 'Password too long'
+                raise Exception ("error")
 
             if len(contact) > 16:
-                messages.success(request, 'Contact too long')
-                regis_form = MusicStoreForm(request.POST)
-                context = {
-                    'form': regis_form
-                }
-                return render(request,'registerMusicStore.html', context)   
+                msg = 'Contact too long'
+                raise Exception ("error")
 
             if imageDetector(msPicture) == False or imageDetector(msPicture2) == False or imageDetector(msPicture3) == False:
-                messages.success(request, 'Image format must be jpeg or png')
-                regis_form = MusicStoreForm(request.POST)
-                context = {
-                    'form': regis_form
-                }
-                return render(request,'registerMusicStore.html', context)
+                msg = 'Image format must be jpeg or png'
+                raise Exception ("error")
 
             if not contact.isdigit():
-                messages.success(request, 'Contact must be numeric')
-                regis_form = MusicStoreForm(request.POST)
-                context = {
-                    'form': regis_form
-                }
-                return render(request,'registerMusicStore.html', context)
+                msg = 'Contact must be numeric'
+                raise Exception ("error")
 
             if User.objects.filter(userName = musicStoreName).first():
-                messages.success(request, 'Music Store Name is taken')
-                regis_form = MusicStoreForm(request.POST)
-                context = {
-                    'form': regis_form
-                }
-                return render(request,'registerMusicStore.html', context)
+                msg = 'Music Store Name is taken'
+                raise Exception ("error")
 
             if User.objects.filter(email = email).first():
-                messages.success(request, 'Email address is taken')
-                regis_form = MusicStoreForm(request.POST)
-                context = {
-                    'form': regis_form
-                }
-                return render(request,'registerMusicStore.html', context)
+                msg = 'Email address is taken'
+                raise Exception ("error")
 
             check_pass = weakPassword (password)
             if check_pass != 'True':
-                messages.success(request, check_pass)
-                regis_form = MusicStoreForm(request.POST)
-                context = {
-                    'form': regis_form
-                }
-                return render(request,'registerMusicStore.html', context)
+                msg = check_pass
+                raise Exception ("error")
+
 
             if (conf_pass != password):
-                messages.success(request, 'Confirm password should be same as password')
-                regis_form = MusicStoreForm(request.POST)
-                context = {
-                    'form': regis_form
-                }
-                return render(request,'registerMusicStore.html', context)
+                msg = 'Confirm password should be same as password'
+                raise Exception ("error")
 
             token = str (uuid.uuid4())
 
@@ -331,10 +266,18 @@ def registerMusicStore (request):
             web_direct = 'token-send.html'
 
         except Exception as e:
-            print(e)
-            web_direct = 'error.html'
-
-    return render(request,web_direct)
+            if error == 1:
+                context = {
+                    'message': 'error'
+                }
+                return render(request,'error.html', context)
+            else:
+                messages.success(request, msg)
+                regis_form = MusicStoreForm(request.POST)
+                context = {
+                    'form': regis_form
+                }
+                return render(request,'registerMusicStore.html', context)
 
 def registerAdmin (request,code):
     if code != "@dm!n$$%":
