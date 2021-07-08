@@ -48,36 +48,76 @@ def registerMember (request):
 
             if len(username) > 20:
                 messages.success(request, 'User Name has to be less than or equal 20 characters')
-                return redirect ('regularUser')
+                regis_form = UserForm(request.POST)
+                context = {
+                    'form': regis_form,
+                    'role': 'Regular User'
+                }
+                return render(request,'registerMember.html', context)
 
             if len(email) > 60:
                 messages.success(request, 'Email has to be less than or equal 60 characters')
-                return redirect ('regularUser')
+                regis_form = UserForm(request.POST)
+                context = {
+                    'form': regis_form,
+                    'role': 'Regular User'
+                }
+                return render(request,'registerMember.html', context)
 
             if len(password) > 60:
                 messages.success(request, 'Password too long')
-                return redirect ('regularUser')
+                regis_form = UserForm(request.POST)
+                context = {
+                    'form': regis_form,
+                    'role': 'Regular User'
+                }
+                return render(request,'registerMember.html', context)
 
             if checkChar (username) == False:
                 messages.success(request, 'Name cannot contain / , # , and ?')
-                return redirect ('regularUser')
+                regis_form = UserForm(request.POST)
+                context = {
+                    'form': regis_form,
+                    'role': 'Regular User'
+                }
+                return render(request,'registerMember.html', context)
 
             if User.objects.filter(userName = username).first():
                 messages.success(request, 'Username is Taken')
-                return redirect ('regularUser')
+                regis_form = UserForm(request.POST)
+                context = {
+                    'form': regis_form,
+                    'role': 'Regular User'
+                }
+                return render(request,'registerMember.html', context)
 
             if User.objects.filter(email = email).first():
                 messages.success(request, 'email is Taken')
-                return redirect ('regularUser')
+                regis_form = UserForm(request.POST)
+                context = {
+                    'form': regis_form,
+                    'role': 'Regular User'
+                }
+                return render(request,'registerMember.html', context)
             
             check_pass = weakPassword (password)
             if check_pass != 'True':
                 messages.success(request, check_pass)
-                return redirect ('regularUser')
+                regis_form = UserForm(request.POST)
+                context = {
+                    'form': regis_form,
+                    'role': 'Regular User'
+                }
+                return render(request,'registerMember.html', context)
 
             if (conf_pass != password):
                 messages.success(request, 'confirm password should be same as password')
-                return redirect ('regularUser')
+                regis_form = UserForm(request.POST)
+                context = {
+                    'form': regis_form,
+                    'role': 'Regular User'
+                }
+                return render(request,'registerMember.html', context)
 
             token = str (uuid.uuid4())
             
@@ -158,48 +198,92 @@ def registerMusicStore (request):
 
             if checkChar (musicStoreName) == False:
                 messages.success(request, 'Name cannot contain / , # , and ?')
-                return redirect ('musicStore')
+                regis_form = MusicStoreForm(request.POST)
+                context = {
+                    'form': regis_form
+                }
+                return render(request,'registerMusicStore.html', context)
 
             if len(musicStoreName) > 20:
                 messages.success(request, 'Music Store Name has tobe less than or equal 20 characters')
-                return redirect ('musicStore')
+                regis_form = MusicStoreForm(request.POST)
+                context = {
+                    'form': regis_form
+                }
+                return render(request,'registerMusicStore.html', context)
 
             if len(email) > 60:
                 messages.success(request, 'Email has to be less than or equal 60 characters')
-                return redirect ('musicStore')
+                regis_form = MusicStoreForm(request.POST)
+                context = {
+                    'form': regis_form
+                }
+                return render(request,'registerMusicStore.html', context)
 
             if len(password) > 60:
                 messages.success(request, 'Password too long')
-                return redirect ('musicStore')  
+                regis_form = MusicStoreForm(request.POST)
+                context = {
+                    'form': regis_form
+                }
+                return render(request,'registerMusicStore.html', context)  
 
             if len(contact) > 16:
                 messages.success(request, 'contact too long')
-                return redirect ('musicStore')    
+                regis_form = MusicStoreForm(request.POST)
+                context = {
+                    'form': regis_form
+                }
+                return render(request,'registerMusicStore.html', context)   
 
             if imageDetector(msPicture) == False or imageDetector(msPicture2) == False or imageDetector(msPicture3) == False:
                 messages.success(request, 'Image Format must be jpeg or png')
-                return redirect ('musicStore')    
+                regis_form = MusicStoreForm(request.POST)
+                context = {
+                    'form': regis_form
+                }
+                return render(request,'registerMusicStore.html', context)
 
             if not contact.isdigit():
                 messages.success(request, 'contact must be numeric')
-                return redirect ('musicStore')  
+                regis_form = MusicStoreForm(request.POST)
+                context = {
+                    'form': regis_form
+                }
+                return render(request,'registerMusicStore.html', context)
 
             if User.objects.filter(userName = musicStoreName).first():
                 messages.success(request, 'Music Store Name is Taken')
-                return redirect ('musicStore')
+                regis_form = MusicStoreForm(request.POST)
+                context = {
+                    'form': regis_form
+                }
+                return render(request,'registerMusicStore.html', context)
 
             if User.objects.filter(email = email).first():
                 messages.success(request, 'email is Taken')
-                return redirect ('musicStore')
+                regis_form = MusicStoreForm(request.POST)
+                context = {
+                    'form': regis_form
+                }
+                return render(request,'registerMusicStore.html', context)
 
             check_pass = weakPassword (password)
             if check_pass != 'True':
                 messages.success(request, check_pass)
-                return redirect ('musicStore')
+                regis_form = MusicStoreForm(request.POST)
+                context = {
+                    'form': regis_form
+                }
+                return render(request,'registerMusicStore.html', context)
 
             if (conf_pass != password):
                 messages.success(request, 'confirm password should be same as password')
-                return redirect ('musicStore')
+                regis_form = MusicStoreForm(request.POST)
+                context = {
+                    'form': regis_form
+                }
+                return render(request,'registerMusicStore.html', context)
 
             token = str (uuid.uuid4())
 

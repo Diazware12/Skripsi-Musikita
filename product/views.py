@@ -16,9 +16,10 @@ from django.core.paginator import Paginator
 @login_required
 @allowed_users(allowed_roles=['Admin','Brand'])
 def addProduct (request):
+    ddCategory = Category.objects.all()
+    ddSubCategory = SubCategory.objects.all()
+    
     if request.method != 'POST':
-        ddCategory = Category.objects.all()
-        ddSubCategory = SubCategory.objects.all()
         form = ProductForm()
         context = {
             'form': form,
@@ -68,23 +69,63 @@ def addProduct (request):
 
             if checkChar (productName) == False:
                 messages.success(request, 'Name cannot contain / , # , ?, \", and \' ')
-                return redirect ('addProduct')  
+                form = ProductForm(request.POST)
+                context = {
+                    'form': form,
+                    'category': ddCategory,
+                    'subCategory': ddSubCategory,
+                    'userPending': countUserPending(request),
+                    'reportUser': countReport(request),
+                }
+                return render(request,'addProduct.html', context)
 
             if len(productName) > 70:
                 messages.success(request, 'Product Name has tobe less than or equal 70 characters')
-                return redirect ('addProduct')
+                form = ProductForm(request.POST)
+                context = {
+                    'form': form,
+                    'category': ddCategory,
+                    'subCategory': ddSubCategory,
+                    'userPending': countUserPending(request),
+                    'reportUser': countReport(request),
+                }
+                return render(request,'addProduct.html', context)
 
             if Product.objects.select_related('brandId').filter(productName=productName,brandId__brandName=brand_Id.brandName).first():
                 messages.success(request, 'Product is already exist')
-                return redirect ('addProduct')
+                form = ProductForm(request.POST)
+                context = {
+                    'form': form,
+                    'category': ddCategory,
+                    'subCategory': ddSubCategory,
+                    'userPending': countUserPending(request),
+                    'reportUser': countReport(request),
+                }
+                return render(request,'addProduct.html', context)
 
             if checkYoutubeUrl (videoUrl) == False:
                 messages.success(request, 'url not valid')
-                return redirect ('addProduct') 
+                form = ProductForm(request.POST)
+                context = {
+                    'form': form,
+                    'category': ddCategory,
+                    'subCategory': ddSubCategory,
+                    'userPending': countUserPending(request),
+                    'reportUser': countReport(request),
+                }
+                return render(request,'addProduct.html', context)
 
             if len(description) < 75:
                 messages.success(request, 'description need to be equal or more than 75 character')
-                return redirect ('addProduct')
+                form = ProductForm(request.POST)
+                context = {
+                    'form': form,
+                    'category': ddCategory,
+                    'subCategory': ddSubCategory,
+                    'userPending': countUserPending(request),
+                    'reportUser': countReport(request),
+                }
+                return render(request,'addProduct.html', context)
 
 
             product_obj = Product.objects.create(
@@ -117,11 +158,12 @@ def addEditProduct (request,context,productName,brand):
         getProduct = Product.objects.select_related('brandId').get(
             brandId__brandName=brand,
             productName=productName)
+        ddCategory = Category.objects.all()
+        ddSubCategory = SubCategory.objects.all()
+        product = getProduct
 
         if request.method != 'POST':
-            ddCategory = Category.objects.all()
-            ddSubCategory = SubCategory.objects.all()
-            product = getProduct
+
             form = ProductForm()
             context = {
                 'form':form,
@@ -173,19 +215,59 @@ def addEditProduct (request,context,productName,brand):
 
             if len(productName) > 70:
                 messages.success(request, 'Product Name has tobe less than or equal 70 characters')
-                return redirect ('editProduct',context=context,productName=productName,brand=brand) 
+                form = ProductForm(request.POST)
+                context = {
+                    'form':form,
+                    'product': product,
+                    'category': ddCategory,
+                    'subCategory': ddSubCategory,
+                    'context': context,
+                    'userPending': countUserPending(request),
+                    'reportUser': countReport(request),
+                }
+                return render(request,'addProductEdit.html', context)
 
             if checkChar (productName) == False:
                 messages.success(request, 'Name cannot contain / , # , ?, \", and \' ')
-                return redirect ('editProduct',context=context,productName=productName,brand=brand) 
+                form = ProductForm(request.POST)
+                context = {
+                    'form':form,
+                    'product': product,
+                    'category': ddCategory,
+                    'subCategory': ddSubCategory,
+                    'context': context,
+                    'userPending': countUserPending(request),
+                    'reportUser': countReport(request),
+                }
+                return render(request,'addProductEdit.html', context)
 
             if checkYoutubeUrl (videoUrl) == False:
                 messages.success(request, 'url not valid')
-                return redirect ('editProduct',context=context,productName=productName,brand=brand)
+                form = ProductForm(request.POST)
+                context = {
+                    'form':form,
+                    'product': product,
+                    'category': ddCategory,
+                    'subCategory': ddSubCategory,
+                    'context': context,
+                    'userPending': countUserPending(request),
+                    'reportUser': countReport(request),
+                }
+                return render(request,'addProductEdit.html', context)
             
             if len(description) < 75:
                 messages.success(request, 'description need to be equal or more than 75 character')
-                return redirect ('editProduct',context=context,productName=productName,brand=brand)
+                form = ProductForm(request.POST)
+                context = {
+                    'form':form,
+                    'product': product,
+                    'category': ddCategory,
+                    'subCategory': ddSubCategory,
+                    'context': context,
+                    'userPending': countUserPending(request),
+                    'reportUser': countReport(request),
+                }
+                return render(request,'addProductEdit.html', context)
                 
 
             getProduct.categoryId=category_Id

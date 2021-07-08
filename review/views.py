@@ -42,22 +42,49 @@ def reviewProduct (request, productName, brand):
 
             if rate == None:
                 messages.success(request, 'you need to fill-in the rate')
-                return redirect ('reviewProduct', brand=brand, productName=productName)
+                review_form = ReviewForm(request.POST)
+                context = {
+                    'form': review_form,
+                    'Brand': brand,
+                    'productName': productName
+                }
+                return render(request,'scoreRating.html', context)
 
             if reviewTitle == '' or reviewDescription == '':
                 raise Exception("required field Empty")
 
             if len(reviewTitle) > 60:
                 messages.success(request, 'title was too long, maximum 60 character')
-                return redirect ('reviewProduct', brand=brand, productName=productName)
+                review_form = ReviewForm(request.POST)
+                context = {
+                    'form': review_form,
+                    'Brand': brand,
+                    'productName': productName
+                }
+                return render(request,'scoreRating.html', context)
+
 
             if checkChar (reviewTitle) == False:
                 messages.success(request, 'Title cannot contain / , # , and ?')
-                return redirect ('reviewProduct', brand=brand, productName=productName)
+                review_form = ReviewForm(request.POST)
+                context = {
+                    'form': review_form,
+                    'Brand': brand,
+                    'productName': productName
+                }
+                return render(request,'scoreRating.html', context)
+
 
             if len(reviewDescription) < 75:
                 messages.success(request, 'review need to be equal or more than 75 character')
-                return redirect ('reviewProduct', brand=brand, productName=productName)
+                review_form = ReviewForm(request.POST)
+                context = {
+                    'form': review_form,
+                    'Brand': brand,
+                    'productName': productName
+                }
+                return render(request,'scoreRating.html', context)
+
 
             userAuth = request.user
             if userAuth.groups.filter(name='Mus_Store').exists():

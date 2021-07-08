@@ -430,21 +430,41 @@ def registerBrand (request,auth_token):
 
             if User.objects.filter(email = email).first():
                 messages.success(request, 'email is Taken')
-                return redirect ('registerBrand', auth_token=auth_token)
+                registerForm = registerBrandForm(request.POST)
+                context = {
+                    'form': registerForm,
+                    'context': "Register Brand :"+getBrand.brandName+""
+                }
+                return render(request,'addInviteRegisterBrand.html', context)
                 
             check_pass = weakPassword (password)
             if check_pass != 'True':
                 messages.success(request, check_pass)
-                return redirect ('registerBrand', auth_token=auth_token)
+                registerForm = registerBrandForm(request.POST)
+                context = {
+                    'form': registerForm,
+                    'context': "Register Brand :"+getBrand.brandName+""
+                }
+                return render(request,'addInviteRegisterBrand.html', context)
 
             if (confirm_pass != password):
                 messages.success(request, 'confirm password should be same as password')
-                return redirect ('registerBrand', auth_token=auth_token)
+                registerForm = registerBrandForm(request.POST)
+                context = {
+                    'form': registerForm,
+                    'context': "Register Brand :"+getBrand.brandName+""
+                }
+                return render(request,'addInviteRegisterBrand.html', context)
 
             req = requests.head(brandWebsiteUrl)
             if req.status_code == 404:
                 messages.success(request, 'Url\'s not valid')
-                return redirect ('registerBrand', auth_token=auth_token)
+                registerForm = registerBrandForm(request.POST)
+                context = {
+                    'form': registerForm,
+                    'context': "Register Brand :"+getBrand.brandName+""
+                }
+                return render(request,'addInviteRegisterBrand.html', context)
 
             getBrand.brandURL = brandWebsiteUrl
             getBrand.description = description
