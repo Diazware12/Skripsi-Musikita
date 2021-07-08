@@ -38,13 +38,13 @@ def registerMember (request):
 
         try: 
             if username == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if email == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if password == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if conf_pass == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
 
             if len(username) > 20:
                 messages.success(request, 'User Name has to be less than or equal 20 characters')
@@ -83,7 +83,7 @@ def registerMember (request):
                 return render(request,'registerMember.html', context)
 
             if User.objects.filter(userName = username).first():
-                messages.success(request, 'Username is Taken')
+                messages.success(request, 'Username is taken')
                 regis_form = UserForm(request.POST)
                 context = {
                     'form': regis_form,
@@ -92,7 +92,7 @@ def registerMember (request):
                 return render(request,'registerMember.html', context)
 
             if User.objects.filter(email = email).first():
-                messages.success(request, 'email is Taken')
+                messages.success(request, 'Email address is taken')
                 regis_form = UserForm(request.POST)
                 context = {
                     'form': regis_form,
@@ -111,7 +111,7 @@ def registerMember (request):
                 return render(request,'registerMember.html', context)
 
             if (conf_pass != password):
-                messages.success(request, 'confirm password should be same as password')
+                messages.success(request, 'Confirm password should be same as password')
                 regis_form = UserForm(request.POST)
                 context = {
                     'form': regis_form,
@@ -176,25 +176,25 @@ def registerMusicStore (request):
         try: 
 
             if musicStoreName == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if address == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if email == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if password == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if conf_pass == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if contact == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if msPicture == '' or msPicture == None:
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if msPicture2 == '' or msPicture2 == None:
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if msPicture3 == '' or msPicture3 == None:
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if description == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
 
             if checkChar (musicStoreName) == False:
                 messages.success(request, 'Name cannot contain / , # , and ?')
@@ -205,7 +205,7 @@ def registerMusicStore (request):
                 return render(request,'registerMusicStore.html', context)
 
             if len(musicStoreName) > 20:
-                messages.success(request, 'Music Store Name has tobe less than or equal 20 characters')
+                messages.success(request, 'Music Store Name has to be less than or equal 20 characters')
                 regis_form = MusicStoreForm(request.POST)
                 context = {
                     'form': regis_form
@@ -229,7 +229,7 @@ def registerMusicStore (request):
                 return render(request,'registerMusicStore.html', context)  
 
             if len(contact) > 16:
-                messages.success(request, 'contact too long')
+                messages.success(request, 'Contact too long')
                 regis_form = MusicStoreForm(request.POST)
                 context = {
                     'form': regis_form
@@ -237,7 +237,7 @@ def registerMusicStore (request):
                 return render(request,'registerMusicStore.html', context)   
 
             if imageDetector(msPicture) == False or imageDetector(msPicture2) == False or imageDetector(msPicture3) == False:
-                messages.success(request, 'Image Format must be jpeg or png')
+                messages.success(request, 'Image format must be jpeg or png')
                 regis_form = MusicStoreForm(request.POST)
                 context = {
                     'form': regis_form
@@ -245,7 +245,7 @@ def registerMusicStore (request):
                 return render(request,'registerMusicStore.html', context)
 
             if not contact.isdigit():
-                messages.success(request, 'contact must be numeric')
+                messages.success(request, 'Contact must be numeric')
                 regis_form = MusicStoreForm(request.POST)
                 context = {
                     'form': regis_form
@@ -253,7 +253,7 @@ def registerMusicStore (request):
                 return render(request,'registerMusicStore.html', context)
 
             if User.objects.filter(userName = musicStoreName).first():
-                messages.success(request, 'Music Store Name is Taken')
+                messages.success(request, 'Music Store Name is taken')
                 regis_form = MusicStoreForm(request.POST)
                 context = {
                     'form': regis_form
@@ -261,7 +261,7 @@ def registerMusicStore (request):
                 return render(request,'registerMusicStore.html', context)
 
             if User.objects.filter(email = email).first():
-                messages.success(request, 'email is Taken')
+                messages.success(request, 'Email address is taken')
                 regis_form = MusicStoreForm(request.POST)
                 context = {
                     'form': regis_form
@@ -278,7 +278,7 @@ def registerMusicStore (request):
                 return render(request,'registerMusicStore.html', context)
 
             if (conf_pass != password):
-                messages.success(request, 'confirm password should be same as password')
+                messages.success(request, 'Confirm password should be same as password')
                 regis_form = MusicStoreForm(request.POST)
                 context = {
                     'form': regis_form
@@ -356,20 +356,20 @@ def registerAdmin (request,code):
 
         try: 
             if username == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if email == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if password == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
             if conf_pass == '':
-                raise Exception("required field Empty")
+                raise Exception("Required field empty")
 
             if User.objects.filter(userName = username).first():
-                messages.success(request, 'Username is Taken')
+                messages.success(request, 'Username is taken')
                 return redirect ('registerAdmin')
 
             if User.objects.filter(email = email).first():
-                messages.success(request, 'email is Taken')
+                messages.success(request, 'Email address is taken')
                 return redirect ('registerAdmin')
             
             check_pass = weakPassword (password)
@@ -378,7 +378,7 @@ def registerAdmin (request,code):
                 return redirect ('registerAdmin')
 
             if (conf_pass != password):
-                messages.success(request, 'confirm password should be same as password')
+                messages.success(request, 'Confirm password should be same as password')
                 return redirect ('registerAdmin')
 
             token = str (uuid.uuid4())
