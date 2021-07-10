@@ -1,24 +1,35 @@
 {% load static %}
 
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard</title>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  {% include "snippets/headImport.html" %}
+</head>
+<body id="top">
+      
 <nav class="sticky-top" id="navbar_top">
   <div class="wrapper">
     
     <div class="top_nav">
         <div class="left">
         <div class="d-flex flex-row">
-          <div class="p-2">
-            <div class="logo">
-              <a href="{% url 'dashboard' %}" style="text-decoration: none;">
-                <p><span>Musi</span>Kita.com</p>
-              </a>
-            </div>
+          <div class="p-2"><div class="logo">
+            <a href="{% url 'dashboard' %}" style="text-decoration: none;">
+              <p><span>Musi</span>Kita.com</p></div>
+            </a>
           </div>
-          <div class="p-2" style="">
+          <div class="p-2">
             <div class="container">
-              <div class="search-data w-35 p-1">
+              <div class="search-data w-25 p-1">
                 <form id="search-form" autocomplete = "off"> 
                     {% csrf_token %}
-                    <input name="keyword" id="search-input" type="text" placeholder="type to search">
+                    <input name="keyword" id="search-input" type="text" style="height: 77%;" placeholder="type to search">
                     <div class="line" style="width: 77%;"></div>
                     
                   <span class="fa fa-search" style="width: 50%;"></span>
@@ -28,13 +39,16 @@
                   </div>            
 
                 </form>
+
               </div>
+              
             </div>
+
           </div>
         </div>
 
       </div> 
-      <div class="right" style="margin-left:-20%;">
+      <div class="right">
         <ul>
           <li><a href="{% url 'advanceSearch' %}">Browse Product</a></li>
           {% if user.is_authenticated %}
@@ -193,10 +207,5 @@
 
 
 
-
-
-
-
-
-
-
+</body>
+</html>

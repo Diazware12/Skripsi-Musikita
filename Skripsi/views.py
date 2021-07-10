@@ -3,7 +3,7 @@ import uuid
 from django.http.response import JsonResponse
 from carousel.models import CarouselImage
 from django.db.models.fields import DecimalField
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 from django.shortcuts import render, redirect 
 from register.models import User,MusicStoreData
 from django.contrib.auth.models import User as auth_user
@@ -409,3 +409,6 @@ def checkChar (stringCheck):
         return False
     
     return True
+
+def foo(request):
+    return render(request,'foo.html',)

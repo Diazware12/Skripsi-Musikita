@@ -280,6 +280,8 @@ def registerMusicStore (request):
                 return render(request,'registerMusicStore.html', context)
 
 def registerAdmin (request,code):
+    error = None
+    msg = None
     if code != "@dm!n$$%":
         return HttpResponse('You are not allowed to view this page')
     if request.method != 'POST':
@@ -298,6 +300,7 @@ def registerAdmin (request,code):
         web_direct = ''
 
         try: 
+            error = 1
             if username == '':
                 raise Exception("Required field empty")
             if email == '':
@@ -307,22 +310,23 @@ def registerAdmin (request,code):
             if conf_pass == '':
                 raise Exception("Required field empty")
 
+            error = 2
             if User.objects.filter(userName = username).first():
-                messages.success(request, 'Username is taken')
-                return redirect ('registerAdmin')
+                msg = 'Username is taken'
+                raise Exception("error")
 
             if User.objects.filter(email = email).first():
-                messages.success(request, 'Email address is taken')
-                return redirect ('registerAdmin')
+                msg = 'Email address is taken'
+                raise Exception("error")
             
             check_pass = weakPassword (password)
             if check_pass != 'True':
-                messages.success(request, check_pass)
-                return redirect ('registerAdmin')
+                msg = check_pass
+                raise Exception("error")
 
             if (conf_pass != password):
-                messages.success(request, 'Confirm password should be same as password')
-                return redirect ('registerAdmin')
+                msg = 'Confirm password should be same as password'
+                raise Exception("error")
 
             token = str (uuid.uuid4())
 
@@ -345,10 +349,19 @@ def registerAdmin (request,code):
             return redirect('dashboard') 
 
         except Exception as e:
-            print(e)
-            web_direct = 'error.html'
-
-    return render(request,web_direct)
+            if error == 1:
+                context = {
+                    'message': 'error'
+                }
+                return render(request,'error.html', context)
+            else:
+                messages.success(request, msg)
+                regis_form = UserForm(request.POST)
+                context = {
+                    'form': regis_form,
+                    'role': 'Regular User'
+                }
+                return render(request,'registerMember.html', context)
 
 def regisUserAuth(userRegis):
 

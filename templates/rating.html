@@ -68,7 +68,7 @@
                         </div>
                     </div>
                     <p class="pt-1 text-justify">
-                      <span class="moreDesc">{{ obj.description }}</span>
+                      <span class="moreDesc">{{ obj.description  }}</span>
                     </p>
                 <div class="table-responsive">
 
@@ -504,7 +504,7 @@
                                 {% endif %}
                               {% endif %}
                         </div>
-                        <p class="card-text"> <span class="more">{{ urev.description }}</span></p>
+                        <p class="card-text"> <span class="more">{{ urev.description  }}</span></p>
 
                         {% if user.is_authenticated %}
                           {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
@@ -675,7 +675,7 @@
                                 {% endif %}
                               {% endif %}
                             </div>
-                            <p class="card-text"> <span class="more">{{ mrev.description }}</span></p>
+                            <p class="card-text"> <span class="more">{{ mrev.description  }}</span></p>
 
                             {% if user.is_authenticated %}
                               {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
@@ -866,7 +866,7 @@
                                 {% endif %}
                               {% endif %}
                         </div>
-                        <p class="card-text"> <span class="more">{{ urev.description }}</span></p>
+                        <p class="card-text"><span class="more">{{ urev.description }}</span></p>
 
                         {% if user.is_authenticated %}
                           {% if request.user.groups.all.0.name == 'Reg_User' or request.user.groups.all.0.name == 'Mus_Store' %}
