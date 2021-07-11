@@ -4,34 +4,36 @@
   <div class="wrapper">
     
     <div class="top_nav">
-        <div class="left">
-        <div class="d-flex flex-row">
-          <div class="p-2">
-            <div class="logo">
-              <a href="{% url 'dashboard' %}" style="text-decoration: none;">
-                <p><span>Musi</span>Kita.com</p>
-              </a>
-            </div>
-          </div>
-          <div class="p-2" style="">
-            <div class="container">
-              <div class="search-data w-35 p-1">
-                <form id="search-form" autocomplete = "off"> 
-                    {% csrf_token %}
-                    <input name="keyword" id="search-input" type="text" placeholder="type to search">
-                    <div class="line" style="width: 77%;"></div>
-                    
-                  <span class="fa fa-search" style="width: 50%;"></span>
-
-                  <div class="container pt-2" style="margin-right:140%;">
-                    <div id="result-box" class="results-card not-visible"></div> 
-                  </div>            
-
-                </form>
+      <div class="left">
+      <div class="d-flex flex-row">
+        <div class="p-2">
+          <div class="logo">
+            <a href="{% url 'dashboard' %}" style="text-decoration: none;">
+              <div class="container">
+                <img src="{% static 'img/Artboard_5.png' %}" style="border-radius: 4px; padding: 5px; width: 150px; margin-left:-25%" alt="">
               </div>
+            </a>
+          </div>
+        </div>
+        <div class="p-2 mt-2" style="margin-left:-15%;">
+          <div class="container">
+            <div class="search-data w-35 p-1">
+              <form id="search-form" autocomplete = "off"> 
+                  {% csrf_token %}
+                  <input name="keyword" id="search-input" type="text" placeholder="type to search">
+                  <div class="line" style="width: 77%;"></div>
+                  
+                <span class="fa fa-search" style="width: 50%;"></span>
+
+                <div class="container pt-2" style="margin-right:140%;">
+                  <div id="result-box" class="results-card not-visible"></div> 
+                </div>            
+
+              </form>
             </div>
           </div>
         </div>
+      </div>
 
       </div> 
       <div class="right" style="margin-left:-20%;">
