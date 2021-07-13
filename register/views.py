@@ -282,7 +282,7 @@ def registerMusicStore (request):
 def registerAdmin (request,code):
     error = None
     msg = None
-    if code != "@dm!n$$%":
+    if code != "@dm!nm$k":
         return HttpResponse('You are not allowed to view this page')
     if request.method != 'POST':
         regis_form = UserForm()
