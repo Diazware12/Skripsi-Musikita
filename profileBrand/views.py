@@ -456,10 +456,11 @@ def registerBrand (request,auth_token):
                 msg = 'confirm password should be same as password'
                 raise Exception ("error")
 
-            req = requests.head(brandWebsiteUrl)
-            if req.status_code == 404:
-                msg = 'Url\'s not valid'
-                raise Exception ("error")
+            if brandWebsiteUrl != '':
+                req = requests.head(brandWebsiteUrl)
+                if req.status_code == 404:
+                    msg = 'Url\'s not valid'
+                    raise Exception ("error")
 
             getBrand.brandURL = brandWebsiteUrl
             getBrand.description = description

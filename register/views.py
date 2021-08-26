@@ -264,7 +264,7 @@ def registerMusicStore (request):
 
             sendMail(domain, profile_obj, 'verification', '')
             web_direct = 'token-send.html'
-
+            return render(request,'token-send.html') 
         except Exception as e:
             if error == 1:
                 context = {

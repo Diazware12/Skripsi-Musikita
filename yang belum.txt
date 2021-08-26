@@ -1,13 +1,6 @@
-DIAZ
-
-- footer: masih blm tau harus diisi apa 
-
-
-CALVIN
-- filtering apagi, blm samsek (belakangan)
-- halaman "about Musikita"
-
 yang done
+    - filtering apagi, blm samsek (belakangan)
+    - halaman "about Musikita"
     - music store, jadi 3 foto (done)
     - cropper dicoba lagi (done)
     - review helpful (done)
@@ -41,9 +34,3 @@ yang done
     - searching blm bisa (done)
     - editor's choice masih dummy (done)
     - validasi charfield gabisa nerima "/" (done)
-
-Note:
-    brand g bisa delete product (tapi bisa edit product), cuma admin aja
-
-OPSIONAL
-- template email bagusin
