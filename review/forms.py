@@ -36,6 +36,17 @@ class ReviewForm (forms.Form):
 
     sellStatus = forms.BooleanField(required=False)
 
+    soldQty = forms.IntegerField(
+        required=True,
+        label='soldQty',
+        widget=forms.NumberInput(
+            attrs={
+                'class':'form-control',
+                'placeholder':'0'
+            }
+        )
+    )
+
 class ReportForm (forms.Form):
     reportReason = forms.ChoiceField(
         choices=RADIO_REPORT,

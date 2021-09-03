@@ -324,8 +324,11 @@
                               {% endif %}
                             </div>
                             <p class="card-text"> 
-                              {% if mrev.sellStatus == True%}
-                                <strong style="font-size: 15px;">I Sell This Product On My Store</strong>
+                              {% if mrev.soldQty != None%}
+                                <strong style="font-size: 15px;">People Who Buy This Product in My Store: {{ mrev.soldQty }}</strong>
+                                <br>
+                              {% else%}
+                                <strong style="font-size: 15px;">People Who Buy This Product in My Store: - </strong>
                                 <br>
                               {% endif %}
                               <span class="more">{{ mrev.description }}</span>

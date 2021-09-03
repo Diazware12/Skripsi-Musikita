@@ -75,13 +75,9 @@
             </div>
 
             {% if request.user.groups.all.0.name == 'Mus_Store' %}
-                <div class="pt-5 mt-5 pb-5 mb-5">
-                    <div class="form-check">
-                        {{form.sellStatus}}
-                        <label class="form-check-label" for="flexCheckDefault">
-                            <h5>Are you selling this product in your Music Store?</h5>
-                        </label>
-                    </div>
+                <div class="pt-3 mt-3 pb-5 mb-5">
+                    <h5>Sold Quantity</h5>
+                    {{form.soldQty}}
                 </div>
             {% endif %}
 

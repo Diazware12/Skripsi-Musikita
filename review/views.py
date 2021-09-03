@@ -39,6 +39,7 @@ def reviewProduct (request, productName, brand):
             reviewTitle = request.POST.get('reviewTitle')
             reviewDescription = request.POST.get('reviewDescription')
             sellStatus = False
+            soldQty = 0
             error = 1
 
             if reviewTitle == '' or reviewDescription == '':
@@ -65,11 +66,12 @@ def reviewProduct (request, productName, brand):
 
             userAuth = request.user
             if userAuth.groups.filter(name='Mus_Store').exists():
-                getSellStatus = request.POST.get('sellStatus')
-                if getSellStatus == 'on':
-                    sellStatus = True
+                getSoldQty = int(request.POST.get('soldQty'))
+                if getSoldQty == None or getSoldQty <= 0:
+                    msg = 'sold quantity should be filled and cannot be less than equal 0'
+                    raise Exception("error")
                 else:
-                    sellStatus = False
+                    soldQty = getSoldQty
                 
             rating_obj = Review.objects.create(
                 productId = product,
@@ -78,7 +80,8 @@ def reviewProduct (request, productName, brand):
                 title = reviewTitle,
                 description = reviewDescription,
                 rating = rate,
-                sellStatus = sellStatus
+                sellStatus = sellStatus,
+                soldQty = soldQty
             )
             rating_obj.save()
 
