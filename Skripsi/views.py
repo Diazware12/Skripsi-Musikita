@@ -409,6 +409,3 @@ def checkChar (stringCheck):
         return False
     
     return True
-
-def foo(request):
-    return render(request,'foo.html',)

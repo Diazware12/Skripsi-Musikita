@@ -34,8 +34,6 @@ urlpatterns = [
     path('reportList/',include('report.urls'),name="report"),
     path('verify/<auth_token>',views.verifyEmail,name="verify"),
     path('forgot_Pass/<auth_token>',views.forgotPasswordForm,name="forgot_pass"),
-    path('foo',views.foo,name="foo"),
-
     #quick qearch
     path('search/',views.search,name="search"),
 

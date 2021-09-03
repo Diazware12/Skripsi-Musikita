@@ -1,6 +1,14 @@
 from django import forms
 from .models import User
 
+USER_OCCASION = [
+    ('Beginner', 'Beginner'),
+    ('Musician', 'Musician'),
+    ('Music Journalist', 'Music Journalist'),
+    ('Sound Engineer', 'Sound Engineer'),
+    ('Music Producer', 'Music Producer'),
+]
+
 class UserForm (forms.Form):
 
     username = forms.CharField(
@@ -45,6 +53,12 @@ class UserForm (forms.Form):
             }
         ),
         label='confirm_pass',
+    )
+
+    occasion = forms.ChoiceField(
+        choices=USER_OCCASION,
+        widget=forms.RadioSelect(),
+        required=True
     )
     
 class MusicStoreForm (forms.Form):

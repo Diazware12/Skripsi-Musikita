@@ -35,6 +35,7 @@ def registerMember (request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         conf_pass = request.POST.get('confirm_pass')
+        occasion = request.POST.get('occasion')
 
         web_direct = ''
 
@@ -47,6 +48,8 @@ def registerMember (request):
             if password == '':
                 raise Exception("Required field empty")
             if conf_pass == '':
+                raise Exception("Required field empty")
+            if occasion == '':
                 raise Exception("Required field empty")
 
             error = 2
@@ -94,7 +97,8 @@ def registerMember (request):
                 status = 'Pending',
                 dtm_crt = datetime.now(),
                 verified_at = None,
-                auth_token = token
+                auth_token = token,
+                occasion = occasion
             )
 
             profile_obj.save()

@@ -13,6 +13,7 @@ class User (models.Model):
     dtm_crt = models.DateTimeField(null=False)
     auth_token = models.CharField(max_length=100,null=True) #
     verified_at = models.DateTimeField(null=True) #
+    occasion = models.CharField(max_length=20,null=True)
     profilePicture = models.ImageField(upload_to=settings.MEDIA_ROOT+'/userProfiles', max_length=255, default='')
 
 class MusicStoreData (models.Model): #ganti nama
